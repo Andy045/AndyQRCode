@@ -1,0 +1,113 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    afterEvaluate {
+        project.tasks.each { task ->
+            if (task.name.startsWith('collect') && task.name.endsWith('MultiDexComponents')) {
+                println "main-dex-filter: found task $task.name"
+                task.filter { name, attrs ->
+                    def componentName = attrs.get('android:name')
+                    if ('activity' == name) {
+                        println "main-dex-filter: skipping, detected activity [$componentName]"
+                        return false
+                    } else {
+                        println "main-dex-filter: keeping, detected $name [$componentName]"
+                        return true
+                    }
+                }
+            }
+        }
+    }
+
+    defaultConfig {
+        multiDexEnabled true
+
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
+    buildTypes {
+        debug {
+            minifyEnabled false  // 混淆
+            zipAlignEnabled true    // Zipalign优化
+            shrinkResources false    // 移除无用的resource文件
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled false  // 混淆
+            zipAlignEnabled true    // Zipalign优化
+            shrinkResources false    // 移除无用的resource文件
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        android.libraryVariants.all { variant ->
+            variant.outputs.all {
+                if (outputFileName.endsWith('.aar')) {
+                    if (variant.buildType.name == 'debug') {
+                        outputFileName = "HandyQRCode_V${defaultConfig.versionName}_Debug.aar"
+                    } else if (variant.buildType.name == 'release') {
+                        outputFileName = "HandyQRCode_V${defaultConfig.versionName}_${releaseTime()}_Release.aar"
+                    }
+                }
+            }
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['src/main/assets/']
+            resources.srcDirs = ['src/main/assets/']
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    api rootProject.ext.dependencies.api_appcompatV7
+    api rootProject.ext.dependencies.api_design
+
+    api rootProject.ext.dependencies.api_zxing
+    api rootProject.ext.dependencies.api_fastjson
+
+    api rootProject.ext.dependencies.api_HandyBase
+    api rootProject.ext.dependencies.api_HandyAdapter
+    api rootProject.ext.dependencies.api_HandyTitleBar
+    api rootProject.ext.dependencies.api_JointSweetAlertDialog
+}
+
+// 获取当前系统时间
+static def releaseTime() {
+    String data = new Date().format("yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+08:00"))
+    data = data.replace(":", "")
+    data = data.replace("-", "")
+    data = data.replace(" ", "")
+    data = data.substring(2)
+    return data
+}

@@ -1,0 +1,39 @@
+ext {
+
+    //各个组件版本号的统一管理
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "27.0.3",
+            minSdkVersion    : 18,
+            targetSdkVersion : 27,
+            versionCode      : 2,
+            versionName      : '1.2',
+    ]
+
+    libsVersion = [
+            //第三方库版本号的管理
+            api_supportLibraryVersion = "27.1.0",
+
+            api_zxing = "3.3.2",
+            api_fastjson = "1.2.47",
+
+            api_HandyBase = "2.4.5",
+            api_HandyAdapter = "1.0.2",
+            api_HandyTitleBar = "1.0.3",
+            api_JointSweetAlertDialog = "1.0.7",
+    ]
+
+    // 依赖库管理
+    dependencies = [
+            api_appcompatV7          : "com.android.support:appcompat-v7:$rootProject.api_supportLibraryVersion",
+            api_design               : "com.android.support:design:$rootProject.api_supportLibraryVersion",
+
+            api_zxing                : "com.google.zxing:core:$rootProject.api_zxing",
+            api_fastjson             : "com.alibaba:fastjson:$rootProject.api_fastjson",
+
+            api_HandyBase            : "com.github.Handy045:HandyBase:$rootProject.api_HandyBase",
+            api_HandyAdapter         : "com.github.Handy045:HandyAdapter:$rootProject.api_HandyAdapter",
+            api_HandyTitleBar        : "com.github.Handy045:HandyTitleBar:$rootProject.api_HandyTitleBar",
+            api_JointSweetAlertDialog: "com.github.Handy045:JointSweetAlertDialog:$rootProject.api_JointSweetAlertDialog",
+    ]
+}
