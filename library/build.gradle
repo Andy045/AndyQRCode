@@ -96,8 +96,7 @@ dependencies {
     api rootProject.ext.dependencies.api_zxing
     api rootProject.ext.dependencies.api_fastjson
 
-    api rootProject.ext.dependencies.api_HandyBase
-    api rootProject.ext.dependencies.api_HandyAdapter
+    implementation rootProject.ext.dependencies.implementation_HandyBase
     api rootProject.ext.dependencies.api_HandyTitleBar
     api rootProject.ext.dependencies.api_JointSweetAlertDialog
 }
