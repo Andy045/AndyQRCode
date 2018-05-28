@@ -66,7 +66,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         super.onCreate(icicle);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.capture);
+        setContentView(R.layout.handy_activity_capture);
 
         surfaceView = findViewById(R.id.preview_view);
         viewfinderView = findViewById(R.id.viewfinder_view);
