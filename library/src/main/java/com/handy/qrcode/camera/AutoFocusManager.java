@@ -16,12 +16,9 @@
 
 package com.handy.qrcode.camera;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.annotation.SuppressLint;
 import android.hardware.Camera;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.handy.qrcode.Preferences;
 
@@ -49,12 +46,10 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
     private boolean focusing;
     private AsyncTask<?, ?, ?> outstandingTask;
 
-    AutoFocusManager(Context context, Camera camera) {
+    AutoFocusManager(Camera camera) {
         this.camera = camera;
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         String currentFocusMode = camera.getParameters().getFocusMode();
         useAutoFocus = Preferences.KEY_AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
-        Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
         start();
     }
 
@@ -71,7 +66,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                 newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 outstandingTask = newTask;
             } catch (RejectedExecutionException ree) {
-                Log.w(TAG, "Could not request auto focus", ree);
+                ree.printStackTrace();
             }
         }
     }
@@ -84,8 +79,8 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                     camera.autoFocus(this);
                     focusing = true;
                 } catch (RuntimeException re) {
+                    re.printStackTrace();
                     // Have heard RuntimeException reported in Android 4.0.x+; continue?
-                    Log.w(TAG, "Unexpected exception while focusing", re);
                     // Try again later to keep cycle going
                     autoFocusAgainLater();
                 }
@@ -110,12 +105,13 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
             try {
                 camera.cancelAutoFocus();
             } catch (RuntimeException re) {
+                re.printStackTrace();
                 // Have heard RuntimeException reported in Android 4.0.x+; continue?
-                Log.w(TAG, "Unexpected exception while cancelling focusing", re);
             }
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private final class AutoFocusTask extends AsyncTask<Object, Object, Object> {
         @Override
         protected Object doInBackground(Object... voids) {
