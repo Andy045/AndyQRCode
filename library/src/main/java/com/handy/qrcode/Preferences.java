@@ -16,6 +16,8 @@
 
 package com.handy.qrcode;
 
+import android.content.pm.ActivityInfo;
+
 /**
  * The main settings activity.
  *
@@ -26,11 +28,11 @@ public final class Preferences {
     /**
      * 一维码：商品
      */
-    public static final boolean KEY_DECODE_1D_PRODUCT = true;
+    public static final boolean KEY_DECODE_1D_PRODUCT = false;
     /**
      * 一维码：工业
      */
-    public static final boolean KEY_DECODE_1D_INDUSTRIAL = true;
+    public static final boolean KEY_DECODE_1D_INDUSTRIAL = false;
     /**
      * 二维码
      */
@@ -38,19 +40,15 @@ public final class Preferences {
     /**
      * Data Matrix
      */
-    public static final boolean KEY_DECODE_DATA_MATRIX = true;
+    public static final boolean KEY_DECODE_DATA_MATRIX = false;
     /**
      * Aztec
      */
-    public static final boolean KEY_DECODE_AZTEC = true;
+    public static final boolean KEY_DECODE_AZTEC = false;
     /**
      * PDF417 (测试)
      */
-    public static final boolean KEY_DECODE_PDF417 = true;
-    /**
-     * 自定义搜索网址
-     */
-    public static final String KEY_CUSTOM_PRODUCT_SEARCH = "preferences_custom_product_search";
+    public static final boolean KEY_DECODE_PDF417 = false;
     /**
      * 播放提示音
      */
@@ -60,29 +58,9 @@ public final class Preferences {
      */
     public static final boolean KEY_VIBRATE = true;
     /**
-     * 复制到剪贴板
+     * 闪光灯 (设置闪光灯模式)
      */
-    public static final boolean KEY_COPY_TO_CLIPBOARD = true;
-    /**
-     * 设置闪光灯模式
-     */
-    public static final boolean KEY_FRONT_LIGHT_MODE = true;
-    /**
-     * 批量扫描模式
-     */
-    public static final boolean KEY_BULK_MODE = true;
-    /**
-     * 保存重复记录
-     */
-    public static final boolean KEY_REMEMBER_DUPLICATES = true;
-    /**
-     * 存入历史记录
-     */
-    public static final boolean KEY_ENABLE_HISTORY = true;
-    /**
-     * 检索更多信息
-     */
-    public static final boolean KEY_SUPPLEMENTAL = true;
+    public static final String KEY_FRONT_LIGHT_MODE = "OFF";
     /**
      * 自动对焦
      */
@@ -90,19 +68,11 @@ public final class Preferences {
     /**
      * 反色
      */
-    public static final boolean KEY_INVERT_SCAN = true;
+    public static final boolean KEY_INVERT_SCAN = false;
     /**
-     * 搜索引擎国别
+     * 不持续对焦 (使用标准对焦模式)
      */
-    public static final boolean KEY_SEARCH_COUNTRY = true;
-    /**
-     * 不自动旋转
-     */
-    public static final boolean KEY_DISABLE_AUTO_ORIENTATION = true;
-    /**
-     * 不持续对焦
-     */
-    public static final boolean KEY_DISABLE_CONTINUOUS_FOCUS = true;
+    public static final boolean KEY_DISABLE_CONTINUOUS_FOCUS = false;
     /**
      * 不曝光
      */
@@ -116,7 +86,15 @@ public final class Preferences {
      */
     public static final boolean KEY_DISABLE_BARCODE_SCENE_MODE = true;
     /**
-     * 自动打开网页
+     * 使用全屏扫描 (默认识别扫描框内的图形)
      */
-    public static final boolean KEY_AUTO_OPEN_WEB = true;
+    public static final boolean KEY_SCAN_FULLSCREEN = true;
+    /**
+     * 屏幕自动旋转
+     */
+    public static boolean KEY_AUTO_ORIENTATION = false;
+    /**
+     * 屏幕旋转方向 (当启动自动选装时生效，默认竖屏)
+     */
+    public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 }
