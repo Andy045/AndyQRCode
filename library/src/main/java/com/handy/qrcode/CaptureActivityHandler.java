@@ -61,13 +61,13 @@ public final class CaptureActivityHandler extends Handler {
         // Start ourselves capturing previews and decoding.
         this.cameraManager = cameraManager;
         cameraManager.startPreview();
-        restartPreviewAndDecode();
+        restartPreviewAndDecode(true);
     }
 
     @Override
     public void handleMessage(Message message) {
         if (message.what == R.id.restart_preview) {
-            restartPreviewAndDecode();
+            restartPreviewAndDecode(true);
 
         } else if (message.what == R.id.decode_succeeded) {
             state = State.SUCCESS;
@@ -143,11 +143,14 @@ public final class CaptureActivityHandler extends Handler {
         removeMessages(R.id.decode_failed);
     }
 
-    private void restartPreviewAndDecode() {
+    // TODO: 2018/5/28 重新扫描二维码
+    public void restartPreviewAndDecode(boolean isDrawViewfinder) {
         if (state == State.SUCCESS) {
             state = State.PREVIEW;
             cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
-            activity.drawViewfinder();
+            if (isDrawViewfinder) {
+                activity.drawViewfinder();
+            }
         }
     }
 

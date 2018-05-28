@@ -332,4 +332,32 @@ public final class CameraManager {
         // Go ahead and assume it's YUV rather than die.
         return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
     }
+
+    /**
+     * 焦点放小
+     */
+    public void zoomOut() {
+        if (camera != null && camera.getCamera().getParameters().isZoomSupported()) {
+            Camera.Parameters parameters = camera.getCamera().getParameters();
+            if (parameters.getZoom() <= 0) {
+                return;
+            }
+            parameters.setZoom(parameters.getZoom() - 1);
+            camera.getCamera().setParameters(parameters);
+        }
+    }
+
+    /**
+     * 焦点放大
+     */
+    public void zoomIn() {
+        if (camera != null && camera.getCamera().getParameters().isZoomSupported()) {
+            Camera.Parameters parameters = camera.getCamera().getParameters();
+            if (parameters.getZoom() >= parameters.getMaxZoom()) {
+                return;
+            }
+            parameters.setZoom(parameters.getZoom() + 1);
+            camera.getCamera().setParameters(parameters);
+        }
+    }
 }

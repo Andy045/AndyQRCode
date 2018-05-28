@@ -26,7 +26,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -37,16 +36,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.camera.CameraManager;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * This activity opens the camera and does the actual scanning on a background thread. It draws a
@@ -66,12 +62,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     private ViewfinderView viewfinderView;
     private TextView statusView;
     private View resultView;
-    private Result lastResult;
     private boolean hasSurface;
-    private IntentSource source;
-    private Collection<BarcodeFormat> decodeFormats;
-    private Map<DecodeHintType, ?> decodeHints;
-    private String characterSet;
     private InactivityTimer inactivityTimer;
     private BeepManager beepManager;
     private AmbientLightManager ambientLightManager;
@@ -127,7 +118,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         statusView = findViewById(R.id.status_view);
 
         handler = null;
-        lastResult = null;
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -143,10 +133,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         ambientLightManager.start(cameraManager);
 
         inactivityTimer.onResume();
-
-        source = IntentSource.NONE;
-        decodeFormats = null;
-        characterSet = null;
 
         SurfaceView surfaceView = findViewById(R.id.preview_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -209,29 +195,14 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                if (source == IntentSource.NATIVE_APP_INTENT) {
-                    setResult(RESULT_CANCELED);
-                    finish();
-                    return true;
-                }
-                if ((source == IntentSource.NONE || source == IntentSource.ZXING_LINK) && lastResult != null) {
-                    restartPreviewAfterDelay(0L);
-                    return true;
-                }
-                break;
-            case KeyEvent.KEYCODE_FOCUS:
-            case KeyEvent.KEYCODE_CAMERA:
-                // Handle these events so they don't launch the Camera app
-                return true;
-            // Use volume up/down to turn on light
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                cameraManager.setTorch(false);
+                cameraManager.zoomOut();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_UP:
-                cameraManager.setTorch(true);
+                cameraManager.zoomIn();
                 return true;
             default:
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -248,9 +219,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             cameraManager.openDriver(surfaceHolder);
             // Creating the handler starts the preview, which can also throw a RuntimeException.
             if (handler == null) {
-                handler = new CaptureActivityHandler(this, decodeFormats, decodeHints, characterSet, cameraManager);
+                handler = new CaptureActivityHandler(this, null, null, "utf-8", cameraManager);
             }
-            decodeOrStoreSavedBitmap(null, null);
         } catch (IOException ioe) {
             Log.w(TAG, ioe);
             displayFrameworkBugMessageAndExit();
@@ -259,22 +229,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             // java.?lang.?RuntimeException: Fail to connect to camera service
             Log.w(TAG, "Unexpected error initializing camera", e);
             displayFrameworkBugMessageAndExit();
-        }
-    }
-
-    private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
-        // Bitmap isn't used yet -- will be used soon
-        if (handler == null) {
-            savedResultToShow = result;
-        } else {
-            if (result != null) {
-                savedResultToShow = result;
-            }
-            if (savedResultToShow != null) {
-                Message message = Message.obtain(handler, R.id.decode_succeeded, savedResultToShow);
-                handler.sendMessage(message);
-            }
-            savedResultToShow = null;
         }
     }
 
@@ -308,45 +262,15 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
      */
     public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
         inactivityTimer.onActivity();
-        lastResult = rawResult;
 
-        boolean fromLiveScan = barcode != null;
-        if (fromLiveScan) {
-            // Then not from history, so beep/vibrate and we have an image to draw on
-            beepManager.playBeepSoundAndVibrate();
-            drawResultPoints(barcode, scaleFactor, rawResult);
-        }
-    }
+        Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
 
-    /**
-     * Superimpose a line for 1D or dots for 2D to highlight the key features of the barcode.
-     *
-     * @param barcode     A bitmap of the captured image.
-     * @param scaleFactor amount by which thumbnail was scaled
-     * @param rawResult   The decoded results which contains the points to draw.
-     */
-    private void drawResultPoints(Bitmap barcode, float scaleFactor, Result rawResult) {
-        ResultPoint[] points = rawResult.getResultPoints();
-        if (points != null && points.length > 0) {
-            Canvas canvas = new Canvas(barcode);
-            Paint paint = new Paint();
-            paint.setColor(getResources().getColor(R.color.result_points));
-            if (points.length == 2) {
-                paint.setStrokeWidth(4.0f);
-                drawLine(canvas, paint, points[0], points[1], scaleFactor);
-            } else if (points.length == 4 && (rawResult.getBarcodeFormat() == BarcodeFormat.UPC_A || rawResult.getBarcodeFormat() == BarcodeFormat.EAN_13)) {
-                // Hacky special case -- draw two lines, for the barcode and metadata
-                drawLine(canvas, paint, points[0], points[1], scaleFactor);
-                drawLine(canvas, paint, points[2], points[3], scaleFactor);
-            } else {
-                paint.setStrokeWidth(10.0f);
-                for (ResultPoint point : points) {
-                    if (point != null) {
-                        canvas.drawPoint(scaleFactor * point.getX(), scaleFactor * point.getY(), paint);
-                    }
-                }
+        //扫描成功后间隔1s继续扫描
+        new Handler().postDelayed(() -> {
+            if (handler != null) {
+                handler.restartPreviewAndDecode(false);
             }
-        }
+        }, 1000);
     }
 
     private void displayFrameworkBugMessageAndExit() {
@@ -358,19 +282,11 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         builder.show();
     }
 
-    public void restartPreviewAfterDelay(long delayMS) {
-        if (handler != null) {
-            handler.sendEmptyMessageDelayed(R.id.restart_preview, delayMS);
-        }
-        resetStatusView();
-    }
-
     private void resetStatusView() {
         resultView.setVisibility(View.GONE);
         statusView.setText(R.string.msg_default_status);
         statusView.setVisibility(View.VISIBLE);
         viewfinderView.setVisibility(View.VISIBLE);
-        lastResult = null;
     }
 
     public void drawViewfinder() {
