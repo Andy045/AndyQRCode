@@ -30,7 +30,7 @@ ext {
             api_zxing                : "com.google.zxing:core:$rootProject.api_zxing",
             api_fastjson             : "com.alibaba:fastjson:$rootProject.api_fastjson",
 
-            implementation_HandyBase            : "com.github.Handy045:HandyBase:$rootProject.implementation_HandyBase",
+            implementation_HandyBase : "com.github.Handy045:HandyBase:$rootProject.implementation_HandyBase",
             api_HandyTitleBar        : "com.github.Handy045:HandyTitleBar:$rootProject.api_HandyTitleBar",
             api_JointSweetAlertDialog: "com.github.Handy045:JointSweetAlertDialog:$rootProject.api_JointSweetAlertDialog",
     ]
