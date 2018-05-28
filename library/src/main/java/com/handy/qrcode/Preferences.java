@@ -94,7 +94,7 @@ public final class Preferences {
      */
     public static boolean KEY_AUTO_ORIENTATION = false;
     /**
-     * 屏幕旋转方向 (当启动自动选装时生效，默认竖屏)
+     * 屏幕竖屏旋转方向 (默认竖屏)
      */
     public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 }

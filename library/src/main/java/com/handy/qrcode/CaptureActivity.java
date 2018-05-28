@@ -17,29 +17,23 @@
 package com.handy.qrcode;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Surface;
+import android.view.OrientationEventListener;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
-import com.google.zxing.ResultPoint;
 import com.handy.qrcode.camera.CameraManager;
 
 import java.io.IOException;
@@ -56,78 +50,48 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
+    private SurfaceView surfaceView;
+    private ViewfinderView viewfinderView;
+
+    private boolean hasSurface;
+    private BeepManager beepManager;
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
-    private Result savedResultToShow;
-    private ViewfinderView viewfinderView;
-    private TextView statusView;
-    private View resultView;
-    private boolean hasSurface;
     private InactivityTimer inactivityTimer;
-    private BeepManager beepManager;
     private AmbientLightManager ambientLightManager;
-
-    private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
-        if (a != null && b != null) {
-            canvas.drawLine(scaleFactor * a.getX(), scaleFactor * a.getY(), scaleFactor * b.getX(), scaleFactor * b.getY(), paint);
-        }
-    }
-
-    ViewfinderView getViewfinderView() {
-        return viewfinderView;
-    }
-
-    public Handler getHandler() {
-        return handler;
-    }
-
-    CameraManager getCameraManager() {
-        return cameraManager;
-    }
+    private MyOrientationDetector myOrientationDetector;
 
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.capture);
+
+        surfaceView = findViewById(R.id.preview_view);
+        viewfinderView = findViewById(R.id.viewfinder_view);
 
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
         ambientLightManager = new AmbientLightManager(this);
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        myOrientationDetector = new MyOrientationDetector(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        // CameraManager must be initialized here, not in onCreate(). This is necessary because we don't
-        // want to open the camera driver and measure the screen size if we're going to show the help on
-        // first launch. That led to bugs where the scanning rectangle was the wrong size and partially
-        // off screen.
         cameraManager = new CameraManager(getApplication());
-
-        viewfinderView = findViewById(R.id.viewfinder_view);
         viewfinderView.setCameraManager(cameraManager);
-
-        resultView = findViewById(R.id.result_view);
-        statusView = findViewById(R.id.status_view);
 
         handler = null;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
+        setRequestedOrientation(Preferences.KEY_SCREEN_ORIENTATION);
         if (Preferences.KEY_AUTO_ORIENTATION) {
-            setRequestedOrientation(getCurrentOrientation());
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            //启用监听
+            myOrientationDetector.enable();
         }
-
-        resetStatusView();
 
         beepManager.updatePrefs();
         ambientLightManager.start(cameraManager);
@@ -137,33 +101,9 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         SurfaceView surfaceView = findViewById(R.id.preview_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
-            // The activity was paused but not stopped, so the surface still exists. Therefore
-            // surfaceCreated() won't be called, so init the camera here.
             initCamera(surfaceHolder);
         } else {
-            // Install the callback and wait for surfaceCreated() to init the camera.
             surfaceHolder.addCallback(this);
-        }
-    }
-
-    private int getCurrentOrientation() {
-        int rotation = getWindowManager().getDefaultDisplay().getRotation();
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            switch (rotation) {
-                case Surface.ROTATION_0:
-                case Surface.ROTATION_90:
-                    return ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                default:
-                    return ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-            }
-        } else {
-            switch (rotation) {
-                case Surface.ROTATION_0:
-                case Surface.ROTATION_270:
-                    return ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                default:
-                    return ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-            }
         }
     }
 
@@ -177,9 +117,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         ambientLightManager.stop();
         beepManager.close();
         cameraManager.closeDriver();
-        //historyManager = null; // Keep for onActivityResult
+        myOrientationDetector.disable();
         if (!hasSurface) {
-            SurfaceView surfaceView = findViewById(R.id.preview_view);
             SurfaceHolder surfaceHolder = surfaceView.getHolder();
             surfaceHolder.removeCallback(this);
         }
@@ -232,6 +171,38 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         }
     }
 
+    /**
+     * A valid barcode has been found, so give an indication of success and show the results.
+     *
+     * @param rawResult   The contents of the barcode.
+     * @param scaleFactor amount by which thumbnail was scaled
+     * @param barcode     A greyscale bitmap of the camera data which was decoded.
+     */
+    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+        inactivityTimer.onActivity();
+
+        Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
+
+        //扫描成功后间隔1s继续扫描
+        new Handler().postDelayed(() -> {
+            if (handler != null) {
+                handler.restartPreviewAndDecode(false);
+            }
+        }, 1000);
+    }
+
+    ViewfinderView getViewfinderView() {
+        return viewfinderView;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    CameraManager getCameraManager() {
+        return cameraManager;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (holder == null) {
@@ -253,26 +224,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         // do nothing
     }
 
-    /**
-     * A valid barcode has been found, so give an indication of success and show the results.
-     *
-     * @param rawResult   The contents of the barcode.
-     * @param scaleFactor amount by which thumbnail was scaled
-     * @param barcode     A greyscale bitmap of the camera data which was decoded.
-     */
-    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
-        inactivityTimer.onActivity();
-
-        Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
-
-        //扫描成功后间隔1s继续扫描
-        new Handler().postDelayed(() -> {
-            if (handler != null) {
-                handler.restartPreviewAndDecode(false);
-            }
-        }, 1000);
-    }
-
     private void displayFrameworkBugMessageAndExit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.app_name));
@@ -282,14 +233,36 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         builder.show();
     }
 
-    private void resetStatusView() {
-        resultView.setVisibility(View.GONE);
-        statusView.setText(R.string.msg_default_status);
-        statusView.setVisibility(View.VISIBLE);
-        viewfinderView.setVisibility(View.VISIBLE);
-    }
-
     public void drawViewfinder() {
         viewfinderView.drawViewfinder();
+    }
+
+    private class MyOrientationDetector extends OrientationEventListener {
+
+
+        MyOrientationDetector(Context context) {
+            super(context);
+        }
+
+        @Override
+        public void onOrientationChanged(int orientation) {
+            Log.d(TAG, "orientation:" + orientation);
+            if (orientation < 45 || orientation > 315) {
+                orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+            } else if (orientation > 225 && orientation < 315) {
+                orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+            } else {
+                orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+            }
+
+            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
+                Log.i(TAG, "orientation:" + orientation);
+                Preferences.KEY_SCREEN_ORIENTATION = orientation;
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+                Log.i(TAG, "SUCCESS");
+            }
+        }
     }
 }
