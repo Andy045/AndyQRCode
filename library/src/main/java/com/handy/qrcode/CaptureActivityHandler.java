@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * This class handles all the messaging which comprises the state machine for capture.
+ * This class handles all the messaging which comprises the state machine for handy_activity_capture.
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */
