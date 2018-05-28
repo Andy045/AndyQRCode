@@ -91,10 +91,6 @@ public final class OpenCameraInterface {
         if (camera == null) {
             return null;
         }
-        return new OpenCamera(index,
-                camera,
-                CameraFacing.values()[selectedCameraInfo.facing],
-                selectedCameraInfo.orientation);
+        return new OpenCamera(index, camera, CameraFacing.values()[selectedCameraInfo.facing], selectedCameraInfo.orientation);
     }
-
 }
