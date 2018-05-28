@@ -94,11 +94,6 @@ dependencies {
     api rootProject.ext.dependencies.api_design
 
     api rootProject.ext.dependencies.api_zxing
-    api rootProject.ext.dependencies.api_fastjson
-
-    implementation rootProject.ext.dependencies.implementation_HandyBase
-    api rootProject.ext.dependencies.api_HandyTitleBar
-    api rootProject.ext.dependencies.api_JointSweetAlertDialog
 }
 
 // 获取当前系统时间

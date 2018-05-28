@@ -1,13 +1,18 @@
 package com.handy.qrcode.app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.handy.base.app.BaseActivity;
+import com.handy.base.utils.IntentUtils;
+import com.handy.qrcode.CaptureActivity;
+
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.zxing).setOnClickListener(v -> IntentUtils.openActivity(activity, CaptureActivity.class, false));
     }
 }
