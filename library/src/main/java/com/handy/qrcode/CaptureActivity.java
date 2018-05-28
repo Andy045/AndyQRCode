@@ -54,15 +54,6 @@ import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.camera.CameraManager;
-import com.handy.qrcode.clipboard.ClipboardInterface;
-import com.handy.qrcode.history.HistoryActivity;
-import com.handy.qrcode.history.HistoryItem;
-import com.handy.qrcode.history.HistoryManager;
-import com.handy.qrcode.result.ResultButtonListener;
-import com.handy.qrcode.result.ResultHandler;
-import com.handy.qrcode.result.ResultHandlerFactory;
-import com.handy.qrcode.result.supplement.SupplementalInfoRetriever;
-import com.handy.qrcode.share.ShareActivity;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -89,11 +80,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   private static final int HISTORY_REQUEST_CODE = 0x0000bacc;
 
-  private static final Collection<ResultMetadataType> DISPLAYABLE_METADATA_TYPES =
-          EnumSet.of(ResultMetadataType.ISSUE_NUMBER,
-                  ResultMetadataType.SUGGESTED_PRICE,
-                  ResultMetadataType.ERROR_CORRECTION_LEVEL,
-                  ResultMetadataType.POSSIBLE_COUNTRY);
+    private static final Collection<ResultMetadataType> DISPLAYABLE_METADATA_TYPES = EnumSet.of(ResultMetadataType.ISSUE_NUMBER, ResultMetadataType.SUGGESTED_PRICE, ResultMetadataType.ERROR_CORRECTION_LEVEL, ResultMetadataType.POSSIBLE_COUNTRY);
 
   private CameraManager cameraManager;
   private CaptureActivityHandler handler;
@@ -129,11 +116,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
   private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
     if (a != null && b != null) {
-      canvas.drawLine(scaleFactor * a.getX(),
-              scaleFactor * a.getY(),
-              scaleFactor * b.getX(),
-              scaleFactor * b.getY(),
-              paint);
+        canvas.drawLine(scaleFactor * a.getX(), scaleFactor * a.getY(), scaleFactor * b.getX(), scaleFactor * b.getY(), paint);
     }
   }
 
