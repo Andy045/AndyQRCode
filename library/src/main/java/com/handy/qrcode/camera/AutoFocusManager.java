@@ -23,7 +23,7 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.handy.qrcode.PreferencesActivity;
+import com.handy.qrcode.Preferences;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -53,9 +53,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
         this.camera = camera;
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         String currentFocusMode = camera.getParameters().getFocusMode();
-        useAutoFocus =
-                sharedPrefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true) &&
-                        FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
+        useAutoFocus = Preferences.KEY_AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
         Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
         start();
     }
@@ -130,5 +128,4 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
             return null;
         }
     }
-
 }
