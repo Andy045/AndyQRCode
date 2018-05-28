@@ -164,7 +164,7 @@ public final class CameraManager {
         if (theCamera != null && !previewing) {
             theCamera.getCamera().startPreview();
             previewing = true;
-            autoFocusManager = new AutoFocusManager(context, theCamera.getCamera());
+            autoFocusManager = new AutoFocusManager(theCamera.getCamera());
         }
     }
 
@@ -184,7 +184,7 @@ public final class CameraManager {
     }
 
     /**
-     * Convenience method for {@link com.google.zxing.client.android.CaptureActivity}
+     * Convenience method for CaptureActivity
      *
      * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.
      */
@@ -198,7 +198,7 @@ public final class CameraManager {
             }
             configManager.setTorch(theCamera.getCamera(), newSetting);
             if (wasAutoFocusManager) {
-                autoFocusManager = new AutoFocusManager(context, theCamera.getCamera());
+                autoFocusManager = new AutoFocusManager(theCamera.getCamera());
                 autoFocusManager.start();
             }
         }

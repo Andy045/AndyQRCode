@@ -16,11 +16,8 @@
 
 package com.handy.qrcode.camera;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.handy.qrcode.Preferences;
@@ -50,11 +47,10 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
     private boolean focusing;
     private AsyncTask<?, ?, ?> outstandingTask;
 
-    AutoFocusManager(Context context, Camera camera) {
+    AutoFocusManager(Camera camera) {
         this.camera = camera;
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         String currentFocusMode = camera.getParameters().getFocusMode();
-        useAutoFocus = sharedPrefs.getBoolean(Preferences.KEY_AUTO_FOCUS, true) && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
+        useAutoFocus = Preferences.KEY_AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
         Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
         start();
     }

@@ -143,18 +143,18 @@ final class CameraConfigurationManager {
 
         initializeTorch(parameters, prefs, safeMode);
 
-        CameraConfigurationUtils.setFocus(parameters, prefs.getBoolean(Preferences.KEY_AUTO_FOCUS, true), prefs.getBoolean(Preferences.KEY_DISABLE_CONTINUOUS_FOCUS, true), safeMode);
+        CameraConfigurationUtils.setFocus(parameters, Preferences.KEY_AUTO_FOCUS, Preferences.KEY_DISABLE_CONTINUOUS_FOCUS, safeMode);
 
         if (!safeMode) {
-            if (prefs.getBoolean(Preferences.KEY_INVERT_SCAN, false)) {
+            if (Preferences.KEY_INVERT_SCAN) {
                 CameraConfigurationUtils.setInvertColor(parameters);
             }
 
-            if (!prefs.getBoolean(Preferences.KEY_DISABLE_BARCODE_SCENE_MODE, true)) {
+            if (!Preferences.KEY_DISABLE_BARCODE_SCENE_MODE) {
                 CameraConfigurationUtils.setBarcodeSceneMode(parameters);
             }
 
-            if (!prefs.getBoolean(Preferences.KEY_DISABLE_METERING, true)) {
+            if (!Preferences.KEY_DISABLE_METERING) {
                 CameraConfigurationUtils.setVideoStabilization(parameters);
                 CameraConfigurationUtils.setFocusArea(parameters);
                 CameraConfigurationUtils.setMetering(parameters);
@@ -226,7 +226,7 @@ final class CameraConfigurationManager {
     private void doSetTorch(Camera.Parameters parameters, boolean newSetting, boolean safeMode) {
         CameraConfigurationUtils.setTorch(parameters, newSetting);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        if (!safeMode && !prefs.getBoolean(Preferences.KEY_DISABLE_EXPOSURE, true)) {
+        if (!safeMode && !Preferences.KEY_DISABLE_EXPOSURE) {
             CameraConfigurationUtils.setBestExposure(parameters, newSetting);
         }
     }
