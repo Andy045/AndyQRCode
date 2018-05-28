@@ -20,12 +20,8 @@ package com.handy.qrcode.camera.open;
  * Enumeration of directions a camera may face: front or back.
  */
 public enum CameraFacing {
-    /**
-     * must be value 0!
-     */
-    BACK,
-    /**
-     * must be value 1!
-     */
-    FRONT,
+
+  BACK,  // must be value 0!
+  FRONT, // must be value 1!
+
 }
