@@ -6,16 +6,26 @@
     android:orientation="horizontal">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="扫描结果:"
+        android:textColor="@color/handy_qrcode_snackbar_messagecolor"
+        android:textSize="13sp" />
+
+    <TextView
         android:id="@+id/snackbar_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center_vertical|start"
-        android:textIsSelectable="true"
-        android:padding="12dp"
-        android:text=""
+        android:padding="10dp"
+        android:text="dsadsadsadsaddsadsadsadsaddsadsadsadsaddsadsadsadsaddsadsadsadsaddsadsadsadsaddsadsadsadsaddsadsadsadsad"
         android:textColor="@color/handy_qrcode_snackbar_messagecolor"
+        android:textIsSelectable="true"
         android:textSize="13sp" />
 
     <Button
@@ -27,8 +37,8 @@
         android:gravity="center_vertical"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="重试"
         android:textColor="@color/handy_qrcode_snackbar_actioncolor"
         android:textSize="13sp" />
@@ -40,8 +50,8 @@
         android:background="#00000000"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:text="确定"
         android:textColor="@color/handy_qrcode_snackbar_actioncolor"
         android:textSize="13sp" />
