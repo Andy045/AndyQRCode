@@ -12,6 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center_vertical|start"
+        android:textIsSelectable="true"
         android:padding="12dp"
         android:text=""
         android:textColor="@color/handy_qrcode_snackbar_messagecolor"
