@@ -217,6 +217,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
      */
     public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
         inactivityTimer.onActivity();
+        beepManager.playBeepSoundAndVibrate();
 
         Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
 
