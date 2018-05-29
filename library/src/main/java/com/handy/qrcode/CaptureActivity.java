@@ -76,11 +76,16 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         viewfinderView = findViewById(R.id.viewfinder_view);
         titleBar = findViewById(R.id.common_titlebar);
         if (titleBar != null) {
-            titleBar.setTitle(getResources().getString(R.string.app_name));
+            if (Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+                titleBar.setTitle(getResources().getString(R.string.app_name));
+                titleBar.setBottomLineHeight(1);
+            } else if (Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+                titleBar.setTitle("");
+                titleBar.setBottomLineHeight(0);
+            }
 
             titleBar.setImmersive(activity, true);
             titleBar.setTitleBackground(getResources().getColor(R.color.transparent));
-            titleBar.setBottomLineHeight(1);
             titleBar.setBottomLineBackground(R.color.white);
             titleBar.addLeftAction(new TitleBar.Action() {
                 @Override
