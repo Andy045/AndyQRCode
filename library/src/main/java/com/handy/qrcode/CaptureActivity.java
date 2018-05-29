@@ -261,7 +261,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         message.setText(rawResult.getText());
         again.setOnClickListener(v -> {
             SnackbarUtils.dismiss();
-            new CountDownTimer(1500, 1000) {
+            new CountDownTimer(1000, 1000) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {
