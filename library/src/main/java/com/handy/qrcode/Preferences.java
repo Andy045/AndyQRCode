@@ -60,7 +60,7 @@ public final class Preferences {
     /**
      * 闪光灯 (设置闪光灯模式)
      */
-    public static boolean KEY_FRONT_LIGHT_MODE = false;
+    public static boolean KEY_USE_LIGHT = false;
     /**
      * 自动对焦
      */
