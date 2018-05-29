@@ -57,12 +57,10 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     private ViewfinderView viewfinderView;
 
     private boolean hasSurface;
-    private boolean isShowLight;
     private BeepManager beepManager;
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
     private InactivityTimer inactivityTimer;
-    private AmbientLightManager ambientLightManager;
     private MyOrientationDetector myOrientationDetector;
 
     @Override
@@ -101,8 +99,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             titleBar.addRightAction(new TitleBar.Action() {
                 @Override
                 public void onClick() {
-                    isShowLight = !isShowLight;
-                    cameraManager.setTorch(isShowLight);
+                    Preferences.KEY_USE_LIGHT = !Preferences.KEY_USE_LIGHT;
+                    cameraManager.setTorch(Preferences.KEY_USE_LIGHT);
 
                     titleBar.removeAllRightActions();
                     titleBar.addRightAction(this);
@@ -110,7 +108,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
                 @Override
                 public int setDrawable() {
-                    return isShowLight ? R.drawable.boco_icon_light_c : R.drawable.boco_icon_light_n;
+                    return Preferences.KEY_USE_LIGHT ? R.drawable.boco_icon_light_c : R.drawable.boco_icon_light_n;
                 }
             });
         }
@@ -118,7 +116,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         hasSurface = false;
         beepManager = new BeepManager(this);
         inactivityTimer = new InactivityTimer(this);
-        ambientLightManager = new AmbientLightManager(this);
         myOrientationDetector = new MyOrientationDetector(this);
     }
 
@@ -137,8 +134,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         }
 
         beepManager.updatePrefs();
-        ambientLightManager.start(cameraManager);
-
         inactivityTimer.onResume();
 
         SurfaceView surfaceView = findViewById(R.id.preview_view);
@@ -157,7 +152,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             handler = null;
         }
         inactivityTimer.onPause();
-        ambientLightManager.stop();
         beepManager.close();
         cameraManager.closeDriver();
         myOrientationDetector.disable();
