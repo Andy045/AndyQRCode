@@ -25,6 +25,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
+import com.handy.qrcode.Preferences;
 import com.handy.qrcode.camera.open.OpenCamera;
 import com.handy.qrcode.camera.open.OpenCameraInterface;
 
@@ -238,8 +239,8 @@ public final class CameraManager {
                 return null;
             }
 
-            int width = findDesiredDimensionInRange(screenResolution.x, MIN_FRAME_WIDTH, MAX_FRAME_WIDTH);
-            int height = findDesiredDimensionInRange(screenResolution.y, MIN_FRAME_HEIGHT, MAX_FRAME_HEIGHT);
+            int width = screenResolution.x / 10 * 7;
+            int height = (screenResolution.y) / 10 * 6;
 
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
@@ -335,12 +336,16 @@ public final class CameraManager {
      * @return A PlanarYUVLuminanceSource instance.
      */
     public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
-        Rect rect = getFramingRectInPreview();
-        if (rect == null) {
-            return null;
-        }
         // Go ahead and assume it's YUV rather than die.
-        return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
+        if (Preferences.KEY_SCAN_FULLSCREEN) {
+            return new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
+        } else {
+            Rect rect = getFramingRectInPreview();
+            if (rect == null) {
+                return null;
+            }
+            return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height(), false);
+        }
     }
 
     /**
