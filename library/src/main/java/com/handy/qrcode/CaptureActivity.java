@@ -22,19 +22,25 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.camera.CameraManager;
+import com.handy.qrcode.utils.SnackbarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
@@ -62,6 +68,33 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     private CaptureActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private MyOrientationDetector myOrientationDetector;
+
+    public static ScanResultListener scanResultListener;
+
+
+    public static void doIntent(Activity activity, int requestCode, boolean isfinish) {
+        doIntent(activity, null, null, requestCode, isfinish);
+    }
+
+    public static void doIntent(Activity activity, Bundle bundle, int requestCode, boolean isfinish) {
+        doIntent(activity, bundle, null, requestCode, isfinish);
+    }
+
+    public static void doIntent(Activity activity, ScanResultListener scanResultListener, int requestCode, boolean isfinish) {
+        doIntent(activity, null, scanResultListener, requestCode, isfinish);
+    }
+
+    public static void doIntent(Activity activity, Bundle bundle, ScanResultListener scanResultListener, int requestCode, boolean isfinish) {
+        Intent intent = new Intent(activity, CaptureActivity.class);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        CaptureActivity.scanResultListener = scanResultListener;
+        activity.startActivityForResult(intent, requestCode);
+        if (isfinish) {
+            activity.finish();
+        }
+    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -219,14 +252,43 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
-        Toast.makeText(this, rawResult.getText(), Toast.LENGTH_SHORT).show();
+        SnackbarUtils snackbarUtils = SnackbarUtils.with(findViewById(R.id.parent_layout));
+        View view = LayoutInflater.from(activity).inflate(R.layout.handy_view_snackbar, null);
+        TextView message = view.findViewById(R.id.snackbar_message);
+        Button again = view.findViewById(R.id.snackbar_again);
+        Button commit = view.findViewById(R.id.snackbar_commit);
 
-        //扫描成功后间隔1s继续扫描
-        new Handler().postDelayed(() -> {
-            if (handler != null) {
-                handler.restartPreviewAndDecode(false);
+        message.setText(rawResult.getText());
+        again.setOnClickListener(v -> {
+            SnackbarUtils.dismiss();
+            new CountDownTimer(1500, 1000) {
+
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    if (handler != null) {
+                        handler.restartPreviewAndDecode(false);
+                    }
+                }
+            }.start();
+        });
+        commit.setOnClickListener(v -> {
+            SnackbarUtils.dismiss();
+            if (scanResultListener != null) {
+                scanResultListener.resultListener(rawResult, barcode, scaleFactor);
             }
-        }, 1000);
+            Intent intent = new Intent();
+            intent.putExtra("Result", rawResult.getText());
+            setResult(RESULT_OK, intent);
+            finish();
+        });
+        snackbarUtils.setDuration(SnackbarUtils.LENGTH_INDEFINITE);
+        snackbarUtils.show();
+        SnackbarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     ViewfinderView getViewfinderView() {
