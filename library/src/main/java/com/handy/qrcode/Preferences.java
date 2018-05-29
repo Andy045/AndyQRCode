@@ -88,11 +88,11 @@ public final class Preferences {
     /**
      * 使用全屏扫描 (默认识别扫描框内的图形)
      */
-    public static boolean KEY_SCAN_FULLSCREEN = true;
+    public static boolean KEY_SCAN_FULLSCREEN = false;
     /**
      * 屏幕自动旋转
      */
-    public static boolean KEY_AUTO_ORIENTATION = true;
+    public static boolean KEY_AUTO_ORIENTATION = false;
     /**
      * 屏幕竖屏旋转方向 (默认竖屏)
      */
