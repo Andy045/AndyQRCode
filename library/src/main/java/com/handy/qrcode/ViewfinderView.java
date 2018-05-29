@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -41,20 +42,29 @@ import java.util.List;
 public final class ViewfinderView extends View {
 
     private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192, 128, 64};
-    private static final long ANIMATION_DELAY = 80L;
+    private static final long ANIMATION_DELAY = 100L;
     private static final int CURRENT_POINT_OPACITY = 0xA0;
     private static final int MAX_RESULT_POINTS = 20;
     private static final int POINT_SIZE = 6;
+
+    private CameraManager cameraManager;
     private final Paint paint;
+    private Bitmap resultBitmap;
     private final int maskColor;
     private final int resultColor;
-    private final int laserColor;
     private final int resultPointColor;
-    private CameraManager cameraManager;
-    private Bitmap resultBitmap;
     private int scannerAlpha;
     private List<ResultPoint> possibleResultPoints;
-    private List<ResultPoint> lastPossibleResultPoints;
+
+    private Paint mCornerPaint;
+    private Paint mFocusFramePaint;
+    private Paint mTipPaint;
+    private Paint mLaserPaint;
+
+    private int mCornerLength;
+    private int mCornerThick;
+    private int mTipPaddingTop;
+    private int mFocusLineThick;
 
     // This constructor is used when the class is built from an XML resource.
     public ViewfinderView(Context context, AttributeSet attrs) {
@@ -65,11 +75,32 @@ public final class ViewfinderView extends View {
         Resources resources = getResources();
         maskColor = resources.getColor(R.color.viewfinder_mask);
         resultColor = resources.getColor(R.color.result_view);
-        laserColor = resources.getColor(R.color.viewfinder_laser);
         resultPointColor = resources.getColor(R.color.possible_result_points);
         scannerAlpha = 0;
         possibleResultPoints = new ArrayList<>(5);
-        lastPossibleResultPoints = null;
+
+        mCornerPaint = new Paint();
+        mFocusFramePaint = new Paint();
+        mTipPaint = new Paint();
+        mLaserPaint = new Paint();
+
+        mCornerPaint.setAntiAlias(true);
+        mCornerPaint.setColor(getResources().getColor(R.color.scan_frame_green_color));
+
+        mFocusFramePaint.setAntiAlias(true);
+        mFocusFramePaint.setColor(Color.WHITE);
+
+        mTipPaint.setAntiAlias(true);
+        mTipPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.scanner_view_tip_size));
+        mTipPaint.setColor(getResources().getColor(R.color.scan_view_tip_color));
+
+        mLaserPaint.setAntiAlias(true);
+        mLaserPaint.setColor(getResources().getColor(R.color.scan_line_color));
+
+        mCornerLength = getResources().getDimensionPixelSize(R.dimen.scanner_view_corner_width);
+        mCornerThick = getResources().getDimensionPixelSize(R.dimen.scanner_view_corner_thick);
+        mTipPaddingTop = getResources().getDimensionPixelSize(R.dimen.scanner_view_tip_top);
+        mFocusLineThick = getResources().getDimensionPixelSize(R.dimen.scanner_view_focus_line_thick);
     }
 
     public void setCameraManager(CameraManager cameraManager) {
@@ -96,55 +127,18 @@ public final class ViewfinderView extends View {
         canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
         canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
         canvas.drawRect(0, frame.bottom + 1, width, height, paint);
-
-        if (resultBitmap != null) {
-            // Draw the opaque result bitmap over the scanning rectangle
-            paint.setAlpha(CURRENT_POINT_OPACITY);
-            canvas.drawBitmap(resultBitmap, null, frame, paint);
-        } else {
-
-            // Draw a red "laser scanner" line through the middle to show decoding is active
-            paint.setColor(laserColor);
-            paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
-            scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
-            int middle = frame.height() / 2 + frame.top;
-            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
-
-            float scaleX = frame.width() / (float) previewFrame.width();
-            float scaleY = frame.height() / (float) previewFrame.height();
-
-            List<ResultPoint> currentPossible = possibleResultPoints;
-            List<ResultPoint> currentLast = lastPossibleResultPoints;
-            int frameLeft = frame.left;
-            int frameTop = frame.top;
-            if (currentPossible.isEmpty()) {
-                lastPossibleResultPoints = null;
-            } else {
-                possibleResultPoints = new ArrayList<>(5);
-                lastPossibleResultPoints = currentPossible;
-                paint.setAlpha(CURRENT_POINT_OPACITY);
-                paint.setColor(resultPointColor);
-                synchronized (currentPossible) {
-                    for (ResultPoint point : currentPossible) {
-                        canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), POINT_SIZE, paint);
-                    }
-                }
-            }
-            if (currentLast != null) {
-                paint.setAlpha(CURRENT_POINT_OPACITY / 2);
-                paint.setColor(resultPointColor);
-                synchronized (currentLast) {
-                    float radius = POINT_SIZE / 2.0f;
-                    for (ResultPoint point : currentLast) {
-                        canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), radius, paint);
-                    }
-                }
-            }
-
-            // Request another update at the animation interval, but only repaint the laser line,
-            // not the entire viewfinder mask.
-            postInvalidateDelayed(ANIMATION_DELAY, frame.left - POINT_SIZE, frame.top - POINT_SIZE, frame.right + POINT_SIZE, frame.bottom + POINT_SIZE);
-        }
+        //绘制二维码识别点
+        drawResultPoints(canvas, frame, previewFrame);
+        //绘制矩形框的四个角
+        drawCorner(canvas, frame);
+        //绘制聚焦框
+        drawFocusRect(canvas, frame);
+        //绘制激光线
+        drawLaser(canvas, frame);
+        //绘制提示语
+        drawTipText(canvas, getResources().getDisplayMetrics().widthPixels, frame.bottom + mTipPaddingTop);
+        //实现动画效果
+        postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);
     }
 
     public void drawViewfinder() {
@@ -176,5 +170,103 @@ public final class ViewfinderView extends View {
                 points.subList(0, size - MAX_RESULT_POINTS / 2).clear();
             }
         }
+    }
+
+    /**
+     * 绘制二维码识别点
+     *
+     * @param canvas
+     * @param frame
+     */
+    private void drawResultPoints(Canvas canvas, Rect frame, Rect previewFrame) {
+        if (resultBitmap != null) {
+            // Draw the opaque result bitmap over the scanning rectangle
+            paint.setAlpha(CURRENT_POINT_OPACITY);
+            canvas.drawBitmap(resultBitmap, null, frame, paint);
+        } else {
+            paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
+            scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
+            int middle = frame.height() / 2 + frame.top;
+            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
+
+            float scaleX = frame.width() / (float) previewFrame.width();
+            float scaleY = frame.height() / (float) previewFrame.height();
+
+            List<ResultPoint> currentPossible = possibleResultPoints;
+            int frameLeft = frame.left;
+            int frameTop = frame.top;
+            if (!currentPossible.isEmpty()) {
+                possibleResultPoints = new ArrayList<>(5);
+                paint.setAlpha(CURRENT_POINT_OPACITY);
+                paint.setColor(resultPointColor);
+                synchronized (possibleResultPoints) {
+                    if (Preferences.KEY_SCAN_FULLSCREEN) {
+                        for (ResultPoint point : currentPossible) {
+                            canvas.drawCircle((int) (point.getX() * scaleX), (int) (point.getY() * scaleY), POINT_SIZE, paint);
+                        }
+                    } else {
+                        for (ResultPoint point : currentPossible) {
+                            canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), POINT_SIZE, paint);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 绘制矩形框的四个角
+     *
+     * @param canvas
+     * @param rect
+     */
+    private void drawCorner(Canvas canvas, Rect rect) {
+        if (rect == null) {
+            return;
+        }
+        //绘制左上角
+        canvas.drawRect(rect.left, rect.top, rect.left + mCornerLength, rect.top + mCornerThick, mCornerPaint);
+        canvas.drawRect(rect.left, rect.top, rect.left + mCornerThick, rect.top + mCornerLength, mCornerPaint);
+
+        //绘制左下角
+        canvas.drawRect(rect.left, rect.bottom - mCornerThick, rect.left + mCornerLength, rect.bottom, mCornerPaint);
+        canvas.drawRect(rect.left, rect.bottom - mCornerLength, rect.left + mCornerThick, rect.bottom, mCornerPaint);
+
+        //绘制右上角
+        canvas.drawRect(rect.right - mCornerLength, rect.top, rect.right, rect.top + mCornerThick, mCornerPaint);
+        canvas.drawRect(rect.right - mCornerThick, rect.top, rect.right, rect.top + mCornerLength, mCornerPaint);
+
+        //绘制右下角
+        canvas.drawRect(rect.right - mCornerLength, rect.bottom - mCornerThick, rect.right, rect.bottom, mCornerPaint);
+        canvas.drawRect(rect.right - mCornerThick, rect.bottom - mCornerLength, rect.right, rect.bottom, mCornerPaint);
+    }
+
+    /**
+     * 绘制聚焦框
+     */
+    private void drawFocusRect(Canvas canvas, Rect rect) {
+        canvas.drawRect(rect.left + mCornerLength, rect.top, rect.right - mCornerLength, rect.top + mFocusLineThick, mFocusFramePaint);
+        canvas.drawRect(rect.right - mFocusLineThick, rect.top + mCornerLength, rect.right, rect.bottom - mCornerLength, mFocusFramePaint);
+        canvas.drawRect(rect.left + mCornerLength, rect.bottom - mFocusLineThick, rect.right - mCornerLength, rect.bottom, mFocusFramePaint);
+        canvas.drawRect(rect.left, rect.top + mCornerLength, rect.left + mFocusLineThick, rect.bottom - mCornerLength, mFocusFramePaint);
+    }
+
+    /**
+     * 绘制激光线
+     */
+    private void drawLaser(Canvas canvas, Rect rect) {
+        mLaserPaint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
+        scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
+        int middle = rect.height() / 2 + rect.top;
+        canvas.drawRect(rect.left + 2, middle - 1, rect.right - 1, middle + 2, mLaserPaint);
+    }
+
+    /**
+     * 绘制提示语
+     */
+    private void drawTipText(Canvas canvas, int w, int h) {
+        String tip = getResources().getString(R.string.msg_default_status);
+        float l = (w - tip.length() * mTipPaint.getTextSize()) / 2;
+        canvas.drawText(tip, l, h, mTipPaint);
     }
 }
