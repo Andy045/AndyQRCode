@@ -14,6 +14,7 @@
  limitations under the License.
  -->
 <resources>
+    <color name="white">#ffffffff</color>
     <color name="contents_text">#ff000000</color>
     <color name="encode_view">#ffffffff</color>
     <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
