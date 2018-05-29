@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.camera.CameraManager;
+import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
 
@@ -48,12 +49,15 @@ import java.io.IOException;
  */
 public final class CaptureActivity extends Activity implements SurfaceHolder.Callback {
 
+    private Activity activity = CaptureActivity.this;
     private static final String TAG = CaptureActivity.class.getSimpleName();
 
+    private TitleBar titleBar;
     private SurfaceView surfaceView;
     private ViewfinderView viewfinderView;
 
     private boolean hasSurface;
+    private boolean isShowLight;
     private BeepManager beepManager;
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
@@ -70,22 +74,56 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
         surfaceView = findViewById(R.id.preview_view);
         viewfinderView = findViewById(R.id.viewfinder_view);
+        titleBar = findViewById(R.id.common_titlebar);
+        if (titleBar != null) {
+            titleBar.setTitle(getResources().getString(R.string.app_name));
+
+            titleBar.setImmersive(activity, true);
+            titleBar.setTitleBackground(getResources().getColor(R.color.transparent));
+            titleBar.setBottomLineHeight(1);
+            titleBar.setBottomLineBackground(R.color.white);
+            titleBar.addLeftAction(new TitleBar.Action() {
+                @Override
+                public void onClick() {
+                    finish();
+                }
+
+                @Override
+                public int setDrawable() {
+                    return R.drawable.boco_select_titlebar_back;
+                }
+            });
+            titleBar.addRightAction(new TitleBar.Action() {
+                @Override
+                public void onClick() {
+                    isShowLight = !isShowLight;
+                    cameraManager.setTorch(isShowLight);
+
+                    titleBar.removeAllRightActions();
+                    titleBar.addRightAction(this);
+                }
+
+                @Override
+                public int setDrawable() {
+                    return isShowLight ? R.drawable.boco_icon_light_c : R.drawable.boco_icon_light_n;
+                }
+            });
+        }
 
         hasSurface = false;
-        inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
+        inactivityTimer = new InactivityTimer(this);
         ambientLightManager = new AmbientLightManager(this);
-
         myOrientationDetector = new MyOrientationDetector(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        handler = null;
+
         cameraManager = new CameraManager(getApplication());
         viewfinderView.setCameraManager(cameraManager);
-
-        handler = null;
 
         setRequestedOrientation(Preferences.KEY_SCREEN_ORIENTATION);
         if (Preferences.KEY_AUTO_ORIENTATION) {
