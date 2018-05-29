@@ -17,10 +17,8 @@
 package com.handy.qrcode.camera;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.hardware.Camera;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
@@ -139,9 +137,7 @@ final class CameraConfigurationManager {
             Log.w(TAG, "In camera config safe mode -- most settings will not be honored");
         }
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-        initializeTorch(parameters, prefs, safeMode);
+        doSetTorch(parameters, Preferences.KEY_USE_LIGHT, safeMode);
 
         CameraConfigurationUtils.setFocus(parameters, Preferences.KEY_AUTO_FOCUS, Preferences.KEY_DISABLE_CONTINUOUS_FOCUS, safeMode);
 
@@ -218,14 +214,8 @@ final class CameraConfigurationManager {
         camera.setParameters(parameters);
     }
 
-    private void initializeTorch(Camera.Parameters parameters, SharedPreferences prefs, boolean safeMode) {
-        boolean currentSetting = FrontLightMode.readPref(prefs) == FrontLightMode.ON;
-        doSetTorch(parameters, currentSetting, safeMode);
-    }
-
     private void doSetTorch(Camera.Parameters parameters, boolean newSetting, boolean safeMode) {
         CameraConfigurationUtils.setTorch(parameters, newSetting);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (!safeMode && !Preferences.KEY_DISABLE_EXPOSURE) {
             CameraConfigurationUtils.setBestExposure(parameters, newSetting);
         }
