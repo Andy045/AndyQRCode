@@ -15,6 +15,7 @@
  -->
 <resources>
     <color name="white">#ffffffff</color>
+
     <color name="contents_text">#ff000000</color>
     <color name="encode_view">#ffffffff</color>
     <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
@@ -26,4 +27,15 @@
     <color name="transparent">#00000000</color>
     <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
     <color name="viewfinder_mask">#60000000</color>
+
+    <color name="scan_frame_green_color">#65E102</color>
+    <color name="scan_line_color">#98C360</color>
+    <color name="scan_view_bg">#64000000</color>
+    <color name="scan_view_tip_color">#FFFFFF</color>
+
+    <dimen name="scanner_view_corner_width">16dp</dimen>
+    <dimen name="scanner_view_corner_thick">4dp</dimen>
+    <dimen name="scanner_view_focus_line_thick">1dp</dimen>
+    <dimen name="scanner_view_tip_top">22dp</dimen>
+    <dimen name="scanner_view_tip_size">13sp</dimen>
 </resources>
