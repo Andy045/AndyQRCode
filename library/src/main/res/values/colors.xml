@@ -38,4 +38,8 @@
     <dimen name="scanner_view_focus_line_thick">1dp</dimen>
     <dimen name="scanner_view_tip_top">22dp</dimen>
     <dimen name="scanner_view_tip_size">13sp</dimen>
+
+    <color name="handy_qrcode_snackbar_background">#424242</color>
+    <color name="handy_qrcode_snackbar_messagecolor">#ffffff</color>
+    <color name="handy_qrcode_snackbar_actioncolor">#7cb342</color>
 </resources>
