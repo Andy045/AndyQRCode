@@ -196,7 +196,7 @@ public final class ViewfinderView extends View {
                 possibleResultPoints = new ArrayList<>(5);
                 paint.setAlpha(CURRENT_POINT_OPACITY);
                 paint.setColor(resultPointColor);
-                synchronized (possibleResultPoints) {
+                synchronized (currentPossible) {
                     if (Preferences.KEY_SCAN_FULLSCREEN) {
                         for (ResultPoint point : currentPossible) {
                             canvas.drawCircle((int) (point.getX() * scaleX), (int) (point.getY() * scaleY), POINT_SIZE, paint);
