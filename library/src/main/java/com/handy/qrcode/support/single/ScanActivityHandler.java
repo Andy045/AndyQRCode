@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support;
+package com.handy.qrcode.support.single;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -34,7 +34,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.handy.qrcode.R;
 import com.handy.qrcode.ScanSingleActivity;
-import com.handy.qrcode.support.camera.CameraManager;
+import com.handy.qrcode.support.single.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;

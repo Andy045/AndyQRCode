@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 ZXing authors
+ * Copyright (C) 2009 ZXing authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.camera.open;
+package com.handy.qrcode.support.single;
 
-/**
- * Enumeration of directions a camera may face: front or back.
- */
-public enum CameraFacing {
-    /**
-     * must be value 0!
-     */
-    BACK,
-    /**
-     * must be value 1!
-     */
-    FRONT,
+import com.google.zxing.ResultPoint;
+import com.google.zxing.ResultPointCallback;
+
+final class ViewfinderResultPointCallback implements ResultPointCallback {
+
+    private final ViewfinderView viewfinderView;
+
+    ViewfinderResultPointCallback(ViewfinderView viewfinderView) {
+        this.viewfinderView = viewfinderView;
+    }
+
+    @Override
+    public void foundPossibleResultPoint(ResultPoint point) {
+        viewfinderView.addPossibleResultPoint(point);
+    }
 }

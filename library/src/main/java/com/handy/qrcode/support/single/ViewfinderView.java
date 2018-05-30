@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support;
+package com.handy.qrcode.support.single;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,7 +28,7 @@ import android.view.View;
 
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.R;
-import com.handy.qrcode.support.camera.CameraManager;
+import com.handy.qrcode.support.single.camera.CameraManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +46,12 @@ public final class ViewfinderView extends View {
     private static final int CURRENT_POINT_OPACITY = 0xA0;
     private static final int MAX_RESULT_POINTS = 20;
     private static final int POINT_SIZE = 6;
-
-    private CameraManager cameraManager;
     private final Paint paint;
-    private Bitmap resultBitmap;
     private final int maskColor;
     private final int resultPointColor;
     private final int mFocusLineColor;
+    private CameraManager cameraManager;
+    private Bitmap resultBitmap;
     private int scannerAlpha;
     private List<ResultPoint> possibleResultPoints;
 

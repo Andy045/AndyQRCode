@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.camera;
+package com.handy.qrcode.support.single.camera;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -24,9 +24,9 @@ import android.os.Handler;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
-import com.handy.qrcode.support.Preferences;
-import com.handy.qrcode.support.camera.open.OpenCamera;
-import com.handy.qrcode.support.camera.open.OpenCameraInterface;
+import com.handy.qrcode.support.single.Preferences;
+import com.handy.qrcode.support.single.camera.open.OpenCamera;
+import com.handy.qrcode.support.single.camera.open.OpenCameraInterface;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.IOException;

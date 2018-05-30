@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support;
+package com.handy.qrcode.support.single;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
