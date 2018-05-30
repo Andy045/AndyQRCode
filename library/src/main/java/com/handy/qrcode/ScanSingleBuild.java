@@ -22,7 +22,6 @@ public class ScanSingleBuild {
 
     private boolean isRecord = false;
     public static final String KEY_SCAN_RESULT = "KEY_SCAN_RESULT";
-    public static final String KEY_SCAN_BITMAP = "KEY_SCAN_BITMAP";
     private String recordKey = "HandyQRCode";
 
     private ScanResultListener scanResultListener = null;

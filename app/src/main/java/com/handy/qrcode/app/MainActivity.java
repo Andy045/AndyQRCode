@@ -2,6 +2,7 @@ package com.handy.qrcode.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -22,10 +23,10 @@ public class MainActivity extends Activity {
             ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 
             new ScanSingleBuild().setScanResultListener((rawResult, barcode, scaleFactor) -> {
-                BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult);
-
+                Bitmap bitmap = BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult, true);
+                Bitmap newBitmap = BitmapUtils.compressByScale(bitmap, 360, 640, true);
                 ((TextView) findViewById(R.id.result)).setText("扫描结果：" + rawResult.getText());
-                ((ImageView) findViewById(R.id.image)).setImageBitmap(barcode);
+                ((ImageView) findViewById(R.id.image)).setImageBitmap(newBitmap);
             }).start(MainActivity.this);
         });
     }

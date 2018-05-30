@@ -180,6 +180,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
     @Override
     protected void onDestroy() {
+        scanResultListener = null;
         inactivityTimer.shutdown();
         super.onDestroy();
     }
@@ -266,7 +267,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             }
             Intent intent = new Intent();
             intent.putExtra(ScanSingleBuild.KEY_SCAN_RESULT, rawResult.getText());
-            intent.putExtra(ScanSingleBuild.KEY_SCAN_BITMAP, barcode);
             setResult(RESULT_OK, intent);
             finish();
         });
