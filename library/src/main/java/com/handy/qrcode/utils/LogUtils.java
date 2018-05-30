@@ -12,11 +12,12 @@ import android.util.Log;
  */
 public class LogUtils {
     public static int LOG_LEVEL = 0;
-    public static int ERROR = 1;
-    public static int WARN = 2;
-    public static int INFO = 3;
-    public static int DEBUG = 4;
-    public static int VERBOS = 5;
+
+    private static final int ERROR = 1;
+    private static final int WARN = 2;
+    private static final int INFO = 3;
+    private static final int DEBUG = 4;
+    private static final int VERBOS = 5;
 
 
     public static void e(String tag, String msg) {
@@ -34,6 +35,12 @@ public class LogUtils {
     public static void w(String tag, Throwable msg) {
         if (LOG_LEVEL > WARN) {
             Log.w(tag, msg);
+        }
+    }
+
+    public static void w(String tag, String msg, Throwable t) {
+        if (LOG_LEVEL > WARN) {
+            Log.w(tag, msg, t);
         }
     }
 
