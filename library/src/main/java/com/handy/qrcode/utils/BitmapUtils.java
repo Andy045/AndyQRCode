@@ -105,11 +105,18 @@ public class BitmapUtils {
 
     /**
      * 扫描结果的二维码图片中，给二维码的识别点绘制颜色
+     *
+     * @param context     上下文
+     * @param barcode     原图片
+     * @param scaleFactor 比例
+     * @param rawResult   二维码结果
+     * @param recycle     是否回收
      */
-    public static void drawResultPoints(Context context, Bitmap barcode, float scaleFactor, Result rawResult) {
+    public static Bitmap drawResultPoints(Context context, Bitmap barcode, float scaleFactor, Result rawResult, boolean recycle) {
         ResultPoint[] points = rawResult.getResultPoints();
+        Bitmap bitmap = barcode.copy(barcode.getConfig(), true);
         if (points != null && points.length > 0) {
-            Canvas canvas = new Canvas(barcode);
+            Canvas canvas = new Canvas(bitmap);
             Paint paint = new Paint();
             paint.setColor(context.getResources().getColor(R.color.handy_result_points_color));
             if (points.length == 2) {
@@ -126,7 +133,12 @@ public class BitmapUtils {
                     }
                 }
             }
+            if (recycle && !barcode.isRecycled()) {
+                bitmap.recycle();
+            }
+            return bitmap;
         }
+        return null;
     }
 
     private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
