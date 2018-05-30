@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import com.handy.qrcode.support.ScanResultListener;
+import com.handy.qrcode.api.ScanResultListener;
 
 /**
  * 扫描功能创建者
@@ -19,14 +19,19 @@ public class ScanSingleBuild {
 
     private int requestCode = 100;
     private boolean isFinish = false;
+
     private boolean isRecord = false;
+    public static final String KEY_SCAN_RESULT = "KEY_SCAN_RESULT";
+    public static final String KEY_SCAN_BITMAP = "KEY_SCAN_BITMAP";
+    private String recordKey = "HandyQRCode";
+
     private ScanResultListener scanResultListener = null;
 
     public ScanSingleBuild() {
     }
 
     /**
-     * 带回调跳转请求编码（默认100）
+     * 带回调跳转请求编码（默认：100）
      */
     public ScanSingleBuild setRequestCode(int requestCode) {
         this.requestCode = requestCode;
@@ -34,23 +39,31 @@ public class ScanSingleBuild {
     }
 
     /**
-     * 是否关闭当前Activity
+     * 是否关闭当前Activity（默认：false）
      */
     public ScanSingleBuild setFinish(boolean finish) {
-        isFinish = finish;
+        this.isFinish = finish;
         return this;
     }
 
     /**
-     * 是否将扫描结果记录到缓存里
+     * 是否将扫描结果记录到缓存里（默认：false）
      */
-    public ScanSingleBuild setRecord(boolean record) {
-        isRecord = record;
+    public ScanSingleBuild setRecord(boolean isRecord) {
+        this.isRecord = isRecord;
         return this;
     }
 
     /**
-     * 扫描完成的回调接口
+     * 如果需要记录扫描结果，则需要传入记录值得关键字（默认：HandyQRCode）
+     */
+    public ScanSingleBuild setRecordKey(String recordKey) {
+        this.recordKey = recordKey;
+        return this;
+    }
+
+    /**
+     * 扫描完成的回调接口（默认：NULL）
      */
     public ScanSingleBuild setScanResultListener(ScanResultListener scanResultListener) {
         this.scanResultListener = scanResultListener;
@@ -65,6 +78,7 @@ public class ScanSingleBuild {
 
         Bundle bundle = new Bundle();
         bundle.putBoolean("isRecord", isRecord);
+        bundle.putString("recordKey", recordKey);
         intent.putExtras(bundle);
 
         ScanSingleActivity.scanResultListener = scanResultListener;
