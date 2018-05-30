@@ -28,53 +28,58 @@ public class BitmapUtils {
     /**
      * 按目标宽高所计算的宽高比压缩图片
      *
-     * @param bitmap       原图片
+     * @param barcode      原图片
      * @param targetWidth  目标宽度（建议值：360）
      * @param targetHeight 目标高度（建议值：640）
      * @param recycle      是否回收
      * @return 压缩后的图片
      */
-    public static Bitmap compressByScale(@NonNull Bitmap bitmap, @NonNull int targetWidth, @NonNull int targetHeight, boolean recycle) {
-        if (isEmptyBitmap(bitmap)) {
+    public static Bitmap compressByScale(@NonNull Bitmap barcode, @NonNull int targetWidth, @NonNull int targetHeight, boolean recycle) {
+        if (isEmptyBitmap(barcode)) {
             return null;
         }
         //压缩图片
         int scale;
-        if (bitmap.getWidth() < bitmap.getHeight()) {
-            if (bitmap.getWidth() <= targetWidth || bitmap.getHeight() <= targetHeight) {
+        Bitmap bitmap = null;
+        if (barcode.getWidth() < barcode.getHeight()) {
+            if (barcode.getWidth() <= targetWidth || barcode.getHeight() <= targetHeight) {
                 scale = 1;
             } else {
-                int widthScale = bitmap.getWidth() / targetWidth;
-                int heightScale = bitmap.getHeight() / targetHeight;
+                int widthScale = barcode.getWidth() / targetWidth;
+                int heightScale = barcode.getHeight() / targetHeight;
                 scale = widthScale < heightScale ? widthScale : heightScale;
             }
         } else {
-            if (bitmap.getWidth() <= targetHeight || bitmap.getHeight() <= targetWidth) {
+            if (barcode.getWidth() <= targetHeight || barcode.getHeight() <= targetWidth) {
                 scale = 1;
             } else {
-                int widthScale = bitmap.getWidth() / targetHeight;
-                int heightScale = bitmap.getHeight() / targetWidth;
+                int widthScale = barcode.getWidth() / targetHeight;
+                int heightScale = barcode.getHeight() / targetWidth;
                 scale = widthScale < heightScale ? widthScale : heightScale;
             }
         }
         // 如果缩放倍数大于1则对Bitmap实例进行压缩，如果小于1则无需压缩
         if (scale > 1) {
-            int imgWidth = bitmap.getWidth() / (scale + 1);
-            int imgHeight = bitmap.getHeight() / (scale + 1);
+            int imgWidth = barcode.getWidth() / (scale + 1);
+            int imgHeight = barcode.getHeight() / (scale + 1);
 
-            Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, imgWidth, imgHeight, true);
-            if (recycle && !bitmap.isRecycled()) {
-                bitmap.recycle();
-            }
-            return newBitmap;
+            bitmap = Bitmap.createScaledBitmap(barcode, imgWidth, imgHeight, true);
         }
-        return null;
+
+        if (bitmap == null) {
+            return barcode;
+        } else {
+            if (recycle && !barcode.isRecycled()) {
+                barcode.recycle();
+            }
+            return bitmap;
+        }
     }
 
     /**
      * 添加文字水印，支持换行
      *
-     * @param src      源图片
+     * @param barcode  原图片
      * @param content  水印文本
      * @param textSize 水印字体大小（sp）
      * @param color    水印字体颜色
@@ -83,24 +88,24 @@ public class BitmapUtils {
      * @param recycle  是否回收
      * @return 带有文字水印的图片
      */
-    public static Bitmap addTextWatermark(Context context, Bitmap src, String content, float textSize, int color, float x, float y, boolean recycle) {
-        if (isEmptyBitmap(src) || content == null) {
+    public static Bitmap addTextWatermark(Context context, Bitmap barcode, String content, float textSize, int color, float x, float y, boolean recycle) {
+        if (isEmptyBitmap(barcode) || content == null) {
             return null;
         }
-        Bitmap ret = src.copy(src.getConfig(), true);
+        Bitmap bitmap = barcode.copy(barcode.getConfig(), true);
         TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-        Canvas canvas = new Canvas(ret);
+        Canvas canvas = new Canvas(bitmap);
         paint.setColor(color);
         paint.setTextSize(sp2px(context, textSize));
         Rect bounds = new Rect();
         paint.getTextBounds(content, 0, content.length(), bounds);
-        StaticLayout layout = new StaticLayout(content, paint, (int) (ret.getWidth() - x), Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
+        StaticLayout layout = new StaticLayout(content, paint, (int) (bitmap.getWidth() - x), Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
         canvas.translate(x, y);
         layout.draw(canvas);
-        if (recycle && !src.isRecycled()) {
-            src.recycle();
+        if (recycle && !barcode.isRecycled()) {
+            barcode.recycle();
         }
-        return ret;
+        return bitmap;
     }
 
     /**
@@ -133,12 +138,15 @@ public class BitmapUtils {
                     }
                 }
             }
+        }
+        if (bitmap == null) {
+            return barcode;
+        } else {
             if (recycle && !barcode.isRecycled()) {
-                bitmap.recycle();
+                barcode.recycle();
             }
             return bitmap;
         }
-        return null;
     }
 
     private static void drawLine(Canvas canvas, Paint paint, ResultPoint a, ResultPoint b, float scaleFactor) {
