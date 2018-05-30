@@ -116,7 +116,6 @@ public final class ScanActivityHandler extends Handler {
                     intent.setPackage(browserPackageName);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(Browser.EXTRA_APPLICATION_ID, browserPackageName);
-
                 }
             }
 
