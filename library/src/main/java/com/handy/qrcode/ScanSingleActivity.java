@@ -39,12 +39,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
+import com.handy.qrcode.api.ScanResultListener;
 import com.handy.qrcode.support.BeepManager;
 import com.handy.qrcode.support.FinishListener;
 import com.handy.qrcode.support.InactivityTimer;
 import com.handy.qrcode.support.Preferences;
 import com.handy.qrcode.support.ScanActivityHandler;
-import com.handy.qrcode.support.ScanResultListener;
 import com.handy.qrcode.support.ViewfinderView;
 import com.handy.qrcode.support.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
