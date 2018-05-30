@@ -152,6 +152,8 @@ public final class CameraConfigurationUtils {
 
     public static void setFocusArea(Camera.Parameters parameters) {
         if (parameters.getMaxNumFocusAreas() > 0) {
+            String str = parameters.get("focus-areas").replace(" ", "");
+            parameters.set("focus-areas", str);
             Log.i(TAG, "Old focus areas: " + toString(parameters.getFocusAreas()));
             List<Camera.Area> middleArea = buildMiddleArea(AREA_PER_1000);
             Log.i(TAG, "Setting focus area to : " + toString(middleArea));
@@ -163,6 +165,8 @@ public final class CameraConfigurationUtils {
 
     public static void setMetering(Camera.Parameters parameters) {
         if (parameters.getMaxNumMeteringAreas() > 0) {
+            String str = parameters.get("metering-areas").replace(" ", "");
+            parameters.set("metering-areas", str);
             Log.i(TAG, "Old metering areas: " + parameters.getMeteringAreas());
             List<Camera.Area> middleArea = buildMiddleArea(AREA_PER_1000);
             Log.i(TAG, "Setting metering area to : " + toString(middleArea));
