@@ -14,11 +14,11 @@
  limitations under the License.
  -->
 <resources>
-    <item name="decode" type="id" />
-    <item name="decode_failed" type="id" />
-    <item name="decode_succeeded" type="id" />
-    <item name="launch_product_query" type="id" />
-    <item name="quit" type="id" />
-    <item name="restart_preview" type="id" />
-    <item name="return_scan_result" type="id" />
+    <item name="handy_qrcode_decode" type="id" />
+    <item name="handy_qrcode_decode_failed" type="id" />
+    <item name="handy_qrcode_decode_succeeded" type="id" />
+    <item name="handy_qrcode_launch_product_query" type="id" />
+    <item name="handy_qrcode_quit" type="id" />
+    <item name="handy_qrcode_restart_preview" type="id" />
+    <item name="handy_qrcode_return_scan_result" type="id" />
 </resources>

@@ -262,7 +262,7 @@ public final class ViewfinderView extends View {
      * 绘制提示语
      */
     private void drawTipText(Canvas canvas, int w, int h) {
-        String tip = getResources().getString(R.string.msg_default_status);
+        String tip = getResources().getString(R.string.handy_scan_hint_content);
         float l = (w - tip.length() * mTipPaint.getTextSize()) / 2;
         canvas.drawText(tip, l, h, mTipPaint);
     }

@@ -66,10 +66,10 @@ public final class CaptureActivityHandler extends Handler {
 
     @Override
     public void handleMessage(Message message) {
-        if (message.what == R.id.restart_preview) {
+        if (message.what == R.id.handy_qrcode_restart_preview) {
             restartPreviewAndDecode(true);
 
-        } else if (message.what == R.id.decode_succeeded) {
+        } else if (message.what == R.id.handy_qrcode_decode_succeeded) {
             state = State.SUCCESS;
             Bundle bundle = message.getData();
             Bitmap barcode = null;
@@ -85,16 +85,16 @@ public final class CaptureActivityHandler extends Handler {
             }
             activity.handleDecode((Result) message.obj, barcode, scaleFactor);
 
-        } else if (message.what == R.id.decode_failed) {
+        } else if (message.what == R.id.handy_qrcode_decode_failed) {
             // We're decoding as fast as possible, so when one decode fails, start another.
             state = State.PREVIEW;
-            cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+            cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.handy_qrcode_decode);
 
-        } else if (message.what == R.id.return_scan_result) {
+        } else if (message.what == R.id.handy_qrcode_return_scan_result) {
             activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
             activity.finish();
 
-        } else if (message.what == R.id.launch_product_query) {
+        } else if (message.what == R.id.handy_qrcode_launch_product_query) {
             String url = (String) message.obj;
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -129,7 +129,7 @@ public final class CaptureActivityHandler extends Handler {
     public void quitSynchronously() {
         state = State.DONE;
         cameraManager.stopPreview();
-        Message quit = Message.obtain(decodeThread.getHandler(), R.id.quit);
+        Message quit = Message.obtain(decodeThread.getHandler(), R.id.handy_qrcode_quit);
         quit.sendToTarget();
         try {
             // Wait at most half a second; should be enough time, and onPause() will timeout quickly
@@ -139,15 +139,15 @@ public final class CaptureActivityHandler extends Handler {
         }
 
         // Be absolutely sure we don't send any queued up messages
-        removeMessages(R.id.decode_succeeded);
-        removeMessages(R.id.decode_failed);
+        removeMessages(R.id.handy_qrcode_decode_succeeded);
+        removeMessages(R.id.handy_qrcode_decode_failed);
     }
 
     // TODO: 2018/5/28 重新扫描二维码
     public void restartPreviewAndDecode(boolean isDrawViewfinder) {
         if (state == State.SUCCESS) {
             state = State.PREVIEW;
-            cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+            cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.handy_qrcode_decode);
             if (isDrawViewfinder) {
                 activity.drawViewfinder();
             }
