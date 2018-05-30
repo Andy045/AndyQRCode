@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -105,3 +106,31 @@ static def releaseTime() {
     data = data.substring(2)
     return data
 }
+
+//-------------------- jitPack生成文档 --------------------
+tasks.withType(JavaCompile) { //指定编码
+    options.encoding = "UTF-8"
+}
+
+task sourcesJar(type: Jar) { //打包源码
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) { //制作文档(Javadoc)
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
