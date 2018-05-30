@@ -39,7 +39,14 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
-import com.handy.qrcode.camera.CameraManager;
+import com.handy.qrcode.support.BeepManager;
+import com.handy.qrcode.support.FinishListener;
+import com.handy.qrcode.support.InactivityTimer;
+import com.handy.qrcode.support.Preferences;
+import com.handy.qrcode.support.ScanActivityHandler;
+import com.handy.qrcode.support.ScanResultListener;
+import com.handy.qrcode.support.ViewfinderView;
+import com.handy.qrcode.support.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
@@ -54,10 +61,9 @@ import java.io.IOException;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class ScanActivity extends Activity implements SurfaceHolder.Callback {
+public final class ScanSingleActivity extends Activity implements SurfaceHolder.Callback {
 
-    private static final String TAG = ScanActivity.class.getSimpleName();
-    private Activity activity = ScanActivity.this;
+    private static final String TAG = ScanSingleActivity.class.getSimpleName();
 
     private TitleBar titleBar;
     private SurfaceView surfaceView;
@@ -71,31 +77,6 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
     private MyOrientationDetector myOrientationDetector;
 
     public static ScanResultListener scanResultListener;
-
-
-    public static void doIntent(Activity activity, int requestCode, boolean isfinish) {
-        doIntent(activity, null, null, requestCode, isfinish);
-    }
-
-    public static void doIntent(Activity activity, Bundle bundle, int requestCode, boolean isfinish) {
-        doIntent(activity, bundle, null, requestCode, isfinish);
-    }
-
-    public static void doIntent(Activity activity, ScanResultListener scanResultListener, int requestCode, boolean isfinish) {
-        doIntent(activity, null, scanResultListener, requestCode, isfinish);
-    }
-
-    public static void doIntent(Activity activity, Bundle bundle, ScanResultListener scanResultListener, int requestCode, boolean isfinish) {
-        Intent intent = new Intent(activity, ScanActivity.class);
-        if (bundle != null) {
-            intent.putExtras(bundle);
-        }
-        ScanActivity.scanResultListener = scanResultListener;
-        activity.startActivityForResult(intent, requestCode);
-        if (isfinish) {
-            activity.finish();
-        }
-    }
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -118,7 +99,7 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
                 titleBar.setBottomLineHeight(0);
             }
 
-            titleBar.setImmersive(activity, true);
+            titleBar.setImmersive(ScanSingleActivity.this, true);
             titleBar.setBottomLineBackground(R.color.handy_titlebar_bottomLine_background);
             titleBar.addLeftAction(new TitleBar.Action() {
                 @Override
@@ -255,7 +236,7 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
         beepManager.playBeepSoundAndVibrate();
 
         SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
-        View view = LayoutInflater.from(activity).inflate(R.layout.handy_view_snackbar, null);
+        View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_snackbar, null);
         TextView message = view.findViewById(R.id.snackbar_message);
         Button again = view.findViewById(R.id.snackbar_again);
         Button commit = view.findViewById(R.id.snackbar_commit);
@@ -293,7 +274,7 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
         SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
-    ViewfinderView getViewfinderView() {
+    public ViewfinderView getViewfinderView() {
         return viewfinderView;
     }
 
@@ -301,7 +282,7 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
         return handler;
     }
 
-    CameraManager getCameraManager() {
+    public CameraManager getCameraManager() {
         return cameraManager;
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.camera;
+package com.handy.qrcode.support.camera;
 
 import android.graphics.Point;
 import android.hardware.Camera;

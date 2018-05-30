@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.support;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -32,7 +32,9 @@ import android.provider.Browser;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
-import com.handy.qrcode.camera.CameraManager;
+import com.handy.qrcode.R;
+import com.handy.qrcode.ScanSingleActivity;
+import com.handy.qrcode.support.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
@@ -47,12 +49,12 @@ public final class ScanActivityHandler extends Handler {
 
     private static final String TAG = ScanActivityHandler.class.getSimpleName();
 
-    private final ScanActivity activity;
+    private final ScanSingleActivity activity;
     private final DecodeThread decodeThread;
     private final CameraManager cameraManager;
     private State state;
 
-    ScanActivityHandler(ScanActivity activity, Collection<BarcodeFormat> decodeFormats, Map<DecodeHintType, ?> baseHints, String characterSet, CameraManager cameraManager) {
+    public ScanActivityHandler(ScanSingleActivity activity, Collection<BarcodeFormat> decodeFormats, Map<DecodeHintType, ?> baseHints, String characterSet, CameraManager cameraManager) {
         this.activity = activity;
         decodeThread = new DecodeThread(activity, decodeFormats, baseHints, characterSet, new ViewfinderResultPointCallback(activity.getViewfinderView()));
         decodeThread.start();

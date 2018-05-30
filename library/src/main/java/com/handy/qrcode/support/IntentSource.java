@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 ZXing authors
+ * Copyright (C) 2011 ZXing authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.camera.open;
+package com.handy.qrcode.support;
 
-/**
- * Enumeration of directions a camera may face: front or back.
- */
-public enum CameraFacing {
-    /**
-     * must be value 0!
-     */
-    BACK,
-    /**
-     * must be value 1!
-     */
-    FRONT,
+enum IntentSource {
+
+    NATIVE_APP_INTENT,
+    PRODUCT_SEARCH_LINK,
+    ZXING_LINK,
+    NONE
 }

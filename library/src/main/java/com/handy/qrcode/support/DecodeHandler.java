@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.support;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -29,6 +29,8 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
+import com.handy.qrcode.R;
+import com.handy.qrcode.ScanSingleActivity;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -38,11 +40,11 @@ final class DecodeHandler extends Handler {
 
     private static final String TAG = DecodeHandler.class.getSimpleName();
 
-    private final ScanActivity activity;
+    private final ScanSingleActivity activity;
     private final MultiFormatReader multiFormatReader;
     private boolean running = true;
 
-    DecodeHandler(ScanActivity activity, Map<DecodeHintType, Object> hints) {
+    DecodeHandler(ScanSingleActivity activity, Map<DecodeHintType, Object> hints) {
         multiFormatReader = new MultiFormatReader();
         multiFormatReader.setHints(hints);
         this.activity = activity;

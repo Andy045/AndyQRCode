@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.camera;
+package com.handy.qrcode.support.camera;
 
 import android.hardware.Camera;
 import android.os.AsyncTask;
 
-import com.handy.qrcode.Preferences;
+import com.handy.qrcode.support.Preferences;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.ArrayList;

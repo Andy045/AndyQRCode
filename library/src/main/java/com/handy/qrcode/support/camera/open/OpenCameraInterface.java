@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.camera.open;
+package com.handy.qrcode.support.camera.open;
 
 import android.hardware.Camera;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.support;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -31,7 +31,7 @@ import java.util.concurrent.RejectedExecutionException;
 /**
  * Finishes an activity after a period of inactivity if the device is on battery power.
  */
-final class InactivityTimer {
+public final class InactivityTimer {
 
     private static final String TAG = InactivityTimer.class.getSimpleName();
 
@@ -42,14 +42,14 @@ final class InactivityTimer {
     private boolean registered;
     private AsyncTask<Object, Object, Object> inactivityTask;
 
-    InactivityTimer(Activity activity) {
+    public InactivityTimer(Activity activity) {
         this.activity = activity;
         powerStatusReceiver = new PowerStatusReceiver();
         registered = false;
         onActivity();
     }
 
-    synchronized void onActivity() {
+    public synchronized void onActivity() {
         cancel();
         inactivityTask = new InactivityAsyncTask();
         try {
@@ -59,7 +59,7 @@ final class InactivityTimer {
         }
     }
 
-    synchronized void onPause() {
+    public synchronized void onPause() {
         cancel();
         if (registered) {
             activity.unregisterReceiver(powerStatusReceiver);
@@ -69,7 +69,7 @@ final class InactivityTimer {
         }
     }
 
-    synchronized void onResume() {
+    public synchronized void onResume() {
         if (registered) {
             LogUtils.w(TAG, "PowerStatusReceiver was already registered?");
         } else {
@@ -87,7 +87,7 @@ final class InactivityTimer {
         }
     }
 
-    void shutdown() {
+    public void shutdown() {
         cancel();
     }
 

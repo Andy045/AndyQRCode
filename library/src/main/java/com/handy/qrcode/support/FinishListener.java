@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.support;
 
 import android.app.Activity;
 import android.content.DialogInterface;

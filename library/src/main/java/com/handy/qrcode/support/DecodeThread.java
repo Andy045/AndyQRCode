@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.support;
 
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -24,6 +24,7 @@ import android.preference.PreferenceManager;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
+import com.handy.qrcode.ScanSingleActivity;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
@@ -42,12 +43,12 @@ final class DecodeThread extends Thread {
     public static final String BARCODE_BITMAP = "barcode_bitmap";
     public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
 
-    private final ScanActivity activity;
+    private final ScanSingleActivity activity;
     private final Map<DecodeHintType, Object> hints;
     private final CountDownLatch handlerInitLatch;
     private Handler handler;
 
-    DecodeThread(ScanActivity activity, Collection<BarcodeFormat> decodeFormats, Map<DecodeHintType, ?> baseHints, String characterSet, ResultPointCallback resultPointCallback) {
+    DecodeThread(ScanSingleActivity activity, Collection<BarcodeFormat> decodeFormats, Map<DecodeHintType, ?> baseHints, String characterSet, ResultPointCallback resultPointCallback) {
 
         this.activity = activity;
         handlerInitLatch = new CountDownLatch(1);

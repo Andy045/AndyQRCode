@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.support;
 
 import android.app.Activity;
 import android.content.Context;
@@ -25,15 +25,17 @@ import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
+import com.handy.qrcode.R;
+import com.handy.qrcode.ScanSingleActivity;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * Manages beeps and vibrations for {@link ScanActivity}.
+ * Manages beeps and vibrations for {@link ScanSingleActivity}.
  */
-final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
+public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
 
     private static final String TAG = BeepManager.class.getSimpleName();
 
@@ -45,7 +47,7 @@ final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
     private boolean playBeep;
     private boolean vibrate;
 
-    BeepManager(Activity activity) {
+    public BeepManager(Activity activity) {
         this.activity = activity;
         this.mediaPlayer = null;
         updatePrefs();
@@ -63,7 +65,7 @@ final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
         return shouldPlayBeep;
     }
 
-    synchronized void updatePrefs() {
+    public synchronized void updatePrefs() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         playBeep = shouldBeep(prefs, activity);
         vibrate = Preferences.KEY_VIBRATE;
@@ -75,7 +77,7 @@ final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
         }
     }
 
-    synchronized void playBeepSoundAndVibrate() {
+    public synchronized void playBeepSoundAndVibrate() {
         if (playBeep && mediaPlayer != null) {
             mediaPlayer.start();
         }
