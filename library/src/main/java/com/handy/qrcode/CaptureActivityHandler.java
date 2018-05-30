@@ -28,12 +28,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Browser;
-import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.handy.qrcode.camera.CameraManager;
+import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -105,7 +105,7 @@ public final class CaptureActivityHandler extends Handler {
             String browserPackageName = null;
             if (resolveInfo != null && resolveInfo.activityInfo != null) {
                 browserPackageName = resolveInfo.activityInfo.packageName;
-                Log.d(TAG, "Using browser in package " + browserPackageName);
+                LogUtils.d(TAG, "Using browser in package " + browserPackageName);
             }
 
             // Needed for default Android browser / Chrome only apparently
@@ -121,7 +121,7 @@ public final class CaptureActivityHandler extends Handler {
             try {
                 activity.startActivity(intent);
             } catch (ActivityNotFoundException ignored) {
-                Log.w(TAG, "Can't find anything to handle VIEW of URI " + url);
+                LogUtils.w(TAG, "Can't find anything to handle VIEW of URI " + url);
             }
         }
     }

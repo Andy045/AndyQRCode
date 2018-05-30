@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.handy.qrcode.utils.LogUtils;
 
 import java.lang.reflect.Field;
 import java.util.LinkedList;
@@ -272,7 +273,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         try {
             StatusBar.setBackgroundResource(statusBarBackground);
         } catch (Exception e) {
-            Log.d("TitleBar", "资源ID设置有误");
+            LogUtils.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -286,7 +287,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             TopLineHeight = dpTopx(dividerHeight);
             TopLine.getLayoutParams().height = TopLineHeight;
         } else {
-            Log.e("TitleBar", " TopLineHeight 设置无效");
+            LogUtils.e("TitleBar", " TopLineHeight 设置无效");
         }
         onRefresh();
         return this;
@@ -296,7 +297,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         try {
             TopLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
-            Log.d("TitleBar", "资源ID设置有误");
+            LogUtils.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -310,7 +311,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             TitleBarHeight = dpTopx(height);
         } else {
             TitleBarHeight = dpTopx(DEFAULT_TITLEBAR_HEIGHT);
-            Log.e("TitleBar", " TitleBarHeight 设置无效，恢复为默认高度");
+            LogUtils.e("TitleBar", " TitleBarHeight 设置无效，恢复为默认高度");
         }
         onRefresh();
         return this;
@@ -323,7 +324,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         try {
             setBackgroundResource(resID);
         } catch (Exception e) {
-            Log.d("TitleBar", "资源ID设置有误");
+            LogUtils.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;
@@ -475,7 +476,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         try {
             CenterText.setBackgroundResource(resid);
         } catch (Exception e) {
-            Log.d("TitleBar", "资源ID设置有误");
+            LogUtils.d("TitleBar", "资源ID设置有误");
         }
         return this;
     }
@@ -519,7 +520,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         try {
             SubTitleText.setBackgroundResource(resid);
         } catch (Exception e) {
-            Log.d("TitleBar", "资源ID设置有误");
+            LogUtils.d("TitleBar", "资源ID设置有误");
         }
         return this;
     }
@@ -626,7 +627,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
             BottomLineHeight = dpTopx(dividerHeight);
             BottomLine.getLayoutParams().height = BottomLineHeight;
         } else {
-            Log.e("TitleBar", " BottomLineHeight 设置无效");
+            LogUtils.e("TitleBar", " BottomLineHeight 设置无效");
         }
         onRefresh();
         return this;
@@ -639,7 +640,7 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
         try {
             BottomLine.setBackgroundResource(backgroundresId);
         } catch (Exception e) {
-            Log.d("TitleBar", "资源ID设置有误");
+            LogUtils.d("TitleBar", "资源ID设置有误");
         }
         onRefresh();
         return this;

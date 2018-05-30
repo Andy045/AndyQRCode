@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.OrientationEventListener;
@@ -40,6 +39,7 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.camera.CameraManager;
+import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.utils.SnackbarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
@@ -221,7 +221,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             throw new IllegalStateException("No SurfaceHolder provided");
         }
         if (cameraManager.isOpen()) {
-            Log.w(TAG, "initCamera() while already open -- late SurfaceView callback?");
+            LogUtils.w(TAG, "initCamera() while already open -- late SurfaceView callback?");
             return;
         }
         try {
@@ -231,12 +231,12 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
                 handler = new CaptureActivityHandler(this, null, null, "utf-8", cameraManager);
             }
         } catch (IOException ioe) {
-            Log.w(TAG, ioe);
+            LogUtils.w(TAG, ioe);
             displayFrameworkBugMessageAndExit();
         } catch (RuntimeException e) {
             // Barcode Scanner has seen crashes in the wild of this variety:
             // java.?lang.?RuntimeException: Fail to connect to camera service
-            Log.w(TAG, "Unexpected error initializing camera", e);
+            LogUtils.w(TAG, "Unexpected error initializing camera", e);
             displayFrameworkBugMessageAndExit();
         }
     }
@@ -306,7 +306,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         if (holder == null) {
-            Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
+            LogUtils.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
         }
         if (!hasSurface) {
             hasSurface = true;
@@ -346,7 +346,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
         @Override
         public void onOrientationChanged(int orientation) {
-            Log.d(TAG, "orientation:" + orientation);
+            LogUtils.d(TAG, "orientation:" + orientation);
             if (orientation < 45 || orientation > 315) {
                 orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
             } else if (orientation > 225 && orientation < 315) {
@@ -356,12 +356,12 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             }
 
             if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
-                Log.i(TAG, "orientation:" + orientation);
+                LogUtils.i(TAG, "orientation:" + orientation);
                 Preferences.KEY_SCREEN_ORIENTATION = orientation;
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
-                Log.i(TAG, "SUCCESS");
+                LogUtils.i(TAG, "SUCCESS");
             }
         }
     }

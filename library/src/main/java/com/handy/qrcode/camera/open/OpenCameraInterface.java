@@ -17,7 +17,8 @@
 package com.handy.qrcode.camera.open;
 
 import android.hardware.Camera;
-import android.util.Log;
+
+import com.handy.qrcode.utils.LogUtils;
 
 /**
  * Abstraction over the {@link Camera} API that helps open them and return their metadata.
@@ -46,7 +47,7 @@ public final class OpenCameraInterface {
 
         int numCameras = Camera.getNumberOfCameras();
         if (numCameras == 0) {
-            Log.w(TAG, "No cameras!");
+            LogUtils.w(TAG, "No cameras!");
             return null;
         }
 
@@ -74,14 +75,14 @@ public final class OpenCameraInterface {
 
         Camera camera;
         if (index < numCameras) {
-            Log.i(TAG, "Opening camera #" + index);
+            LogUtils.i(TAG, "Opening camera #" + index);
             camera = Camera.open(index);
         } else {
             if (explicitRequest) {
-                Log.w(TAG, "Requested camera does not exist: " + cameraId);
+                LogUtils.w(TAG, "Requested camera does not exist: " + cameraId);
                 camera = null;
             } else {
-                Log.i(TAG, "No camera facing " + CameraFacing.BACK + "; returning camera #0");
+                LogUtils.i(TAG, "No camera facing " + CameraFacing.BACK + "; returning camera #0");
                 camera = Camera.open(0);
                 selectedCameraInfo = new Camera.CameraInfo();
                 Camera.getCameraInfo(0, selectedCameraInfo);
