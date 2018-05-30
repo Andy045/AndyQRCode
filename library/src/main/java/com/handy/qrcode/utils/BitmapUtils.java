@@ -99,8 +99,8 @@ public class BitmapUtils {
         paint.setTextSize(sp2px(context, textSize));
         Rect bounds = new Rect();
         paint.getTextBounds(content, 0, content.length(), bounds);
-        StaticLayout layout = new StaticLayout(content, paint, (int) (bitmap.getWidth() - x), Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
-        canvas.translate(x, y);
+        StaticLayout layout = new StaticLayout(content, paint, (int) (bitmap.getWidth() - (dp2px(context, x) * 2)), Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
+        canvas.translate(dp2px(context, x), dp2px(context, y));
         layout.draw(canvas);
         if (recycle && !barcode.isRecycled()) {
             barcode.recycle();
@@ -163,6 +163,17 @@ public class BitmapUtils {
      */
     private static boolean isEmptyBitmap(Bitmap src) {
         return src == null || src.getWidth() == 0 || src.getHeight() == 0;
+    }
+
+    /**
+     * dp 转 px
+     *
+     * @param dpValue dp 值
+     * @return px 值
+     */
+    private static float dp2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return dpValue * scale + 0.5f;
     }
 
     /**
