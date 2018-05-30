@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -108,15 +109,16 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         titleBar = findViewById(R.id.common_titlebar);
         if (titleBar != null) {
             if (Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                titleBar.setTitle(getResources().getString(R.string.app_name));
+                titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
+                titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
                 titleBar.setBottomLineHeight(1);
             } else if (Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 titleBar.setTitle("");
+                titleBar.setBackgroundColor(Color.TRANSPARENT);
                 titleBar.setBottomLineHeight(0);
             }
 
             titleBar.setImmersive(activity, true);
-            titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
             titleBar.setBottomLineBackground(R.color.handy_titlebar_bottomLine_background);
             titleBar.addLeftAction(new TitleBar.Action() {
                 @Override
@@ -326,9 +328,9 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     private void displayFrameworkBugMessageAndExit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.app_name));
-        builder.setMessage(getString(R.string.msg_camera_framework_bug));
-        builder.setPositiveButton(R.string.button_ok, new FinishListener(this));
+        builder.setTitle(getString(R.string.handy_scan_error_title));
+        builder.setMessage(getString(R.string.handy_scan_error_dialog_message));
+        builder.setPositiveButton(R.string.handy_scan_error_dialog_btn, new FinishListener(this));
         builder.setOnCancelListener(new FinishListener(this));
         builder.show();
     }
