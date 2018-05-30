@@ -17,12 +17,12 @@
     <!--扫描界面标题栏背景颜色-->
     <color name="handy_titlebar_background">#00000000</color>
     <!--扫描界面标题栏底部分割线背景颜色-->
-    <color name="handy_titlebar_bottomLine_background">#ffffffff</color>
+    <color name="handy_titlebar_bottomLine_background">#FFFFFFFF</color>
 
     <!--二维码扫描时，识别点描点-->
-    <color name="handy_qrcode_points_color">#c0ffbd21</color> <!-- Android standard ICS color -->
+    <color name="handy_qrcode_points_color">#C0FFBD21</color> <!-- Android standard ICS color -->
     <!--二维码扫描成功后，二维码Bitmap图片识别点描点-->
-    <color name="handy_result_points_color">#c099cc00</color>
+    <color name="handy_result_points_color">#C099CC00</color>
     <!--扫描界面，扫描框外的区域背景-->
     <color name="handy_viewfinder_mask_color">#60000000</color>
 
@@ -35,6 +35,13 @@
     <!--底部提示内容字体颜色-->
     <color name="handy_scan_hit_color">#FFFFFF</color>
 
+    <!--扫描结果提示框背景颜色-->
+    <color name="handy_scan_snackbar_background">#424242</color>
+    <!--扫描结果提示框字体颜色-->
+    <color name="handy_scan_snackbar_message_color">#FFFFFF</color>
+    <!--扫描结果提示框按钮字体颜色-->
+    <color name="handy_scan_snackbar_action_color">#7CB342</color>
+
     <!--扫描框四个边角长度-->
     <dimen name="handy_scan_corner_width">16dp</dimen>
     <!--扫描框四个边角厚度-->
@@ -45,11 +52,4 @@
     <dimen name="handy_scan_hit_marginTop">22dp</dimen>
     <!--底部提示文字字体大小-->
     <dimen name="handy_scan_hit_size">13sp</dimen>
-
-    <!--扫描结果提示框背景颜色-->
-    <color name="handy_scan_snackbar_background">#424242</color>
-    <!--扫描结果提示框字体颜色-->
-    <color name="handy_scan_snackbar_message_color">#ffffff</color>
-    <!--扫描结果提示框按钮字体颜色-->
-    <color name="handy_scan_snackbar_action_color">#7cb342</color>
 </resources>

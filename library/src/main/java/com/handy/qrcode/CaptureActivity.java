@@ -116,8 +116,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             }
 
             titleBar.setImmersive(activity, true);
-            titleBar.setTitleBackground(getResources().getColor(R.color.transparent));
-            titleBar.setBottomLineBackground(R.color.white);
+            titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
+            titleBar.setBottomLineBackground(R.color.handy_titlebar_bottomLine_background);
             titleBar.addLeftAction(new TitleBar.Action() {
                 @Override
                 public void onClick() {
