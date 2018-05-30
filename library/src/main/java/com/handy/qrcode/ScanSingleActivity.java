@@ -265,7 +265,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 scanResultListener.resultListener(rawResult, barcode, scaleFactor);
             }
             Intent intent = new Intent();
-            intent.putExtra("Result", rawResult.getText());
+            intent.putExtra(ScanSingleBuild.KEY_SCAN_RESULT, rawResult.getText());
+            intent.putExtra(ScanSingleBuild.KEY_SCAN_BITMAP, barcode);
             setResult(RESULT_OK, intent);
             finish();
         });
