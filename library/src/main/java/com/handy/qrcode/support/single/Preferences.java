@@ -76,7 +76,7 @@ public final class Preferences {
     /**
      * 不曝光
      */
-    public static boolean KEY_DISABLE_EXPOSURE = false;
+    public static boolean KEY_DISABLE_EXPOSURE = true;
     /**
      * 不使用距离测量
      */
