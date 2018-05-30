@@ -14,32 +14,42 @@
  limitations under the License.
  -->
 <resources>
-    <color name="white">#ffffffff</color>
+    <!--扫描界面标题栏背景颜色-->
+    <color name="handy_titlebar_background">#00000000</color>
+    <!--扫描界面标题栏底部分割线背景颜色-->
+    <color name="handy_titlebar_bottomLine_background">#ffffffff</color>
 
-    <color name="contents_text">#ff000000</color>
-    <color name="encode_view">#ffffffff</color>
-    <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
-    <color name="result_minor_text">#ffc0c0c0</color>
-    <color name="result_points">#c099cc00</color> <!-- Android standard ICS color -->
-    <color name="result_text">#ffffffff</color>
-    <color name="result_view">#b0000000</color>
-    <color name="status_text">#ffffffff</color>
-    <color name="transparent">#00000000</color>
-    <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
-    <color name="viewfinder_mask">#60000000</color>
+    <!--二维码扫描时，识别点描点-->
+    <color name="handy_qrcode_points_color">#c0ffbd21</color> <!-- Android standard ICS color -->
+    <!--二维码扫描成功后，二维码Bitmap图片识别点描点-->
+    <color name="handy_result_points_color">#c099cc00</color>
+    <!--扫描界面，扫描框外的区域背景-->
+    <color name="handy_viewfinder_mask_color">#60000000</color>
 
-    <color name="scan_frame_green_color">#65E102</color>
-    <color name="scan_line_color">#98C360</color>
-    <color name="scan_view_bg">#64000000</color>
-    <color name="scan_view_tip_color">#FFFFFF</color>
+    <!--扫描框四个角的背景色-->
+    <color name="handy_scan_corner_color">#65E102</color>
+    <!--扫描线颜色-->
+    <color name="handy_scan_centerLine_color">#98C360</color>
+    <!--扫描框四周边线颜色-->
+    <color name="handy_scan_focusLine_color">#FFFFFF</color>
+    <!--底部提示内容字体颜色-->
+    <color name="handy_scan_hit_color">#FFFFFF</color>
 
-    <dimen name="scanner_view_corner_width">16dp</dimen>
-    <dimen name="scanner_view_corner_thick">4dp</dimen>
-    <dimen name="scanner_view_focus_line_thick">1dp</dimen>
-    <dimen name="scanner_view_tip_top">22dp</dimen>
-    <dimen name="scanner_view_tip_size">13sp</dimen>
+    <!--扫描框四个边角长度-->
+    <dimen name="handy_scan_corner_width">16dp</dimen>
+    <!--扫描框四个边角厚度-->
+    <dimen name="handy_scan_corner_thick">4dp</dimen>
+    <!--扫描框四周边线宽度-->
+    <dimen name="handy_scan_focusLine_thick">1dp</dimen>
+    <!--底部提示文字离扫描框距离值-->
+    <dimen name="handy_scan_hit_marginTop">22dp</dimen>
+    <!--底部提示文字字体大小-->
+    <dimen name="handy_scan_hit_size">13sp</dimen>
 
-    <color name="handy_qrcode_snackbar_background">#424242</color>
-    <color name="handy_qrcode_snackbar_messagecolor">#ffffff</color>
-    <color name="handy_qrcode_snackbar_actioncolor">#7cb342</color>
+    <!--扫描结果提示框背景颜色-->
+    <color name="handy_scan_snackbar_background">#424242</color>
+    <!--扫描结果提示框字体颜色-->
+    <color name="handy_scan_snackbar_message_color">#ffffff</color>
+    <!--扫描结果提示框按钮字体颜色-->
+    <color name="handy_scan_snackbar_action_color">#7cb342</color>
 </resources>
