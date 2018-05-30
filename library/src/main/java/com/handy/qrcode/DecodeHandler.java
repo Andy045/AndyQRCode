@@ -38,11 +38,11 @@ final class DecodeHandler extends Handler {
 
     private static final String TAG = DecodeHandler.class.getSimpleName();
 
-    private final CaptureActivity activity;
+    private final ScanActivity activity;
     private final MultiFormatReader multiFormatReader;
     private boolean running = true;
 
-    DecodeHandler(CaptureActivity activity, Map<DecodeHintType, Object> hints) {
+    DecodeHandler(ScanActivity activity, Map<DecodeHintType, Object> hints) {
         multiFormatReader = new MultiFormatReader();
         multiFormatReader.setHints(hints);
         this.activity = activity;

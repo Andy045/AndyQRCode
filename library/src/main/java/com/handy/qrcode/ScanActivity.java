@@ -41,7 +41,7 @@ import android.widget.TextView;
 import com.google.zxing.Result;
 import com.handy.qrcode.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
-import com.handy.qrcode.utils.SnackbarUtils;
+import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
@@ -54,10 +54,10 @@ import java.io.IOException;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class CaptureActivity extends Activity implements SurfaceHolder.Callback {
+public final class ScanActivity extends Activity implements SurfaceHolder.Callback {
 
-    private Activity activity = CaptureActivity.this;
-    private static final String TAG = CaptureActivity.class.getSimpleName();
+    private static final String TAG = ScanActivity.class.getSimpleName();
+    private Activity activity = ScanActivity.this;
 
     private TitleBar titleBar;
     private SurfaceView surfaceView;
@@ -86,11 +86,11 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     }
 
     public static void doIntent(Activity activity, Bundle bundle, ScanResultListener scanResultListener, int requestCode, boolean isfinish) {
-        Intent intent = new Intent(activity, CaptureActivity.class);
+        Intent intent = new Intent(activity, ScanActivity.class);
         if (bundle != null) {
             intent.putExtras(bundle);
         }
-        CaptureActivity.scanResultListener = scanResultListener;
+        ScanActivity.scanResultListener = scanResultListener;
         activity.startActivityForResult(intent, requestCode);
         if (isfinish) {
             activity.finish();
@@ -102,7 +102,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         super.onCreate(icicle);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.handy_activity_capture);
+        setContentView(R.layout.handy_activity_scan);
 
         surfaceView = findViewById(R.id.preview_view);
         viewfinderView = findViewById(R.id.viewfinder_view);
@@ -128,7 +128,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
                 @Override
                 public int setDrawable() {
-                    return R.drawable.boco_select_titlebar_back;
+                    return R.drawable.handy_qrcode_select_titlebar_back;
                 }
             });
             titleBar.addRightAction(new TitleBar.Action() {
@@ -143,7 +143,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
                 @Override
                 public int setDrawable() {
-                    return Preferences.KEY_USE_LIGHT ? R.drawable.boco_icon_light_c : R.drawable.boco_icon_light_n;
+                    return Preferences.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
                 }
             });
         }
@@ -254,7 +254,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
-        SnackbarUtils snackbarUtils = SnackbarUtils.with(findViewById(R.id.parent_layout));
+        SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
         View view = LayoutInflater.from(activity).inflate(R.layout.handy_view_snackbar, null);
         TextView message = view.findViewById(R.id.snackbar_message);
         Button again = view.findViewById(R.id.snackbar_again);
@@ -262,7 +262,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
         message.setText(rawResult.getText());
         again.setOnClickListener(v -> {
-            SnackbarUtils.dismiss();
+            SnackBarUtils.dismiss();
             new CountDownTimer(1000, 1000) {
 
                 @Override
@@ -279,7 +279,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             }.start();
         });
         commit.setOnClickListener(v -> {
-            SnackbarUtils.dismiss();
+            SnackBarUtils.dismiss();
             if (scanResultListener != null) {
                 scanResultListener.resultListener(rawResult, barcode, scaleFactor);
             }
@@ -288,9 +288,9 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
             setResult(RESULT_OK, intent);
             finish();
         });
-        snackbarUtils.setDuration(SnackbarUtils.LENGTH_INDEFINITE);
-        snackbarUtils.show();
-        SnackbarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
+        snackBarUtils.show();
+        SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     ViewfinderView getViewfinderView() {

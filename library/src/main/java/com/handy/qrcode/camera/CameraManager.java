@@ -185,7 +185,7 @@ public final class CameraManager {
     }
 
     /**
-     * Convenience method for CaptureActivity
+     * Convenience method for ScanActivity
      *
      * @param newSetting if {@code true}, light should be turned on if currently off. And vice versa.
      */

@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * This class handles all the messaging which comprises the state machine for handy_activity_capture.
+ * This class handles all the messaging which comprises the state machine for handy_activity_scan.
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */
@@ -47,12 +47,12 @@ public final class CaptureActivityHandler extends Handler {
 
     private static final String TAG = CaptureActivityHandler.class.getSimpleName();
 
-    private final CaptureActivity activity;
+    private final ScanActivity activity;
     private final DecodeThread decodeThread;
     private final CameraManager cameraManager;
     private State state;
 
-    CaptureActivityHandler(CaptureActivity activity, Collection<BarcodeFormat> decodeFormats, Map<DecodeHintType, ?> baseHints, String characterSet, CameraManager cameraManager) {
+    CaptureActivityHandler(ScanActivity activity, Collection<BarcodeFormat> decodeFormats, Map<DecodeHintType, ?> baseHints, String characterSet, CameraManager cameraManager) {
         this.activity = activity;
         decodeThread = new DecodeThread(activity, decodeFormats, baseHints, characterSet, new ViewfinderResultPointCallback(activity.getViewfinderView()));
         decodeThread.start();
