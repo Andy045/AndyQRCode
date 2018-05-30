@@ -1,17 +1,16 @@
 package com.handy.qrcode.app;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.handy.base.app.BaseActivity;
 import com.handy.qrcode.ScanActivity;
 import com.handy.qrcode.utils.BitmapUtils;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -32,10 +31,8 @@ public class MainActivity extends BaseActivity {
             ((TextView) findViewById(R.id.result)).setText("");
             ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 
-            ScanActivity.doIntent(activity, new Bundle(), (rawResult, barcode, scaleFactor) -> {
-                Log.d("==============", rawResult.getText());
-                Toast.makeText(activity, rawResult.getText(), Toast.LENGTH_SHORT).show();
-                BitmapUtils.drawResultPoints(context, barcode, scaleFactor, rawResult);
+            ScanActivity.doIntent(MainActivity.this, new Bundle(), (rawResult, barcode, scaleFactor) -> {
+                BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult);
 
                 ((TextView) findViewById(R.id.result)).setText("扫描结果：" + rawResult.getText());
                 ((ImageView) findViewById(R.id.image)).setImageBitmap(barcode);
