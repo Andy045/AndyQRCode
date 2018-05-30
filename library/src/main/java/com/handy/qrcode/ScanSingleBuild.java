@@ -15,16 +15,20 @@ import com.handy.qrcode.support.ScanResultListener;
  * @date Created in 2018/5/30 下午3:48
  * @modified By LiuJie
  */
-public class ScanBuild {
+public class ScanSingleBuild {
+
     private int requestCode = 100;
     private boolean isFinish = false;
     private boolean isRecord = false;
     private ScanResultListener scanResultListener = null;
 
+    public ScanSingleBuild() {
+    }
+
     /**
      * 带回调跳转请求编码（默认100）
      */
-    public ScanBuild setRequestCode(int requestCode) {
+    public ScanSingleBuild setRequestCode(int requestCode) {
         this.requestCode = requestCode;
         return this;
     }
@@ -32,7 +36,7 @@ public class ScanBuild {
     /**
      * 是否关闭当前Activity
      */
-    public ScanBuild setFinish(boolean finish) {
+    public ScanSingleBuild setFinish(boolean finish) {
         isFinish = finish;
         return this;
     }
@@ -40,7 +44,7 @@ public class ScanBuild {
     /**
      * 是否将扫描结果记录到缓存里
      */
-    public ScanBuild setRecord(boolean record) {
+    public ScanSingleBuild setRecord(boolean record) {
         isRecord = record;
         return this;
     }
@@ -48,7 +52,7 @@ public class ScanBuild {
     /**
      * 扫描完成的回调接口
      */
-    public ScanBuild setScanResultListener(ScanResultListener scanResultListener) {
+    public ScanSingleBuild setScanResultListener(ScanResultListener scanResultListener) {
         this.scanResultListener = scanResultListener;
         return this;
     }
