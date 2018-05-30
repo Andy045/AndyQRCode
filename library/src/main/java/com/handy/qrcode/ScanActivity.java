@@ -66,7 +66,7 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
     private boolean hasSurface;
     private BeepManager beepManager;
     private CameraManager cameraManager;
-    private CaptureActivityHandler handler;
+    private ScanActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private MyOrientationDetector myOrientationDetector;
 
@@ -230,7 +230,7 @@ public final class ScanActivity extends Activity implements SurfaceHolder.Callba
             cameraManager.openDriver(surfaceHolder);
             // Creating the handler starts the preview, which can also throw a RuntimeException.
             if (handler == null) {
-                handler = new CaptureActivityHandler(this, null, null, "utf-8", cameraManager);
+                handler = new ScanActivityHandler(this, null, null, "utf-8", cameraManager);
             }
         } catch (IOException ioe) {
             LogUtils.w(TAG, ioe);

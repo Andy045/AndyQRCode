@@ -92,11 +92,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation project(':library')
+    implementation rootProject.ext.dependencies.api_appcompatV7
 
-    implementation rootProject.ext.dependencies.api_HandyBase
-    implementation rootProject.ext.dependencies.api_HandyTitleBar
-    implementation rootProject.ext.dependencies.api_JointSweetAlertDialog
+    implementation project(':library')
 }
 
 // 获取当前系统时间
