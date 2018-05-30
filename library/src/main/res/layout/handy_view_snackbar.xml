@@ -12,7 +12,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="扫描结果:"
-        android:textColor="@color/handy_scan_snackbar_messagecolor"
+        android:textColor="@color/handy_scan_snackbar_message_color"
         android:textSize="13sp" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:gravity="center_vertical|start"
         android:padding="10dp"
         android:text=""
-        android:textColor="@color/handy_scan_snackbar_messagecolor"
+        android:textColor="@color/handy_scan_snackbar_message_color"
         android:textIsSelectable="true"
         android:textSize="13sp" />
 
@@ -40,7 +40,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="重试"
-        android:textColor="@color/handy_scan_snackbar_actioncolor"
+        android:textColor="@color/handy_scan_snackbar_action_color"
         android:textSize="13sp" />
 
     <Button
@@ -53,6 +53,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="确定"
-        android:textColor="@color/handy_scan_snackbar_actioncolor"
+        android:textColor="@color/handy_scan_snackbar_action_color"
         android:textSize="13sp" />
 </LinearLayout>
