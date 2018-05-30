@@ -19,14 +19,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
 /**
- * Snackbar工具类
+ * SnackBar工具类
  *
  * @author LiuJie https://www.Handy045.com
- * @description 类功能内容
+ * @description 创建底部SncakBar
  * @date Created in 2018/5/29 下午4:34
  * @modified By LiuJie
  */
-public final class SnackbarUtils {
+public final class SnackBarUtils {
 
     public static final int LENGTH_INDEFINITE = -2;
     public static final int LENGTH_SHORT = -1;
@@ -48,7 +48,7 @@ public final class SnackbarUtils {
     private View.OnClickListener actionListener;
     private int bottomMargin;
 
-    private SnackbarUtils(final View parent) {
+    private SnackBarUtils(final View parent) {
         setDefault();
         this.view = parent;
     }
@@ -57,10 +57,10 @@ public final class SnackbarUtils {
      * Set the view to find a parent from.
      *
      * @param view The view to find a parent from.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public static SnackbarUtils with(@NonNull final View view) {
-        return new SnackbarUtils(view);
+    public static SnackBarUtils with(@NonNull final View view) {
+        return new SnackBarUtils(view);
     }
 
     /**
@@ -134,9 +134,9 @@ public final class SnackbarUtils {
      * Set the message.
      *
      * @param msg The message.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public SnackbarUtils setMessage(@NonNull final CharSequence msg) {
+    public SnackBarUtils setMessage(@NonNull final CharSequence msg) {
         this.message = msg;
         return this;
     }
@@ -145,9 +145,9 @@ public final class SnackbarUtils {
      * Set the color of message.
      *
      * @param color The color of message.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public SnackbarUtils setMessageColor(@ColorInt final int color) {
+    public SnackBarUtils setMessageColor(@ColorInt final int color) {
         this.messageColor = color;
         return this;
     }
@@ -156,9 +156,9 @@ public final class SnackbarUtils {
      * Set the color of background.
      *
      * @param color The color of background.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public SnackbarUtils setBgColor(@ColorInt final int color) {
+    public SnackBarUtils setBgColor(@ColorInt final int color) {
         this.bgColor = color;
         return this;
     }
@@ -167,9 +167,9 @@ public final class SnackbarUtils {
      * Set the resource of background.
      *
      * @param bgResource The resource of background.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public SnackbarUtils setBgResource(@DrawableRes final int bgResource) {
+    public SnackBarUtils setBgResource(@DrawableRes final int bgResource) {
         this.bgResource = bgResource;
         return this;
     }
@@ -183,9 +183,9 @@ public final class SnackbarUtils {
      *                 <li>{@link Duration#LENGTH_SHORT     }</li>
      *                 <li>{@link Duration#LENGTH_LONG      }</li>
      *                 </ul>
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public SnackbarUtils setDuration(@Duration final int duration) {
+    public SnackBarUtils setDuration(@Duration final int duration) {
         this.duration = duration;
         return this;
     }
@@ -195,9 +195,9 @@ public final class SnackbarUtils {
      *
      * @param text     The text.
      * @param listener The click listener.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
-    public SnackbarUtils setAction(@NonNull final CharSequence text,
+    public SnackBarUtils setAction(@NonNull final CharSequence text,
                                    @NonNull final View.OnClickListener listener) {
         return setAction(text, COLOR_DEFAULT, listener);
     }
@@ -208,10 +208,10 @@ public final class SnackbarUtils {
      * @param text     The text.
      * @param color    The color of text.
      * @param listener The click listener.
-     * @return the single {@link SnackbarUtils} instance
+     * @return the single {@link SnackBarUtils} instance
      */
 
-    public SnackbarUtils setAction(@NonNull final CharSequence text,
+    public SnackBarUtils setAction(@NonNull final CharSequence text,
                                    @ColorInt final int color,
                                    @NonNull final View.OnClickListener listener) {
         this.actionText = text;
@@ -225,7 +225,7 @@ public final class SnackbarUtils {
      *
      * @param bottomMargin The size of bottom margin, in pixel.
      */
-    public SnackbarUtils setBottomMargin(@IntRange(from = 1) final int bottomMargin) {
+    public SnackBarUtils setBottomMargin(@IntRange(from = 1) final int bottomMargin) {
         this.bottomMargin = bottomMargin;
         return this;
     }

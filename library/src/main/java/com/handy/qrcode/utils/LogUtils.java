@@ -3,10 +3,10 @@ package com.handy.qrcode.utils;
 import android.util.Log;
 
 /**
- * 类名
+ * 日志工具类
  *
  * @author LiuJie https://www.Handy045.com
- * @description 类功能内容
+ * @description 是否在控制台打印日志
  * @date Created in 2018/5/30 上午10:45
  * @modified By LiuJie
  */
