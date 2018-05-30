@@ -41,7 +41,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * This class handles all the messaging which comprises the state machine for handy_activity_scan.
+ * This class handles all the messaging which comprises the state machine for handy_activity_scan_single.
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */

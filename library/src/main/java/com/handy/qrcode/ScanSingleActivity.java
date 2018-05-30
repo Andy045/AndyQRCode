@@ -83,7 +83,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         super.onCreate(icicle);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.handy_activity_scan);
+        setContentView(R.layout.handy_activity_scan_single);
 
         surfaceView = findViewById(R.id.preview_view);
         viewfinderView = findViewById(R.id.viewfinder_view);
@@ -236,7 +236,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         beepManager.playBeepSoundAndVibrate();
 
         SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
-        View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_snackbar, null);
+        View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
         TextView message = view.findViewById(R.id.snackbar_message);
         Button again = view.findViewById(R.id.snackbar_again);
         Button commit = view.findViewById(R.id.snackbar_commit);
