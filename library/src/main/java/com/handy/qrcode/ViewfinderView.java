@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -51,8 +50,8 @@ public final class ViewfinderView extends View {
     private final Paint paint;
     private Bitmap resultBitmap;
     private final int maskColor;
-    private final int resultColor;
     private final int resultPointColor;
+    private final int mFocusLineColor;
     private int scannerAlpha;
     private List<ResultPoint> possibleResultPoints;
 
@@ -66,17 +65,10 @@ public final class ViewfinderView extends View {
     private int mTipPaddingTop;
     private int mFocusLineThick;
 
-    // This constructor is used when the class is built from an XML resource.
     public ViewfinderView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        // Initialize these once for performance rather than calling them every time in onDraw().
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        Resources resources = getResources();
-        maskColor = resources.getColor(R.color.viewfinder_mask);
-        resultColor = resources.getColor(R.color.result_view);
-        resultPointColor = resources.getColor(R.color.possible_result_points);
         scannerAlpha = 0;
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         possibleResultPoints = new ArrayList<>(5);
 
         mCornerPaint = new Paint();
@@ -84,23 +76,28 @@ public final class ViewfinderView extends View {
         mTipPaint = new Paint();
         mLaserPaint = new Paint();
 
+        Resources resources = getResources();
+        maskColor = resources.getColor(R.color.handy_viewfinder_mask_color);
+        resultPointColor = resources.getColor(R.color.handy_qrcode_points_color);
+        mFocusLineColor = resources.getColor(R.color.handy_scan_focusLine_color);
+
         mCornerPaint.setAntiAlias(true);
-        mCornerPaint.setColor(getResources().getColor(R.color.scan_frame_green_color));
+        mCornerPaint.setColor(resources.getColor(R.color.handy_scan_corner_color));
 
         mFocusFramePaint.setAntiAlias(true);
-        mFocusFramePaint.setColor(Color.WHITE);
+        mFocusFramePaint.setColor(mFocusLineColor);
 
         mTipPaint.setAntiAlias(true);
-        mTipPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.scanner_view_tip_size));
-        mTipPaint.setColor(getResources().getColor(R.color.scan_view_tip_color));
+        mTipPaint.setTextSize(resources.getDimensionPixelSize(R.dimen.handy_scan_hit_size));
+        mTipPaint.setColor(resources.getColor(R.color.handy_scan_hit_color));
 
         mLaserPaint.setAntiAlias(true);
-        mLaserPaint.setColor(getResources().getColor(R.color.scan_line_color));
+        mLaserPaint.setColor(resources.getColor(R.color.handy_scan_centerLine_color));
 
-        mCornerLength = getResources().getDimensionPixelSize(R.dimen.scanner_view_corner_width);
-        mCornerThick = getResources().getDimensionPixelSize(R.dimen.scanner_view_corner_thick);
-        mTipPaddingTop = getResources().getDimensionPixelSize(R.dimen.scanner_view_tip_top);
-        mFocusLineThick = getResources().getDimensionPixelSize(R.dimen.scanner_view_focus_line_thick);
+        mCornerLength = resources.getDimensionPixelSize(R.dimen.handy_scan_corner_width);
+        mCornerThick = resources.getDimensionPixelSize(R.dimen.handy_scan_corner_thick);
+        mTipPaddingTop = resources.getDimensionPixelSize(R.dimen.handy_scan_hit_marginTop);
+        mFocusLineThick = resources.getDimensionPixelSize(R.dimen.handy_scan_focusLine_thick);
     }
 
     public void setCameraManager(CameraManager cameraManager) {
@@ -122,7 +119,7 @@ public final class ViewfinderView extends View {
         int height = canvas.getHeight();
 
         // Draw the exterior (i.e. outside the framing rect) darkened
-        paint.setColor(resultBitmap != null ? resultColor : maskColor);
+        paint.setColor(maskColor);
         canvas.drawRect(0, 0, width, frame.top, paint);
         canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
         canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
