@@ -22,6 +22,8 @@ public class ScanSingleBuild {
     private int requestCode = 100;
     private boolean isFinish = false;
 
+    private ScanResultListener scanResultListener = null;
+
     public ScanSingleBuild() {
     }
 
@@ -45,7 +47,7 @@ public class ScanSingleBuild {
      * 扫描完成的回调接口（默认：NULL）
      */
     public ScanSingleBuild setScanResultListener(ScanResultListener scanResultListener) {
-        ScanSingleConfig.scanResultListener = scanResultListener;
+        this.scanResultListener = scanResultListener;
         return this;
     }
 
@@ -53,6 +55,10 @@ public class ScanSingleBuild {
      * 启动扫描界面
      */
     public void start(@NonNull Activity activity) {
+        ScanSingleConfig.scanResultListener = null;
+        if (this.scanResultListener != null) {
+            ScanSingleConfig.scanResultListener = scanResultListener;
+        }
         activity.startActivityForResult(new Intent(activity, ScanSingleActivity.class), requestCode);
         if (isFinish) {
             activity.finish();
