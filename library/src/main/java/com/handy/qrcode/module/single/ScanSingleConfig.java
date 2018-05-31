@@ -18,6 +18,8 @@ package com.handy.qrcode.module.single;
 
 import android.content.pm.ActivityInfo;
 
+import com.handy.qrcode.api.ScanResultListener;
+
 /**
  * The main settings activity.
  *
@@ -25,6 +27,12 @@ import android.content.pm.ActivityInfo;
  * @author Sean Owen
  */
 public final class ScanSingleConfig {
+
+    /**
+     * 扫描成功回调接口
+     */
+    public static ScanResultListener scanResultListener = null;
+
     /**
      * 一维码：商品
      */
@@ -92,7 +100,7 @@ public final class ScanSingleConfig {
     /**
      * 屏幕自动旋转
      */
-    public static boolean KEY_AUTO_ORIENTATION = false;
+    public static boolean KEY_AUTO_ORIENTATION = true;
     /**
      * 屏幕竖屏旋转方向 (默认竖屏)
      */
