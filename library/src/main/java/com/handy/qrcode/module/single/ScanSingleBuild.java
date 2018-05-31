@@ -79,7 +79,7 @@ public class ScanSingleBuild {
         bundle.putString("recordKey", recordKey);
         intent.putExtras(bundle);
 
-        ScanSingleActivity.scanResultListener = scanResultListener;
+        ScanSingleConfig.scanResultListener = scanResultListener;
 
         activity.startActivityForResult(intent, requestCode);
         if (isFinish) {
