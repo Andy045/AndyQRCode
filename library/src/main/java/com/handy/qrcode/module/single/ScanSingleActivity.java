@@ -257,21 +257,21 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         });
         commit.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
-            Intent intent = new Intent();
-            intent.putExtra(ScanSingleBuild.KEY_SCAN_RESULT_STRING, rawResult.getText());
-
-            Bitmap bitmap = barcode.copy(barcode.getConfig(), true);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            intent.putExtra(ScanSingleBuild.KEY_SCAN_BITMAP_BYTEARRAY, byteArrayOutputStream.toByteArray());
-
-            setResult(RESULT_OK, intent);
-            finish();
-
             if (ScanSingleConfig.scanResultListener != null) {
                 ScanSingleConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
                 ScanSingleConfig.scanResultListener = null;
+            } else {
+                Intent intent = new Intent();
+                intent.putExtra(ScanSingleConfig.KEY_SCAN_RESULT_STRING, rawResult.getText());
+
+                Bitmap bitmap = barcode.copy(barcode.getConfig(), true);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                intent.putExtra(ScanSingleConfig.KEY_SCAN_BITMAP_BYTEARRAY, byteArrayOutputStream.toByteArray());
+
+                setResult(RESULT_OK, intent);
             }
+            finish();
         });
         snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
         snackBarUtils.show();
