@@ -2,7 +2,6 @@ package com.handy.qrcode.module.single;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.handy.qrcode.api.ScanResultListener;
@@ -17,13 +16,11 @@ import com.handy.qrcode.api.ScanResultListener;
  */
 public class ScanSingleBuild {
 
-    public static final String KEY_SCAN_RESULT = "KEY_SCAN_RESULT";
+    public static final String KEY_SCAN_RESULT_STRING = "KEY_SCAN_RESULT_STRING";
+    public static final String KEY_SCAN_BITMAP_BYTEARRAY = "KEY_SCAN_BITMAP_BYTEARRAY";
+
     private int requestCode = 100;
     private boolean isFinish = false;
-    private boolean isRecord = false;
-    private String recordKey = "HandyQRCode";
-
-    private ScanResultListener scanResultListener = null;
 
     public ScanSingleBuild() {
     }
@@ -45,26 +42,10 @@ public class ScanSingleBuild {
     }
 
     /**
-     * 是否将扫描结果记录到缓存里（默认：false）
-     */
-    public ScanSingleBuild setRecord(boolean isRecord) {
-        this.isRecord = isRecord;
-        return this;
-    }
-
-    /**
-     * 如果需要记录扫描结果，则需要传入记录值得关键字（默认：HandyQRCode）
-     */
-    public ScanSingleBuild setRecordKey(String recordKey) {
-        this.recordKey = recordKey;
-        return this;
-    }
-
-    /**
      * 扫描完成的回调接口（默认：NULL）
      */
     public ScanSingleBuild setScanResultListener(ScanResultListener scanResultListener) {
-        this.scanResultListener = scanResultListener;
+        ScanSingleConfig.scanResultListener = scanResultListener;
         return this;
     }
 
@@ -72,16 +53,7 @@ public class ScanSingleBuild {
      * 启动扫描界面
      */
     public void start(@NonNull Activity activity) {
-        Intent intent = new Intent(activity, ScanSingleActivity.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("isRecord", isRecord);
-        bundle.putString("recordKey", recordKey);
-        intent.putExtras(bundle);
-
-        ScanSingleConfig.scanResultListener = scanResultListener;
-
-        activity.startActivityForResult(intent, requestCode);
+        activity.startActivityForResult(new Intent(activity, ScanSingleActivity.class), requestCode);
         if (isFinish) {
             activity.finish();
         }
