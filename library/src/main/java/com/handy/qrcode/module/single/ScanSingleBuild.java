@@ -34,7 +34,7 @@ public class ScanSingleBuild {
      *
      * @param activity 当前Activity
      */
-    public void start(@NonNull Activity activity) {
+    public void start(@NonNull Activity activity) throws Exception {
         start(activity, false);
     }
 
@@ -44,12 +44,14 @@ public class ScanSingleBuild {
      * @param activity 当前Activity
      * @param isFinish 是否结束当前Activity
      */
-    public void start(@NonNull Activity activity, boolean isFinish) {
+    public void start(@NonNull Activity activity, boolean isFinish) throws Exception {
         ScanSingleConfig.scanResultListener = null;
         if (this.scanResultListener != null) {
             ScanSingleConfig.scanResultListener = scanResultListener;
+        } else {
+            throw new Exception("NullPointerException: ScanSingleConfig.scanResultListener is NULL! you mast setScanResultListener in this Class.");
         }
-        activity.startActivityForResult(new Intent(activity, ScanSingleActivity.class), ScanSingleConfig.CODE_SCAN_REQUEST);
+        activity.startActivity(new Intent(activity, ScanSingleActivity.class));
         if (isFinish) {
             activity.finish();
         }
