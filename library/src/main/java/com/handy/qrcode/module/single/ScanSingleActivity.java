@@ -50,7 +50,6 @@ import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -260,16 +259,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             if (ScanSingleConfig.scanResultListener != null) {
                 ScanSingleConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
                 ScanSingleConfig.scanResultListener = null;
-            } else {
-                Intent intent = new Intent();
-                intent.putExtra(ScanSingleConfig.KEY_SCAN_RESULT_STRING, rawResult.getText());
-
-                Bitmap bitmap = barcode.copy(barcode.getConfig(), true);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                intent.putExtra(ScanSingleConfig.KEY_SCAN_BITMAP_BYTEARRAY, byteArrayOutputStream.toByteArray());
-
-                setResult(RESULT_OK, intent);
             }
             finish();
         });
