@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
-import com.handy.qrcode.support.single.Preferences;
+import com.handy.qrcode.ScanSingleConfig;
 import com.handy.qrcode.support.single.camera.open.OpenCamera;
 import com.handy.qrcode.support.single.camera.open.OpenCameraInterface;
 import com.handy.qrcode.utils.LogUtils;
@@ -337,7 +337,7 @@ public final class CameraManager {
      */
     public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
         // Go ahead and assume it's YUV rather than die.
-        if (Preferences.KEY_SCAN_FULLSCREEN) {
+        if (ScanSingleConfig.KEY_SCAN_FULLSCREEN) {
             return new PlanarYUVLuminanceSource(data, width, height, 0, 0, width, height, false);
         } else {
             Rect rect = getFramingRectInPreview();

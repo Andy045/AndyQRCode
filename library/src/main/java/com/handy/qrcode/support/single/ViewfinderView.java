@@ -28,6 +28,7 @@ import android.view.View;
 
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.R;
+import com.handy.qrcode.ScanSingleConfig;
 import com.handy.qrcode.support.single.camera.CameraManager;
 
 import java.util.ArrayList;
@@ -197,7 +198,7 @@ public final class ViewfinderView extends View {
                 paint.setAlpha(CURRENT_POINT_OPACITY);
                 paint.setColor(resultPointColor);
                 synchronized (currentPossible) {
-                    if (Preferences.KEY_SCAN_FULLSCREEN) {
+                    if (ScanSingleConfig.KEY_SCAN_FULLSCREEN) {
                         for (ResultPoint point : currentPossible) {
                             canvas.drawCircle((int) (point.getX() * scaleX), (int) (point.getY() * scaleY), POINT_SIZE, paint);
                         }

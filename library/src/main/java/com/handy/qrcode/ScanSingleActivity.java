@@ -43,7 +43,6 @@ import com.handy.qrcode.api.ScanResultListener;
 import com.handy.qrcode.support.single.BeepManager;
 import com.handy.qrcode.support.single.FinishListener;
 import com.handy.qrcode.support.single.InactivityTimer;
-import com.handy.qrcode.support.single.Preferences;
 import com.handy.qrcode.support.single.ScanActivityHandler;
 import com.handy.qrcode.support.single.ViewfinderView;
 import com.handy.qrcode.support.single.camera.CameraManager;
@@ -89,11 +88,11 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         viewfinderView = findViewById(R.id.viewfinder_view);
         titleBar = findViewById(R.id.common_titlebar);
         if (titleBar != null) {
-            if (Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            if (ScanSingleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
                 titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
                 titleBar.setBottomLineHeight(1);
-            } else if (Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            } else if (ScanSingleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 titleBar.setTitle("");
                 titleBar.setBackgroundColor(Color.TRANSPARENT);
                 titleBar.setBottomLineHeight(0);
@@ -115,8 +114,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             titleBar.addRightAction(new TitleBar.Action() {
                 @Override
                 public void onClick() {
-                    Preferences.KEY_USE_LIGHT = !Preferences.KEY_USE_LIGHT;
-                    cameraManager.setTorch(Preferences.KEY_USE_LIGHT);
+                    ScanSingleConfig.KEY_USE_LIGHT = !ScanSingleConfig.KEY_USE_LIGHT;
+                    cameraManager.setTorch(ScanSingleConfig.KEY_USE_LIGHT);
 
                     titleBar.removeAllRightActions();
                     titleBar.addRightAction(this);
@@ -124,7 +123,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
                 @Override
                 public int setDrawable() {
-                    return Preferences.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
+                    return ScanSingleConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
                 }
             });
         }
@@ -143,8 +142,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         cameraManager = new CameraManager(getApplication());
         viewfinderView.setCameraManager(cameraManager);
 
-        setRequestedOrientation(Preferences.KEY_SCREEN_ORIENTATION);
-        if (Preferences.KEY_AUTO_ORIENTATION) {
+        setRequestedOrientation(ScanSingleConfig.KEY_SCREEN_ORIENTATION);
+        if (ScanSingleConfig.KEY_AUTO_ORIENTATION) {
             //启用监听
             myOrientationDetector.enable();
         }
@@ -339,9 +338,9 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
             }
 
-            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && Preferences.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
+            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanSingleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanSingleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
                 LogUtils.i(TAG, "orientation:" + orientation);
-                Preferences.KEY_SCREEN_ORIENTATION = orientation;
+                ScanSingleConfig.KEY_SCREEN_ORIENTATION = orientation;
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);

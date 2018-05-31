@@ -19,7 +19,7 @@ package com.handy.qrcode.support.single.camera;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 
-import com.handy.qrcode.support.single.Preferences;
+import com.handy.qrcode.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
     AutoFocusManager(Camera camera) {
         this.camera = camera;
         String currentFocusMode = camera.getParameters().getFocusMode();
-        useAutoFocus = Preferences.KEY_AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
+        useAutoFocus = ScanSingleConfig.KEY_AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
         LogUtils.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
         start();
     }

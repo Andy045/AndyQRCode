@@ -27,6 +27,7 @@ import android.preference.PreferenceManager;
 
 import com.handy.qrcode.R;
 import com.handy.qrcode.ScanSingleActivity;
+import com.handy.qrcode.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.Closeable;
@@ -54,7 +55,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
     }
 
     private static boolean shouldBeep(SharedPreferences prefs, Context activity) {
-        boolean shouldPlayBeep = Preferences.KEY_PLAY_BEEP;
+        boolean shouldPlayBeep = ScanSingleConfig.KEY_PLAY_BEEP;
         if (shouldPlayBeep) {
             // See if sound settings overrides this
             AudioManager audioService = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
@@ -68,7 +69,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
     public synchronized void updatePrefs() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
         playBeep = shouldBeep(prefs, activity);
-        vibrate = Preferences.KEY_VIBRATE;
+        vibrate = ScanSingleConfig.KEY_VIBRATE;
         if (playBeep && mediaPlayer == null) {
             // The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
             // so we now play on the music stream.

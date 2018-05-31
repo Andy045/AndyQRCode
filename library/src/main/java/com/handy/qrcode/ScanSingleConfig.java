@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.single;
+package com.handy.qrcode;
 
 import android.content.pm.ActivityInfo;
 
@@ -24,7 +24,7 @@ import android.content.pm.ActivityInfo;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class Preferences {
+public final class ScanSingleConfig {
     /**
      * 一维码：商品
      */

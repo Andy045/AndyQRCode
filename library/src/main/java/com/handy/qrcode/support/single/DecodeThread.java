@@ -25,6 +25,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
 import com.handy.qrcode.ScanSingleActivity;
+import com.handy.qrcode.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
@@ -62,22 +63,22 @@ final class DecodeThread extends Thread {
         if (decodeFormats == null || decodeFormats.isEmpty()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
             decodeFormats = EnumSet.noneOf(BarcodeFormat.class);
-            if (Preferences.KEY_DECODE_1D_PRODUCT) {
+            if (ScanSingleConfig.KEY_DECODE_1D_PRODUCT) {
                 decodeFormats.addAll(DecodeFormatManager.PRODUCT_FORMATS);
             }
-            if (Preferences.KEY_DECODE_1D_INDUSTRIAL) {
+            if (ScanSingleConfig.KEY_DECODE_1D_INDUSTRIAL) {
                 decodeFormats.addAll(DecodeFormatManager.INDUSTRIAL_FORMATS);
             }
-            if (Preferences.KEY_DECODE_QR) {
+            if (ScanSingleConfig.KEY_DECODE_QR) {
                 decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
             }
-            if (Preferences.KEY_DECODE_DATA_MATRIX) {
+            if (ScanSingleConfig.KEY_DECODE_DATA_MATRIX) {
                 decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
             }
-            if (Preferences.KEY_DECODE_AZTEC) {
+            if (ScanSingleConfig.KEY_DECODE_AZTEC) {
                 decodeFormats.addAll(DecodeFormatManager.AZTEC_FORMATS);
             }
-            if (Preferences.KEY_DECODE_PDF417) {
+            if (ScanSingleConfig.KEY_DECODE_PDF417) {
                 decodeFormats.addAll(DecodeFormatManager.PDF417_FORMATS);
             }
         }

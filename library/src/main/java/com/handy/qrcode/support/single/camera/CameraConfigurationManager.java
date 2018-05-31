@@ -23,7 +23,7 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.handy.qrcode.support.single.Preferences;
+import com.handy.qrcode.ScanSingleConfig;
 import com.handy.qrcode.support.single.camera.open.CameraFacing;
 import com.handy.qrcode.support.single.camera.open.OpenCamera;
 import com.handy.qrcode.utils.LogUtils;
@@ -137,20 +137,20 @@ final class CameraConfigurationManager {
             LogUtils.w(TAG, "In camera config safe mode -- most settings will not be honored");
         }
 
-        doSetTorch(parameters, Preferences.KEY_USE_LIGHT, safeMode);
+        doSetTorch(parameters, ScanSingleConfig.KEY_USE_LIGHT, safeMode);
 
-        CameraConfigurationUtils.setFocus(parameters, Preferences.KEY_AUTO_FOCUS, Preferences.KEY_DISABLE_CONTINUOUS_FOCUS, safeMode);
+        CameraConfigurationUtils.setFocus(parameters, ScanSingleConfig.KEY_AUTO_FOCUS, ScanSingleConfig.KEY_DISABLE_CONTINUOUS_FOCUS, safeMode);
 
         if (!safeMode) {
-            if (Preferences.KEY_INVERT_SCAN) {
+            if (ScanSingleConfig.KEY_INVERT_SCAN) {
                 CameraConfigurationUtils.setInvertColor(parameters);
             }
 
-            if (!Preferences.KEY_DISABLE_BARCODE_SCENE_MODE) {
+            if (!ScanSingleConfig.KEY_DISABLE_BARCODE_SCENE_MODE) {
                 CameraConfigurationUtils.setBarcodeSceneMode(parameters);
             }
 
-            if (!Preferences.KEY_DISABLE_METERING) {
+            if (!ScanSingleConfig.KEY_DISABLE_METERING) {
                 CameraConfigurationUtils.setVideoStabilization(parameters);
                 CameraConfigurationUtils.setFocusArea(parameters);
                 CameraConfigurationUtils.setMetering(parameters);
@@ -216,7 +216,7 @@ final class CameraConfigurationManager {
 
     private void doSetTorch(Camera.Parameters parameters, boolean newSetting, boolean safeMode) {
         CameraConfigurationUtils.setTorch(parameters, newSetting);
-        if (!safeMode && !Preferences.KEY_DISABLE_EXPOSURE) {
+        if (!safeMode && !ScanSingleConfig.KEY_DISABLE_EXPOSURE) {
             CameraConfigurationUtils.setBestExposure(parameters, newSetting);
         }
     }
