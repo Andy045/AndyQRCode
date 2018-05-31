@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
             ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 
             try {
-                new ScanSingleBuild().setScanResultListener((rawResult, barcode, scaleFactor) -> {
+                new ScanSingleBuild((rawResult, barcode, scaleFactor) -> {
                     Bitmap bitmap;
                     bitmap = BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult, true);
                     bitmap = BitmapUtils.compressByScale(bitmap, 360, 640, true);
