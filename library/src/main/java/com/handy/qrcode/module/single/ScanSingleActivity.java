@@ -40,7 +40,6 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.R;
-import com.handy.qrcode.api.ScanResultListener;
 import com.handy.qrcode.support.single.BeepManager;
 import com.handy.qrcode.support.single.FinishListener;
 import com.handy.qrcode.support.single.InactivityTimer;
@@ -51,6 +50,7 @@ import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -64,7 +64,6 @@ import java.io.IOException;
 public final class ScanSingleActivity extends Activity implements SurfaceHolder.Callback {
 
     private static final String TAG = ScanSingleActivity.class.getSimpleName();
-    public static ScanResultListener scanResultListener;
     private TitleBar titleBar;
     private SurfaceView surfaceView;
     private ViewfinderView viewfinderView;
@@ -177,7 +176,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
     @Override
     protected void onDestroy() {
-        scanResultListener = null;
         inactivityTimer.shutdown();
         super.onDestroy();
     }
@@ -259,13 +257,21 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         });
         commit.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
-            if (scanResultListener != null) {
-                scanResultListener.resultListener(rawResult, barcode, scaleFactor);
-            }
             Intent intent = new Intent();
-            intent.putExtra(ScanSingleBuild.KEY_SCAN_RESULT, rawResult.getText());
+            intent.putExtra(ScanSingleBuild.KEY_SCAN_RESULT_STRING, rawResult.getText());
+
+            Bitmap bitmap = barcode.copy(barcode.getConfig(), true);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            intent.putExtra(ScanSingleBuild.KEY_SCAN_BITMAP_BYTEARRAY, byteArrayOutputStream.toByteArray());
+
             setResult(RESULT_OK, intent);
             finish();
+
+            if (ScanSingleConfig.scanResultListener != null) {
+                ScanSingleConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
+                ScanSingleConfig.scanResultListener = null;
+            }
         });
         snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
         snackBarUtils.show();
