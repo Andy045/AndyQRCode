@@ -16,31 +16,9 @@ import com.handy.qrcode.api.ScanResultListener;
  */
 public class ScanSingleBuild {
 
-    public static final String KEY_SCAN_RESULT_STRING = "KEY_SCAN_RESULT_STRING";
-    public static final String KEY_SCAN_BITMAP_BYTEARRAY = "KEY_SCAN_BITMAP_BYTEARRAY";
-
-    private int requestCode = 100;
-    private boolean isFinish = false;
-
     private ScanResultListener scanResultListener = null;
 
     public ScanSingleBuild() {
-    }
-
-    /**
-     * 带回调跳转请求编码（默认：100）
-     */
-    public ScanSingleBuild setRequestCode(int requestCode) {
-        this.requestCode = requestCode;
-        return this;
-    }
-
-    /**
-     * 是否关闭当前Activity（默认：false）
-     */
-    public ScanSingleBuild setFinish(boolean finish) {
-        this.isFinish = finish;
-        return this;
     }
 
     /**
@@ -53,13 +31,25 @@ public class ScanSingleBuild {
 
     /**
      * 启动扫描界面
+     *
+     * @param activity 当前Activity
      */
     public void start(@NonNull Activity activity) {
+        start(activity, false);
+    }
+
+    /**
+     * 启动扫描界面
+     *
+     * @param activity 当前Activity
+     * @param isFinish 是否结束当前Activity
+     */
+    public void start(@NonNull Activity activity, boolean isFinish) {
         ScanSingleConfig.scanResultListener = null;
         if (this.scanResultListener != null) {
             ScanSingleConfig.scanResultListener = scanResultListener;
         }
-        activity.startActivityForResult(new Intent(activity, ScanSingleActivity.class), requestCode);
+        activity.startActivityForResult(new Intent(activity, ScanSingleActivity.class), ScanSingleConfig.CODE_SCAN_REQUEST);
         if (isFinish) {
             activity.finish();
         }
