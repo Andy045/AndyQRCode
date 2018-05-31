@@ -104,7 +104,7 @@ public final class ScanSingleConfig {
     /**
      * 使用全屏扫描 (默认识别扫描框内的图形)
      */
-    public static boolean KEY_SCAN_FULLSCREEN = false;
+    public static boolean KEY_SCAN_FULLSCREEN = true;
     /**
      * 屏幕自动旋转
      */
