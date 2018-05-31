@@ -17,8 +17,9 @@
 package com.handy.qrcode.module.single;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 
-import com.handy.qrcode.api.ScanResultListener;
+import com.google.zxing.Result;
 
 /**
  * The main settings activity.
@@ -32,14 +33,6 @@ public final class ScanSingleConfig {
      * 扫描成功回调自定义接口
      */
     public static ScanResultListener scanResultListener = null;
-    /**
-     * 扫描成功回调参数：二维码文本内容
-     */
-    public static final String KEY_SCAN_RESULT_STRING = "KEY_SCAN_RESULT_STRING";
-    /**
-     * 扫描成功回调参数：二维码灰度图片
-     */
-    public static final String KEY_SCAN_BITMAP_BYTEARRAY = "KEY_SCAN_BITMAP_BYTEARRAY";
 
     /**
      * 一维码：商品
@@ -113,4 +106,8 @@ public final class ScanSingleConfig {
      * 屏幕竖屏旋转方向 (默认竖屏)
      */
     public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+
+    public interface ScanResultListener {
+        void resultListener(Result rawResult, Bitmap barcode, float scaleFactor);
+    }
 }

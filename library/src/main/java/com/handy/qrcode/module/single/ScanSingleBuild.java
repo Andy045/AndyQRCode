@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.handy.qrcode.api.ScanResultListener;
-
 /**
  * 扫描功能创建者
  *
@@ -16,9 +14,9 @@ import com.handy.qrcode.api.ScanResultListener;
  */
 public class ScanSingleBuild {
 
-    private ScanResultListener scanResultListener = null;
+    private ScanSingleConfig.ScanResultListener scanResultListener = null;
 
-    public ScanSingleBuild(ScanResultListener scanResultListener) {
+    public ScanSingleBuild(ScanSingleConfig.ScanResultListener scanResultListener) {
         this.scanResultListener = scanResultListener;
     }
 
