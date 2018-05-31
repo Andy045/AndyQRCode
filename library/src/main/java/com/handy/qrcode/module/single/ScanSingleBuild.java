@@ -18,15 +18,8 @@ public class ScanSingleBuild {
 
     private ScanResultListener scanResultListener = null;
 
-    public ScanSingleBuild() {
-    }
-
-    /**
-     * 扫描完成的回调接口（默认：NULL）
-     */
-    public ScanSingleBuild setScanResultListener(ScanResultListener scanResultListener) {
+    public ScanSingleBuild(ScanResultListener scanResultListener) {
         this.scanResultListener = scanResultListener;
-        return this;
     }
 
     /**
