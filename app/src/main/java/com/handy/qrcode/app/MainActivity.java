@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.handy.qrcode.ScanSingleBuild;
+import com.handy.qrcode.module.single.ScanSingleBuild;
 import com.handy.qrcode.utils.BitmapUtils;
 
 public class MainActivity extends Activity {

@@ -16,7 +16,7 @@
 
     <application>
         <activity
-            android:name=".ScanSingleActivity"
+            android:name=".module.single.ScanSingleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:launchMode="standard"

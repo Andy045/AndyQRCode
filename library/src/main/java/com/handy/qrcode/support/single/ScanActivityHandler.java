@@ -33,7 +33,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.Result;
 import com.handy.qrcode.R;
-import com.handy.qrcode.ScanSingleActivity;
+import com.handy.qrcode.module.single.ScanSingleActivity;
 import com.handy.qrcode.support.single.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 

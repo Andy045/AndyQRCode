@@ -23,7 +23,7 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.handy.qrcode.ScanSingleConfig;
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.support.single.camera.open.CameraFacing;
 import com.handy.qrcode.support.single.camera.open.OpenCamera;
 import com.handy.qrcode.utils.LogUtils;

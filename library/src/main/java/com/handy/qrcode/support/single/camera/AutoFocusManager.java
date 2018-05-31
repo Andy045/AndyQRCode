@@ -19,7 +19,7 @@ package com.handy.qrcode.support.single.camera;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 
-import com.handy.qrcode.ScanSingleConfig;
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.ArrayList;

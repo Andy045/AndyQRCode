@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode;
+package com.handy.qrcode.module.single;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +39,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
+import com.handy.qrcode.R;
 import com.handy.qrcode.api.ScanResultListener;
 import com.handy.qrcode.support.single.BeepManager;
 import com.handy.qrcode.support.single.FinishListener;
@@ -63,19 +64,16 @@ import java.io.IOException;
 public final class ScanSingleActivity extends Activity implements SurfaceHolder.Callback {
 
     private static final String TAG = ScanSingleActivity.class.getSimpleName();
-
+    public static ScanResultListener scanResultListener;
     private TitleBar titleBar;
     private SurfaceView surfaceView;
     private ViewfinderView viewfinderView;
-
     private boolean hasSurface;
     private BeepManager beepManager;
     private CameraManager cameraManager;
     private ScanActivityHandler handler;
     private InactivityTimer inactivityTimer;
     private MyOrientationDetector myOrientationDetector;
-
-    public static ScanResultListener scanResultListener;
 
     @Override
     public void onCreate(Bundle icicle) {

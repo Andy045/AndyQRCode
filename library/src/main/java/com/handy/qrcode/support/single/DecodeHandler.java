@@ -30,7 +30,7 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.handy.qrcode.R;
-import com.handy.qrcode.ScanSingleActivity;
+import com.handy.qrcode.module.single.ScanSingleActivity;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;

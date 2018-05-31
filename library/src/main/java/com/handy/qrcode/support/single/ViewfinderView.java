@@ -28,7 +28,7 @@ import android.view.View;
 
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.R;
-import com.handy.qrcode.ScanSingleConfig;
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.support.single.camera.CameraManager;
 
 import java.util.ArrayList;

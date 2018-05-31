@@ -24,8 +24,8 @@ import android.preference.PreferenceManager;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.handy.qrcode.ScanSingleActivity;
-import com.handy.qrcode.ScanSingleConfig;
+import com.handy.qrcode.module.single.ScanSingleActivity;
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;

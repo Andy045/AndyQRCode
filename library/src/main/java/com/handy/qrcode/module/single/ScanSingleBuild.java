@@ -1,4 +1,4 @@
-package com.handy.qrcode;
+package com.handy.qrcode.module.single;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,11 +17,10 @@ import com.handy.qrcode.api.ScanResultListener;
  */
 public class ScanSingleBuild {
 
+    public static final String KEY_SCAN_RESULT = "KEY_SCAN_RESULT";
     private int requestCode = 100;
     private boolean isFinish = false;
-
     private boolean isRecord = false;
-    public static final String KEY_SCAN_RESULT = "KEY_SCAN_RESULT";
     private String recordKey = "HandyQRCode";
 
     private ScanResultListener scanResultListener = null;

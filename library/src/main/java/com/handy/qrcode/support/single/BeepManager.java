@@ -26,8 +26,8 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 
 import com.handy.qrcode.R;
-import com.handy.qrcode.ScanSingleActivity;
-import com.handy.qrcode.ScanSingleConfig;
+import com.handy.qrcode.module.single.ScanSingleActivity;
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.Closeable;

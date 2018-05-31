@@ -24,7 +24,7 @@ import android.os.Handler;
 import android.view.SurfaceHolder;
 
 import com.google.zxing.PlanarYUVLuminanceSource;
-import com.handy.qrcode.ScanSingleConfig;
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.support.single.camera.open.OpenCamera;
 import com.handy.qrcode.support.single.camera.open.OpenCameraInterface;
 import com.handy.qrcode.utils.LogUtils;
