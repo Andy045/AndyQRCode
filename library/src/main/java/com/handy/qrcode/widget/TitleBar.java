@@ -3,6 +3,7 @@ package com.handy.qrcode.widget;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.handy.qrcode.module.single.ScanSingleConfig;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.lang.reflect.Field;
@@ -168,8 +170,14 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     private void init(Context context) {
         this.context = context;
-        ScreenWidth = getResources().getDisplayMetrics().widthPixels;
-        ScreenHeight = getResources().getDisplayMetrics().heightPixels;
+        if (ScanSingleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            ScreenWidth = getResources().getDisplayMetrics().heightPixels;
+            ScreenHeight = getResources().getDisplayMetrics().widthPixels;
+        } else if (ScanSingleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            ScreenWidth = getResources().getDisplayMetrics().widthPixels;
+            ScreenHeight = getResources().getDisplayMetrics().heightPixels;
+        }
+
         ParentHeight = TitleBarHeight + StatusBarHeight + TopLineHeight + BottomLineHeight;
         initView(context);
     }
