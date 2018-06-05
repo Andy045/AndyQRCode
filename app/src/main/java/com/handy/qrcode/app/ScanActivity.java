@@ -9,9 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
+import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.module.ScanLauncher;
 import com.handy.qrcode.support.single.DecodeThread;
 import com.handy.qrcode.utils.BitmapUtils;
+import com.handy.qrcode.widget.TitleBar;
 
 /**
  * 类名
@@ -28,9 +30,30 @@ public class ScanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
+        TitleBar titleBar = findViewById(R.id.titlebar);
+        titleBar.setTitle("扫描条码和二维码");
+        titleBar.setTitleBackground(getResources().getColor(com.handy.qrcode.R.color.titlebar_background));
+        titleBar.setBottomLineHeight(0);
+        titleBar.setImmersive(ScanActivity.this, true);
+        titleBar.addLeftAction(new TitleBar.Action() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+
+            @Override
+            public int setDrawable() {
+                return com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back;
+            }
+        });
+
         findViewById(R.id.zxing_single).setOnClickListener(v -> {
             ((TextView) findViewById(R.id.result)).setText("");
             ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
+
+            ScanConfig.KEY_DECODE_1D_INDUSTRIAL = true;
+            ScanConfig.KEY_DECODE_1D_PRODUCT = true;
+            ScanConfig.KEY_DISABLE_BARCODE_SCENE_MODE = false;
 
             new ScanLauncher().startSingle(ScanActivity.this, (rawResult, bundle) -> {
                 Bitmap barcode = null;
@@ -56,6 +79,11 @@ public class ScanActivity extends Activity {
         });
 
         findViewById(R.id.zxing_multiple).setOnClickListener(v -> {
+
+            ScanConfig.KEY_DECODE_1D_INDUSTRIAL = false;
+            ScanConfig.KEY_DECODE_1D_PRODUCT = false;
+            ScanConfig.KEY_DISABLE_BARCODE_SCENE_MODE = true;
+
             ((TextView) findViewById(R.id.result)).setText("");
             ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 

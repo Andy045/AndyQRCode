@@ -4,12 +4,31 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.handy.qrcode.widget.TitleBar;
+
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TitleBar titleBar = findViewById(R.id.titlebar);
+        titleBar.setTitle("扫描库");
+        titleBar.setTitleBackground(getResources().getColor(com.handy.qrcode.R.color.titlebar_background));
+        titleBar.setBottomLineHeight(0);
+        titleBar.setImmersive(MainActivity.this, true);
+        titleBar.addLeftAction(new TitleBar.Action() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+
+            @Override
+            public int setDrawable() {
+                return com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back;
+            }
+        });
 
         findViewById(R.id.zxing_scan).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ScanActivity.class)));
 
