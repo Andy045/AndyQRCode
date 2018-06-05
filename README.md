@@ -154,6 +154,8 @@ https://github.com/Handy045/HandyQRCode
 
 ## 内置扫描界面使用
 
+### 单个二维码或条码扫描
+
 ```` java
 findViewById(R.id.zxing).setOnClickListener(new View.OnClickListener() {
     @Override
