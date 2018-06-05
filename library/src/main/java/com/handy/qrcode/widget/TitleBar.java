@@ -24,7 +24,7 @@ import java.lang.reflect.Field;
 import java.util.LinkedList;
 
 /**
- * 类名
+ * 标题栏
  *
  * @author LiuJie https://www.Handy045.com
  * @description 类功能内容
@@ -794,24 +794,5 @@ public class TitleBar extends ViewGroup implements View.OnClickListener {
 
     @SuppressWarnings("serial")
     public static class ActionList extends LinkedList<Action> {
-    }
-
-    public class MarqueeTextView extends android.support.v7.widget.AppCompatTextView {
-        public MarqueeTextView(Context context) {
-            super(context);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public MarqueeTextView(Context context, AttributeSet attrs, int defStyle) {
-            super(context, attrs, defStyle);
-        }
-
-        @Override
-        public boolean isFocused() {
-            return true;
-        }
     }
 }
