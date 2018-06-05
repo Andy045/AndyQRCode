@@ -4,7 +4,7 @@
 
 # 效果展示
 
-![](UiDemo.png)
+![](https://github.com/Handy045/HandyQRCode/blob/master/document/UiDemo.png?raw=true)
 
 # 自定义扫描界面及配置
 
