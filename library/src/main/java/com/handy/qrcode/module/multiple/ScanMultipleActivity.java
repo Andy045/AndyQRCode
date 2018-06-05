@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -52,6 +51,7 @@ import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This activity opens the camera and does the actual scanning on a background thread. It draws a
@@ -223,11 +223,10 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
     /**
      * A valid barcode has been found, so give an indication of success and show the results.
      *
-     * @param rawResult   The contents of the barcode.
-     * @param scaleFactor amount by which thumbnail was scaled
-     * @param barcode     A greyscale bitmap of the camera data which was decoded.
+     * @param rawResults The contents of the barcodes.
+     * @param bundle     result data
      */
-    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+    public void handleDecode(List<Result> rawResults, Bundle bundle) {
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
@@ -237,7 +236,7 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
         Button again = view.findViewById(R.id.snackbar_again);
         Button commit = view.findViewById(R.id.snackbar_commit);
 
-        message.setText(rawResult.getText());
+        message.setText("共识别到" + rawResults.size() + "个二维码");
         again.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
             new CountDownTimer(1000, 1000) {
@@ -257,9 +256,9 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
         });
         commit.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
-            if (ScanConfig.scanResultListener != null) {
-                ScanConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
-                ScanConfig.scanResultListener = null;
+            if (ScanConfig.scanResultsListener != null) {
+                ScanConfig.scanResultsListener.resultListener(rawResults, bundle);
+                ScanConfig.scanResultsListener = null;
             }
             finish();
         });
