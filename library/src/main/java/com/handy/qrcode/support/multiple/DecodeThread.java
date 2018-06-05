@@ -39,7 +39,7 @@ import java.util.concurrent.CountDownLatch;
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */
-final class DecodeThread extends Thread {
+public final class DecodeThread extends Thread {
 
     public static final String BARCODE_BITMAP = "barcode_bitmap";
     public static final String BARCODE_SCALED_FACTOR = "barcode_scaled_factor";
