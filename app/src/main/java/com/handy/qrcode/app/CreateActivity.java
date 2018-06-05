@@ -1,10 +1,12 @@
 package com.handy.qrcode.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,6 +36,12 @@ public class CreateActivity extends Activity {
         create.setOnClickListener(v -> {
             qrcode_1.setImageBitmap(null);
             qrcode_2.setImageBitmap(null);
+
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm == null) {
+                return;
+            }
+            imm.hideSoftInputFromWindow(findViewById(R.id.parent_layout).getWindowToken(), 0);
 
             String str = edt.getText().toString();
             if ("".equals(str)) {
