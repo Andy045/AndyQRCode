@@ -17,28 +17,24 @@ import com.handy.qrcode.module.single.ScanSingleActivity;
  */
 public class ScanBuild {
 
+    private Activity activity = null;
     private ScanConfig.ScanResultListener scanResultListener = null;
+    private ScanConfig.ScanResultsListener scanResultsListener = null;
 
-    public ScanBuild(ScanConfig.ScanResultListener scanResultListener) {
-        this.scanResultListener = scanResultListener;
+    public ScanBuild(@NonNull Activity activity) {
+        this.activity = activity;
+        this.scanResultListener = null;
+        this.scanResultsListener = null;
+        ScanConfig.scanResultListener = null;
+        ScanConfig.scanResultsListener = null;
     }
 
     /**
      * 启动扫描界面
      *
-     * @param activity 当前Activity
+     * @param scanResultListener 扫描结果回调接口
      */
-    public void startSingle(@NonNull Activity activity) throws Exception {
-        startSingle(activity, false);
-    }
-
-    /**
-     * 启动扫描界面
-     *
-     * @param activity 当前Activity
-     * @param isFinish 是否结束当前Activity
-     */
-    public void startSingle(@NonNull Activity activity, boolean isFinish) throws Exception {
+    public void startSingle(@NonNull ScanConfig.ScanResultListener scanResultListener) throws Exception {
         ScanConfig.scanResultListener = null;
         if (this.scanResultListener != null) {
             ScanConfig.scanResultListener = scanResultListener;
@@ -46,36 +42,20 @@ public class ScanBuild {
             throw new Exception("NullPointerException: ScanConfig.scanResultListener is NULL! you mast setScanResultListener in this Class.");
         }
         activity.startActivity(new Intent(activity, ScanSingleActivity.class));
-        if (isFinish) {
-            activity.finish();
-        }
     }
 
     /**
      * 启动扫描界面
      *
-     * @param activity 当前Activity
+     * @param scanResultsListener 扫描结果回调接口
      */
-    public void startMultiple(@NonNull Activity activity) throws Exception {
-        startMultiple(activity, false);
-    }
-
-    /**
-     * 启动扫描界面
-     *
-     * @param activity 当前Activity
-     * @param isFinish 是否结束当前Activity
-     */
-    public void startMultiple(@NonNull Activity activity, boolean isFinish) throws Exception {
-        ScanConfig.scanResultListener = null;
+    public void startMultiple(@NonNull ScanConfig.ScanResultsListener scanResultsListener) throws Exception {
+        ScanConfig.scanResultsListener = null;
         if (this.scanResultListener != null) {
-            ScanConfig.scanResultListener = scanResultListener;
+            ScanConfig.scanResultsListener = scanResultsListener;
         } else {
             throw new Exception("NullPointerException: ScanConfig.scanResultListener is NULL! you mast setScanResultListener in this Class.");
         }
         activity.startActivity(new Intent(activity, ScanMultipleActivity.class));
-        if (isFinish) {
-            activity.finish();
-        }
     }
 }

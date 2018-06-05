@@ -18,8 +18,11 @@ package com.handy.qrcode.module;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 
 import com.google.zxing.Result;
+
+import java.util.List;
 
 /**
  * The main settings activity.
@@ -30,10 +33,13 @@ import com.google.zxing.Result;
 public final class ScanConfig {
 
     /**
-     * 扫描成功回调自定义接口
+     * 扫描成功回调自定义接口（单个条码或二维码扫描）
      */
     public static ScanResultListener scanResultListener = null;
-
+    /**
+     * 扫描成功回调自定义接口（多个二维码同时扫描）
+     */
+    public static ScanResultsListener scanResultsListener = null;
     /**
      * 一维码：商品
      */
@@ -108,9 +114,16 @@ public final class ScanConfig {
     public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
     /**
-     * 扫描结果回调接口
+     * 扫描结果回调接口（单个条码或二维码扫描）
      */
     public interface ScanResultListener {
         void resultListener(Result rawResult, Bitmap barcode, float scaleFactor);
+    }
+
+    /**
+     * 扫描结果回调接口（多个二维码同时扫描）
+     */
+    public interface ScanResultsListener {
+        void resultListener(List<Result> rawResult, Bundle bundle);
     }
 }
