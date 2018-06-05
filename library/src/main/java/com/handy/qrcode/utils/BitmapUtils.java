@@ -39,29 +39,29 @@ public class BitmapUtils {
             return null;
         }
         //压缩图片
-        int scale;
+        double scale;
         Bitmap bitmap = null;
         if (barcode.getWidth() < barcode.getHeight()) {
             if (barcode.getWidth() <= targetWidth || barcode.getHeight() <= targetHeight) {
                 scale = 1;
             } else {
-                int widthScale = barcode.getWidth() / targetWidth;
-                int heightScale = barcode.getHeight() / targetHeight;
+                double widthScale = (double) barcode.getWidth() / (double) targetWidth;
+                double heightScale = (double) barcode.getHeight() / (double) targetHeight;
                 scale = widthScale < heightScale ? widthScale : heightScale;
             }
         } else {
             if (barcode.getWidth() <= targetHeight || barcode.getHeight() <= targetWidth) {
                 scale = 1;
             } else {
-                int widthScale = barcode.getWidth() / targetHeight;
-                int heightScale = barcode.getHeight() / targetWidth;
+                double widthScale = (double) barcode.getWidth() / (double) targetHeight;
+                double heightScale = (double) barcode.getHeight() / (double) targetWidth;
                 scale = widthScale < heightScale ? widthScale : heightScale;
             }
         }
         // 如果缩放倍数大于1则对Bitmap实例进行压缩，如果小于1则无需压缩
         if (scale > 1) {
-            int imgWidth = barcode.getWidth() / (scale + 1);
-            int imgHeight = barcode.getHeight() / (scale + 1);
+            int imgWidth = (int) (barcode.getWidth() / (scale + 1));
+            int imgHeight = (int) (barcode.getHeight() / (scale + 1));
 
             bitmap = Bitmap.createScaledBitmap(barcode, imgWidth, imgHeight, true);
         }
