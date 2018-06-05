@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
                     }
                 }
 
-                ((TextView) findViewById(R.id.result)).setText("扫描结果：" + str.toString());
+                ((TextView) findViewById(R.id.result)).setText("扫描结果：\n" + str.toString());
             });
         });
     }
