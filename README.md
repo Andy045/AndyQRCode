@@ -1,3 +1,7 @@
+<center><h1>条码和二维码扫描库</h1></center>
+
+[说明](https://handy045.cn/2018/05/31/Android/Handy/HandyQRCode/)
+
 # 功能描述
 
 基于Zxing 3.3.3版本源码精简与优化。移除了分享、WIFI、书签、URL识别等功能，保留了条码、二维码扫描功能。并增加了可自定义扫描界面和扫描配置。支持音量调整焦距、全屏扫描、扫描结果图片水印、压缩、绘制识别点等功能。
@@ -201,21 +205,3 @@ new ScanLauncher().startMultiple(MainActivity.this, new ScanConfig.ScanResultsLi
     }
 });
 ````
-
-# 库中含有的工具类及自定义控件
-
-## 工具类功能描述
-
-|类名|功能描述|
-|:---|:---|
-|BitmapUtils|图片处理工具类|
-|QRCodeUtils|二维码生成工具类|
-|LogUtils|日志打印工具类|
-|SnackBarUtils|底部卡点击提示工具类|
-
-## 自定义控件描述
-
-|类名|功能描述|
-|:---|:---|
-|MarqueeTextView|带跑马灯效果的TextView|
-|TitleBar|标题栏|
