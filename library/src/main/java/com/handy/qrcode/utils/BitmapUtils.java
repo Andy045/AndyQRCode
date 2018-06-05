@@ -60,8 +60,8 @@ public class BitmapUtils {
         }
         // 如果缩放倍数大于1则对Bitmap实例进行压缩，如果小于1则无需压缩
         if (scale > 1) {
-            int imgWidth = (int) (barcode.getWidth() / (scale + 1));
-            int imgHeight = (int) (barcode.getHeight() / (scale + 1));
+            int imgWidth = (int) (barcode.getWidth() / scale);
+            int imgHeight = (int) (barcode.getHeight() / scale);
 
             bitmap = Bitmap.createScaledBitmap(barcode, imgWidth, imgHeight, true);
         }
@@ -79,17 +79,17 @@ public class BitmapUtils {
     /**
      * 添加文字水印，支持换行
      *
-     * @param barcode   原图片
-     * @param content   水印文本
-     * @param textScale 水印字体比例（字体大小 = 照片最长边 / 字体比例，建议值：42）
-     * @param color     水印字体颜色
-     * @param x         起始坐标x
-     * @param y         起始坐标y
-     * @param recycle   是否回收
+     * @param barcode  原图片
+     * @param content  水印文本
+     * @param textSize 水印字体大小（建议值：15）
+     * @param color    水印字体颜色
+     * @param x        起始坐标x
+     * @param y        起始坐标y
+     * @param recycle  是否回收
      * @return 带有文字水印的图片
      */
 
-    public static Bitmap addTextWatermark(Context context, Bitmap barcode, String content, float textScale, int color, float x, float y, boolean recycle) {
+    public static Bitmap addTextWatermark(Context context, Bitmap barcode, String content, float textSize, int color, float x, float y, boolean recycle) {
         if (isEmptyBitmap(barcode) || content == null) {
             return null;
         }
@@ -97,9 +97,10 @@ public class BitmapUtils {
         TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         Canvas canvas = new Canvas(bitmap);
         paint.setColor(color);
-        paint.setTextSize(sp2px(context, barcode.getHeight() >= barcode.getWidth() ? barcode.getHeight() / textScale : barcode.getWidth() / textScale));
-        Rect bounds = new Rect();
-        paint.getTextBounds(content, 0, content.length(), bounds);
+        paint.setTextSize(sp2px(context, textSize));
+        paint.getTextBounds(content, 0, content.length(), new Rect());
+        paint.setDither(true);
+        paint.setFilterBitmap(true);
         StaticLayout layout = new StaticLayout(content, paint, (int) (bitmap.getWidth() - (dp2px(context, x) * 2)), Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true);
         canvas.translate(dp2px(context, x), dp2px(context, y));
         layout.draw(canvas);
