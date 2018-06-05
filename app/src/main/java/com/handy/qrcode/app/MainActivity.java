@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
-import com.handy.qrcode.module.ScanBuild;
+import com.handy.qrcode.module.ScanLauncher;
 
 public class MainActivity extends Activity {
 
@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
             ((TextView) findViewById(R.id.result)).setText("");
             ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 
-            new ScanBuild().startMultiple(MainActivity.this, (rawResults, bundle) -> {
+            new ScanLauncher().startMultiple(MainActivity.this, (rawResults, bundle) -> {
                 StringBuilder str = new StringBuilder();
                 for (int i = 0; i < rawResults.size(); i++) {
                     Result result = rawResults.get(i);

@@ -15,9 +15,9 @@ import com.handy.qrcode.module.single.ScanSingleActivity;
  * @date Created in 2018/5/30 下午3:48
  * @modified By LiuJie
  */
-public class ScanBuild {
+public class ScanLauncher {
 
-    public ScanBuild() {
+    public ScanLauncher() {
         ScanConfig.scanResultListener = null;
         ScanConfig.scanResultsListener = null;
     }
