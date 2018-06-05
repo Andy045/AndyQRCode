@@ -87,7 +87,7 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
         if (titleBar != null) {
             if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
-                titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
+                titleBar.setTitleBarBackground(R.color.handy_titlebar_background);
                 titleBar.setBottomLineHeight(1);
             } else if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 titleBar.setTitle("");

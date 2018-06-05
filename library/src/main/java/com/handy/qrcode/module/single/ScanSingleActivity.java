@@ -86,7 +86,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         if (titleBar != null) {
             if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
-                titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
+                titleBar.setTitleBarBackground(R.color.handy_titlebar_background);
                 titleBar.setBottomLineHeight(1);
             } else if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 titleBar.setTitle("");
