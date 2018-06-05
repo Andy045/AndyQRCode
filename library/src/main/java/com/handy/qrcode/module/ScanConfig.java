@@ -17,7 +17,6 @@
 package com.handy.qrcode.module;
 
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import com.google.zxing.Result;
@@ -117,7 +116,7 @@ public final class ScanConfig {
      * 扫描结果回调接口（单个条码或二维码扫描）
      */
     public interface ScanResultListener {
-        void resultListener(Result rawResult, Bitmap barcode, float scaleFactor);
+        void resultListener(Result rawResult, Bundle bundle);
     }
 
     /**

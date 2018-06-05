@@ -7,7 +7,13 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/zxing"
+        android:id="@+id/zxing_single"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="扫描二维码" />
+
+    <Button
+        android:id="@+id/zxing_multiple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="扫描二维码" />

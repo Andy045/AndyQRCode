@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -223,11 +222,10 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
     /**
      * A valid barcode has been found, so give an indication of success and show the results.
      *
-     * @param rawResult   The contents of the barcode.
-     * @param scaleFactor amount by which thumbnail was scaled
-     * @param barcode     A greyscale bitmap of the camera data which was decoded.
+     * @param rawResult The contents of the barcode.
+     * @param bundle    result data
      */
-    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+    public void handleDecode(Result rawResult, Bundle bundle) {
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
@@ -258,7 +256,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         commit.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
             if (ScanConfig.scanResultListener != null) {
-                ScanConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
+                ScanConfig.scanResultListener.resultListener(rawResult, bundle);
                 ScanConfig.scanResultListener = null;
             }
             finish();
