@@ -139,7 +139,7 @@ https://github.com/Handy045/HandyQRCode
     	}
     }
     ```
-	
+
 2. 在使用Module的build.gradle文件中，添加引用语句。
 
     ```
@@ -201,3 +201,21 @@ new ScanLauncher().startMultiple(MainActivity.this, new ScanConfig.ScanResultsLi
     }
 });
 ````
+
+# 库中含有的工具类及自定义控件
+
+## 工具类功能描述
+
+|类名|功能描述|
+|:---|:---|
+|BitmapUtils|图片处理工具类|
+|QRCodeUtils|二维码生成工具类|
+|LogUtils|日志打印工具类|
+|SnackBarUtils|底部卡点击提示工具类|
+
+## 自定义控件描述
+
+|类名|功能描述|
+|:---|:---|
+|MarqueeTextView|带跑马灯效果的TextView|
+|TitleBar|标题栏|
