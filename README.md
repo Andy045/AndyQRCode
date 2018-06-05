@@ -1,4 +1,4 @@
-<h1><center>条码和二维码扫描库</center></h1>
+条码和二维码扫描库
 
 [使用说明](https://handy045.cn/2018/05/31/Android/Handy/HandyQRCode/)
 
