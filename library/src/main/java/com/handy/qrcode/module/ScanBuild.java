@@ -17,14 +17,7 @@ import com.handy.qrcode.module.single.ScanSingleActivity;
  */
 public class ScanBuild {
 
-    private Activity activity = null;
-    private ScanConfig.ScanResultListener scanResultListener = null;
-    private ScanConfig.ScanResultsListener scanResultsListener = null;
-
-    public ScanBuild(@NonNull Activity activity) {
-        this.activity = activity;
-        this.scanResultListener = null;
-        this.scanResultsListener = null;
+    public ScanBuild() {
         ScanConfig.scanResultListener = null;
         ScanConfig.scanResultsListener = null;
     }
@@ -34,13 +27,9 @@ public class ScanBuild {
      *
      * @param scanResultListener 扫描结果回调接口
      */
-    public void startSingle(@NonNull ScanConfig.ScanResultListener scanResultListener) throws Exception {
+    public void startSingle(@NonNull Activity activity, @NonNull ScanConfig.ScanResultListener scanResultListener) {
         ScanConfig.scanResultListener = null;
-        if (this.scanResultListener != null) {
-            ScanConfig.scanResultListener = scanResultListener;
-        } else {
-            throw new Exception("NullPointerException: ScanConfig.scanResultListener is NULL! you mast setScanResultListener in this Class.");
-        }
+        ScanConfig.scanResultListener = scanResultListener;
         activity.startActivity(new Intent(activity, ScanSingleActivity.class));
     }
 
@@ -49,13 +38,9 @@ public class ScanBuild {
      *
      * @param scanResultsListener 扫描结果回调接口
      */
-    public void startMultiple(@NonNull ScanConfig.ScanResultsListener scanResultsListener) throws Exception {
+    public void startMultiple(@NonNull Activity activity, @NonNull ScanConfig.ScanResultsListener scanResultsListener) {
         ScanConfig.scanResultsListener = null;
-        if (this.scanResultListener != null) {
-            ScanConfig.scanResultsListener = scanResultsListener;
-        } else {
-            throw new Exception("NullPointerException: ScanConfig.scanResultListener is NULL! you mast setScanResultListener in this Class.");
-        }
+        ScanConfig.scanResultsListener = scanResultsListener;
         activity.startActivity(new Intent(activity, ScanMultipleActivity.class));
     }
 }
