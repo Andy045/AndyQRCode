@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.single.camera;
+package com.handy.qrcode.support.multiple.camera;
 
 import android.hardware.Camera;
 import android.os.AsyncTask;

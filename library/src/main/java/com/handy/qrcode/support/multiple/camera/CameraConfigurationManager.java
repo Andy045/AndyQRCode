@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.single.camera;
+package com.handy.qrcode.support.multiple.camera;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -24,8 +24,8 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import com.handy.qrcode.module.ScanConfig;
-import com.handy.qrcode.support.single.camera.open.CameraFacing;
-import com.handy.qrcode.support.single.camera.open.OpenCamera;
+import com.handy.qrcode.support.multiple.camera.open.CameraFacing;
+import com.handy.qrcode.support.multiple.camera.open.OpenCamera;
 import com.handy.qrcode.utils.LogUtils;
 
 /**

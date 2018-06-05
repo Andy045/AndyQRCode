@@ -40,6 +40,7 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.R;
+import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.support.multiple.BeepManager;
 import com.handy.qrcode.support.multiple.FinishListener;
 import com.handy.qrcode.support.multiple.InactivityTimer;
@@ -84,11 +85,11 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
         viewfinderView = findViewById(R.id.viewfinder_view);
         titleBar = findViewById(R.id.common_titlebar);
         if (titleBar != null) {
-            if (ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
                 titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
                 titleBar.setBottomLineHeight(1);
-            } else if (ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            } else if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 titleBar.setTitle("");
                 titleBar.setBackgroundColor(Color.TRANSPARENT);
                 titleBar.setBottomLineHeight(0);
@@ -110,8 +111,8 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
             titleBar.addRightAction(new TitleBar.Action() {
                 @Override
                 public void onClick() {
-                    ScanMultipleConfig.KEY_USE_LIGHT = !ScanMultipleConfig.KEY_USE_LIGHT;
-                    cameraManager.setTorch(ScanMultipleConfig.KEY_USE_LIGHT);
+                    ScanConfig.KEY_USE_LIGHT = !ScanConfig.KEY_USE_LIGHT;
+                    cameraManager.setTorch(ScanConfig.KEY_USE_LIGHT);
 
                     titleBar.removeAllRightActions();
                     titleBar.addRightAction(this);
@@ -119,7 +120,7 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
 
                 @Override
                 public int setDrawable() {
-                    return ScanMultipleConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
+                    return ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
                 }
             });
         }
@@ -138,8 +139,8 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
         cameraManager = new CameraManager(getApplication());
         viewfinderView.setCameraManager(cameraManager);
 
-        setRequestedOrientation(ScanMultipleConfig.KEY_SCREEN_ORIENTATION);
-        if (ScanMultipleConfig.KEY_AUTO_ORIENTATION) {
+        setRequestedOrientation(ScanConfig.KEY_SCREEN_ORIENTATION);
+        if (ScanConfig.KEY_AUTO_ORIENTATION) {
             //启用监听
             myOrientationDetector.enable();
         }
@@ -256,9 +257,9 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
         });
         commit.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
-            if (ScanMultipleConfig.scanResultListener != null) {
-                ScanMultipleConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
-                ScanMultipleConfig.scanResultListener = null;
+            if (ScanConfig.scanResultListener != null) {
+                ScanConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
+                ScanConfig.scanResultListener = null;
             }
             finish();
         });
@@ -331,9 +332,9 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
                 orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
             }
 
-            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
+            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
                 LogUtils.i(TAG, "orientation:" + orientation);
-                ScanMultipleConfig.KEY_SCREEN_ORIENTATION = orientation;
+                ScanConfig.KEY_SCREEN_ORIENTATION = orientation;
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);

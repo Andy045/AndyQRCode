@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.single;
+package com.handy.qrcode.support.multiple;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,14 +27,14 @@ import android.preference.PreferenceManager;
 
 import com.handy.qrcode.R;
 import com.handy.qrcode.module.ScanConfig;
-import com.handy.qrcode.module.single.ScanSingleActivity;
+import com.handy.qrcode.module.multiple.ScanMultipleActivity;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * Manages beeps and vibrations for {@link ScanSingleActivity}.
+ * Manages beeps and vibrations for {@link ScanMultipleActivity}.
  */
 public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable {
 

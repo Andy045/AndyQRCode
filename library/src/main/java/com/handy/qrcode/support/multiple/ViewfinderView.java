@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.support.single;
+package com.handy.qrcode.support.multiple;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +29,7 @@ import android.view.View;
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.R;
 import com.handy.qrcode.module.ScanConfig;
-import com.handy.qrcode.support.single.camera.CameraManager;
+import com.handy.qrcode.support.multiple.camera.CameraManager;
 
 import java.util.ArrayList;
 import java.util.List;
