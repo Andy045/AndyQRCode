@@ -15,13 +15,13 @@
         android:id="@+id/zxing_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="扫描二维码" />
+        android:text="扫描单个条码或二维码" />
 
     <Button
         android:id="@+id/zxing_multiple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="扫描二维码" />
+        android:text="同时扫描多个二维码" />
 
     <TextView
         android:id="@+id/result"
@@ -36,6 +36,7 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_weight="1"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
