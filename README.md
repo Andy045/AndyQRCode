@@ -157,27 +157,47 @@ https://github.com/Handy045/HandyQRCode
 ### 单个二维码或条码扫描
 
 ```` java
-findViewById(R.id.zxing).setOnClickListener(new View.OnClickListener() {
+new ScanLauncher().startSingle(MainActivity.this, new ScanConfig.ScanResultListener() {
     @Override
-    public void onClick(View v) {
-        try {
-            ((TextView) findViewById(R.id.result)).setText("");
-            ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
-
-            new ScanSingleBuild(new ScanSingleConfig.ScanResultListener() {
-                @Override
-                public void resultListener(Result rawResult, Bitmap barcode, float scaleFactor) {
-                    Bitmap bitmap;
-                    bitmap = BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult, true);
-                    bitmap = BitmapUtils.compressByScale(bitmap, 360, 640, true);
-                    bitmap = BitmapUtils.addTextWatermark(MainActivity.this, bitmap, "HandyQRCode\nhttps://www.handy045.com", 13, Color.BLUE, 4, 4, true);
-                    ((TextView) findViewById(R.id.result)).setText("扫描结果：" + rawResult.getText());
-                    ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
-                }
-            }).start(MainActivity.this);
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void resultListener(Result rawResult, Bundle bundle) {
+        Bitmap barcode = null;
+        float scaleFactor = 1.0f;
+        if (bundle != null) {
+            byte[] compressedBitmap = bundle.getByteArray(DecodeThread.BARCODE_BITMAP);
+            if (compressedBitmap != null) {
+                barcode = BitmapFactory.decodeByteArray(compressedBitmap, 0, compressedBitmap.length, null);
+                // Mutable copy:
+                barcode = barcode.copy(Bitmap.Config.ARGB_8888, true);
+            }
+            scaleFactor = bundle.getFloat(DecodeThread.BARCODE_SCALED_FACTOR);
         }
+        if (barcode != null) {
+            Bitmap bitmap;
+            bitmap = BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult, true);
+            bitmap = BitmapUtils.compressByScale(bitmap, 360, 640, true);
+            bitmap = BitmapUtils.addTextWatermark(MainActivity.this, bitmap, "HandyQRCode\nhttps://www.handy045.com", 13, Color.BLUE, 4, 4, true);
+            ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
+        }
+        ((TextView) findViewById(R.id.result)).setText("扫描结果: \n" + rawResult.getText());
+    }
+});
+````
+
+### 多个二维码同时扫描
+
+```` java
+new ScanLauncher().startMultiple(MainActivity.this, new ScanConfig.ScanResultsListener() {
+    @Override
+    public void resultListener(List<Result> rawResults, Bundle bundle) {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < rawResults.size(); i++) {
+            Result result = rawResults.get(i);
+            str.append("第").append(i + 1).append("个: ").append(result.getText());
+            if (i < rawResults.size() - 1) {
+                str.append("\n");
+            }
+        }
+        ((TextView) findViewById(R.id.result)).setText("扫描结果：\n" + str.toString());
     }
 });
 ````
