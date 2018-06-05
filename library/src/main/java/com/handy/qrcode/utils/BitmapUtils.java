@@ -81,7 +81,7 @@ public class BitmapUtils {
      *
      * @param barcode  原图片
      * @param content  水印文本
-     * @param textSize 水印字体大小（建议值：15）
+     * @param textSize 水印字体大小（建议值：13）
      * @param color    水印字体颜色
      * @param x        起始坐标x
      * @param y        起始坐标y
