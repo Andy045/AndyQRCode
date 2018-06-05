@@ -21,8 +21,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +36,7 @@ import com.handy.qrcode.support.multiple.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,18 +73,7 @@ public final class ScanActivityHandler extends Handler {
         } else if (message.what == R.id.handy_qrcode_decode_succeeded) {
             state = State.SUCCESS;
             Bundle bundle = message.getData();
-            Bitmap barcode = null;
-            float scaleFactor = 1.0f;
-            if (bundle != null) {
-                byte[] compressedBitmap = bundle.getByteArray(DecodeThread.BARCODE_BITMAP);
-                if (compressedBitmap != null) {
-                    barcode = BitmapFactory.decodeByteArray(compressedBitmap, 0, compressedBitmap.length, null);
-                    // Mutable copy:
-                    barcode = barcode.copy(Bitmap.Config.ARGB_8888, true);
-                }
-                scaleFactor = bundle.getFloat(DecodeThread.BARCODE_SCALED_FACTOR);
-            }
-            activity.handleDecode((Result) message.obj, barcode, scaleFactor);
+            activity.handleDecode((List<Result>) message.obj, bundle);
 
         } else if (message.what == R.id.handy_qrcode_decode_failed) {
             // We're decoding as fast as possible, so when one decode fails, start another.
