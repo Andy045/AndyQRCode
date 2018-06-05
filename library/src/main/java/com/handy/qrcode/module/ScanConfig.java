@@ -124,6 +124,6 @@ public final class ScanConfig {
      * 扫描结果回调接口（多个二维码同时扫描）
      */
     public interface ScanResultsListener {
-        void resultListener(List<Result> rawResult, Bundle bundle);
+        void resultListener(List<Result> rawResults, Bundle bundle);
     }
 }
