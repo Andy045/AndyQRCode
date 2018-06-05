@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.module.single;
+package com.handy.qrcode.module.multiple;
 
 import android.app.Activity;
 import android.content.Context;
@@ -40,13 +40,12 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.R;
-import com.handy.qrcode.module.ScanConfig;
-import com.handy.qrcode.support.single.BeepManager;
-import com.handy.qrcode.support.single.FinishListener;
-import com.handy.qrcode.support.single.InactivityTimer;
-import com.handy.qrcode.support.single.ScanActivityHandler;
-import com.handy.qrcode.support.single.ViewfinderView;
-import com.handy.qrcode.support.single.camera.CameraManager;
+import com.handy.qrcode.support.multiple.BeepManager;
+import com.handy.qrcode.support.multiple.FinishListener;
+import com.handy.qrcode.support.multiple.InactivityTimer;
+import com.handy.qrcode.support.multiple.ScanActivityHandler;
+import com.handy.qrcode.support.multiple.ViewfinderView;
+import com.handy.qrcode.support.multiple.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
@@ -61,9 +60,9 @@ import java.io.IOException;
  * @author dswitkin@google.com (Daniel Switkin)
  * @author Sean Owen
  */
-public final class ScanSingleActivity extends Activity implements SurfaceHolder.Callback {
+public final class ScanMultipleActivity extends Activity implements SurfaceHolder.Callback {
 
-    private static final String TAG = ScanSingleActivity.class.getSimpleName();
+    private static final String TAG = ScanMultipleActivity.class.getSimpleName();
     private TitleBar titleBar;
     private SurfaceView surfaceView;
     private ViewfinderView viewfinderView;
@@ -79,23 +78,23 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         super.onCreate(icicle);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        setContentView(R.layout.handy_activity_scan_single);
+        setContentView(R.layout.handy_activity_scan_multiple);
 
         surfaceView = findViewById(R.id.preview_view);
         viewfinderView = findViewById(R.id.viewfinder_view);
         titleBar = findViewById(R.id.common_titlebar);
         if (titleBar != null) {
-            if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            if (ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
                 titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
                 titleBar.setTitleBackground(getResources().getColor(R.color.handy_titlebar_background));
                 titleBar.setBottomLineHeight(1);
-            } else if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+            } else if (ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
                 titleBar.setTitle("");
                 titleBar.setBackgroundColor(Color.TRANSPARENT);
                 titleBar.setBottomLineHeight(0);
             }
 
-            titleBar.setImmersive(ScanSingleActivity.this, true);
+            titleBar.setImmersive(ScanMultipleActivity.this, true);
             titleBar.setBottomLineBackground(R.color.handy_titlebar_bottomLine_background);
             titleBar.addLeftAction(new TitleBar.Action() {
                 @Override
@@ -111,8 +110,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             titleBar.addRightAction(new TitleBar.Action() {
                 @Override
                 public void onClick() {
-                    ScanConfig.KEY_USE_LIGHT = !ScanConfig.KEY_USE_LIGHT;
-                    cameraManager.setTorch(ScanConfig.KEY_USE_LIGHT);
+                    ScanMultipleConfig.KEY_USE_LIGHT = !ScanMultipleConfig.KEY_USE_LIGHT;
+                    cameraManager.setTorch(ScanMultipleConfig.KEY_USE_LIGHT);
 
                     titleBar.removeAllRightActions();
                     titleBar.addRightAction(this);
@@ -120,7 +119,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
                 @Override
                 public int setDrawable() {
-                    return ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
+                    return ScanMultipleConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
                 }
             });
         }
@@ -139,8 +138,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         cameraManager = new CameraManager(getApplication());
         viewfinderView.setCameraManager(cameraManager);
 
-        setRequestedOrientation(ScanConfig.KEY_SCREEN_ORIENTATION);
-        if (ScanConfig.KEY_AUTO_ORIENTATION) {
+        setRequestedOrientation(ScanMultipleConfig.KEY_SCREEN_ORIENTATION);
+        if (ScanMultipleConfig.KEY_AUTO_ORIENTATION) {
             //启用监听
             myOrientationDetector.enable();
         }
@@ -232,7 +231,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         beepManager.playBeepSoundAndVibrate();
 
         SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
-        View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
+        View view = LayoutInflater.from(ScanMultipleActivity.this).inflate(R.layout.handy_view_scan_multiple_snackbar, null);
         TextView message = view.findViewById(R.id.snackbar_message);
         Button again = view.findViewById(R.id.snackbar_again);
         Button commit = view.findViewById(R.id.snackbar_commit);
@@ -257,9 +256,9 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         });
         commit.setOnClickListener(v -> {
             SnackBarUtils.dismiss();
-            if (ScanConfig.scanResultListener != null) {
-                ScanConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
-                ScanConfig.scanResultListener = null;
+            if (ScanMultipleConfig.scanResultListener != null) {
+                ScanMultipleConfig.scanResultListener.resultListener(rawResult, barcode, scaleFactor);
+                ScanMultipleConfig.scanResultListener = null;
             }
             finish();
         });
@@ -332,9 +331,9 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
             }
 
-            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
+            if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanMultipleConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
                 LogUtils.i(TAG, "orientation:" + orientation);
-                ScanConfig.KEY_SCREEN_ORIENTATION = orientation;
+                ScanMultipleConfig.KEY_SCREEN_ORIENTATION = orientation;
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
