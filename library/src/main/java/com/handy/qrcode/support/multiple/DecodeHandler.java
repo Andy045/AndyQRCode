@@ -24,16 +24,19 @@ import android.os.Message;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
-import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.multi.qrcode.QRCodeMultiReader;
 import com.handy.qrcode.R;
 import com.handy.qrcode.module.multiple.ScanMultipleActivity;
 import com.handy.qrcode.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 final class DecodeHandler extends Handler {
@@ -41,13 +44,15 @@ final class DecodeHandler extends Handler {
     private static final String TAG = DecodeHandler.class.getSimpleName();
 
     private final ScanMultipleActivity activity;
-    private final MultiFormatReader multiFormatReader;
     private boolean running = true;
 
+    private QRCodeMultiReader qrCodeMultiReader;
+    private Map<DecodeHintType, Object> hints;
+
     DecodeHandler(ScanMultipleActivity activity, Map<DecodeHintType, Object> hints) {
-        multiFormatReader = new MultiFormatReader();
-        multiFormatReader.setHints(hints);
+        this.hints = hints;
         this.activity = activity;
+        this.qrCodeMultiReader = new QRCodeMultiReader();
     }
 
     private static void bundleThumbnail(PlanarYUVLuminanceSource source, Bundle bundle) {
@@ -94,26 +99,27 @@ final class DecodeHandler extends Handler {
             }
             data = rotatedData;
         }
-        Result rawResult = null;
+        Result[] rawResults = null;
         PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
         if (source != null) {
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             try {
-                rawResult = multiFormatReader.decodeWithState(bitmap);
+                rawResults = qrCodeMultiReader.decodeMultiple(bitmap, hints);
             } catch (ReaderException re) {
                 // continue
+                re.printStackTrace();
             } finally {
-                multiFormatReader.reset();
+                qrCodeMultiReader.reset();
             }
         }
 
         Handler handler = activity.getHandler();
-        if (rawResult != null) {
+        if (rawResults != null && rawResults.length > 0) {
             // Don't log the barcode contents for security.
-            long end = System.currentTimeMillis();
-            LogUtils.d(TAG, "Found barcode in " + (end - start) + " ms");
             if (handler != null) {
-                Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, rawResult);
+                List<Result> results = new ArrayList<>(Arrays.asList(rawResults));
+                LogUtils.d(TAG, "results.size()=" + results.size());
+                Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, results);
                 Bundle bundle = new Bundle();
                 bundleThumbnail(source, bundle);
                 message.setData(bundle);
