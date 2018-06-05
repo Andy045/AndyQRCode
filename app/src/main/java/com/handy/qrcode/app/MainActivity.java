@@ -15,8 +15,7 @@ public class MainActivity extends Activity {
 
         TitleBar titleBar = findViewById(R.id.titlebar);
         titleBar.setTitle("扫描库");
-        titleBar.setTitleBackground(getResources().getColor(com.handy.qrcode.R.color.titlebar_background));
-        titleBar.setBottomLineHeight(0);
+        titleBar.setTitleBarBackground(R.color.titlebar_background);
         titleBar.setImmersive(MainActivity.this, true);
         titleBar.addLeftAction(new TitleBar.Action() {
             @Override

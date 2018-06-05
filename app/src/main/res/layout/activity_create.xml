@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parent_layout"
     android:orientation="vertical">
 
     <com.handy.qrcode.widget.TitleBar
@@ -14,6 +14,7 @@
         android:id="@+id/edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:hint="请输入二维码内容"
         android:padding="8dp"
         android:textColor="#000000"
@@ -22,11 +23,9 @@
     <Button
         android:id="@+id/create"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="42dp"
         android:minHeight="0dp"
         android:minWidth="0dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:text="生成二维码"
         android:textSize="13sp" />
 

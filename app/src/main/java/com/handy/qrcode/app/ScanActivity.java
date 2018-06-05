@@ -32,8 +32,7 @@ public class ScanActivity extends Activity {
 
         TitleBar titleBar = findViewById(R.id.titlebar);
         titleBar.setTitle("扫描条码和二维码");
-        titleBar.setTitleBackground(getResources().getColor(com.handy.qrcode.R.color.titlebar_background));
-        titleBar.setBottomLineHeight(0);
+        titleBar.setTitleBarBackground(R.color.titlebar_background);
         titleBar.setImmersive(ScanActivity.this, true);
         titleBar.addLeftAction(new TitleBar.Action() {
             @Override

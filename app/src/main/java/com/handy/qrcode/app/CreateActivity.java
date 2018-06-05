@@ -32,8 +32,7 @@ public class CreateActivity extends Activity {
 
         TitleBar titleBar = findViewById(R.id.titlebar);
         titleBar.setTitle("生成二维码");
-        titleBar.setTitleBackground(getResources().getColor(com.handy.qrcode.R.color.titlebar_background));
-        titleBar.setBottomLineHeight(0);
+        titleBar.setTitleBarBackground(R.color.titlebar_background);
         titleBar.setImmersive(CreateActivity.this, true);
         titleBar.addLeftAction(new TitleBar.Action() {
             @Override
