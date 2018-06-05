@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
                     Bitmap bitmap;
                     bitmap = BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult, true);
                     bitmap = BitmapUtils.compressByScale(bitmap, 360, 640, true);
-                    bitmap = BitmapUtils.addTextWatermark(MainActivity.this, bitmap, "HandyQRCode\nhttps://www.handy045.com", 42, Color.BLUE, 4, 4, true);
+                    bitmap = BitmapUtils.addTextWatermark(MainActivity.this, bitmap, "HandyQRCode\nhttps://www.handy045.com", 13, Color.BLUE, 4, 4, true);
                     ((TextView) findViewById(R.id.result)).setText("扫描结果：" + rawResult.getText());
                     ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
                 }).start(MainActivity.this);
