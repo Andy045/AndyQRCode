@@ -22,7 +22,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Browser;
@@ -72,8 +71,7 @@ public final class ScanActivityHandler extends Handler {
 
         } else if (message.what == R.id.handy_qrcode_decode_succeeded) {
             state = State.SUCCESS;
-            Bundle bundle = message.getData();
-            activity.handleDecode((List<Result>) message.obj, bundle);
+            activity.handleDecode((List<Result>) message.obj, message.getData());
 
         } else if (message.what == R.id.handy_qrcode_decode_failed) {
             // We're decoding as fast as possible, so when one decode fails, start another.
