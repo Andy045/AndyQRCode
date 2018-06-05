@@ -107,6 +107,9 @@ public final class ScanSingleConfig {
      */
     public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
+    /**
+     * 扫描结果回调接口
+     */
     public interface ScanResultListener {
         void resultListener(Result rawResult, Bitmap barcode, float scaleFactor);
     }
