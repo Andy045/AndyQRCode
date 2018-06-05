@@ -17,7 +17,7 @@
     <!--扫描界面标题栏背景颜色-->
     <color name="handy_titlebar_background">#00000000</color>
     <!--扫描界面标题栏底部分割线背景颜色-->
-    <color name="handy_titlebar_bottomLine_background">#00000000</color>
+    <color name="handy_titlebar_bottomLine_background">#AAFFFFFF</color>
 
     <!--二维码扫描时，识别点描点-->
     <color name="handy_qrcode_points_color">#C0FFBD21</color> <!-- Android standard ICS color -->
