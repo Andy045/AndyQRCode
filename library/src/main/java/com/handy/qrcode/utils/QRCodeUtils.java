@@ -2,7 +2,6 @@ package com.handy.qrcode.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Matrix;
 
 import com.google.zxing.BarcodeFormat;
@@ -48,7 +47,7 @@ public class QRCodeUtils {
                     if (matrix.get(x, y)) {
                         pixels[y * width + x] = 0xff000000;
                     } else {
-                        pixels[y * width + x] = Color.WHITE;
+                        pixels[y * width + x] = 0xffffffff;
                     }
                 }
             }
@@ -113,7 +112,7 @@ public class QRCodeUtils {
                             // 记录黑块信息
                             pixels[y * width + x] = 0xff000000;
                         } else {
-                            pixels[y * width + x] = Color.WHITE;
+                            pixels[y * width + x] = 0xffffffff;
                         }
                     }
                 }
