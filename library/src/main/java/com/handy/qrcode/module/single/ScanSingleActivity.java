@@ -225,45 +225,59 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
      * @param rawResult The contents of the barcode.
      * @param bundle    result data
      */
-    public void handleDecode(Result rawResult, Bundle bundle) {
+    public void handleDecode(final Result rawResult, final Bundle bundle) {
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
-        SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
-        View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
-        TextView message = view.findViewById(R.id.snackbar_message);
-        Button again = view.findViewById(R.id.snackbar_again);
-        Button commit = view.findViewById(R.id.snackbar_commit);
+        if (ScanConfig.KEY_VERIFY_RESULT) {
+            SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
+            View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
+            TextView message = view.findViewById(R.id.snackbar_message);
+            Button again = view.findViewById(R.id.snackbar_again);
+            Button commit = view.findViewById(R.id.snackbar_commit);
 
-        message.setText(rawResult.getText());
-        again.setOnClickListener(v -> {
-            SnackBarUtils.dismiss();
-            new CountDownTimer(1000, 1000) {
-
+            message.setText(rawResult.getText());
+            again.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onTick(long millisUntilFinished) {
+                public void onClick(View v) {
+                    SnackBarUtils.dismiss();
+                    new CountDownTimer(1000, 1000) {
 
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            if (handler != null) {
+                                handler.restartPreviewAndDecode(false);
+                            }
+                        }
+                    }.start();
                 }
-
+            });
+            commit.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onFinish() {
-                    if (handler != null) {
-                        handler.restartPreviewAndDecode(false);
+                public void onClick(View v) {
+                    SnackBarUtils.dismiss();
+                    if (ScanConfig.scanResultListener != null) {
+                        ScanConfig.scanResultListener.resultListener(rawResult, bundle);
+                        ScanConfig.scanResultListener = null;
                     }
+                    finish();
                 }
-            }.start();
-        });
-        commit.setOnClickListener(v -> {
-            SnackBarUtils.dismiss();
+            });
+            snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
+            snackBarUtils.show();
+            SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        } else {
             if (ScanConfig.scanResultListener != null) {
                 ScanConfig.scanResultListener.resultListener(rawResult, bundle);
                 ScanConfig.scanResultListener = null;
             }
             finish();
-        });
-        snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
-        snackBarUtils.show();
-        SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
     }
 
     public ViewfinderView getViewfinderView() {

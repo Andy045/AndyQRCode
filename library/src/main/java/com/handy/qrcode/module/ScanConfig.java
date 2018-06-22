@@ -111,6 +111,10 @@ public final class ScanConfig {
      * 屏幕竖屏旋转方向 (默认竖屏)
      */
     public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+    /**
+     * 通过底部弹出的SncakBar，手动确认扫描结果
+     */
+    public static boolean KEY_VERIFY_RESULT = true;
 
     /**
      * 扫描结果回调接口（单个条码或二维码扫描）

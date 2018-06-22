@@ -226,45 +226,59 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
      * @param rawResults The contents of the barcodes.
      * @param bundle     result data
      */
-    public void handleDecode(List<Result> rawResults, Bundle bundle) {
+    public void handleDecode(final List<Result> rawResults, final Bundle bundle) {
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 
-        SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
-        View view = LayoutInflater.from(ScanMultipleActivity.this).inflate(R.layout.handy_view_scan_multiple_snackbar, null);
-        TextView message = view.findViewById(R.id.snackbar_message);
-        Button again = view.findViewById(R.id.snackbar_again);
-        Button commit = view.findViewById(R.id.snackbar_commit);
+        if (ScanConfig.KEY_VERIFY_RESULT) {
+            SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
+            View view = LayoutInflater.from(ScanMultipleActivity.this).inflate(R.layout.handy_view_scan_multiple_snackbar, null);
+            TextView message = view.findViewById(R.id.snackbar_message);
+            Button again = view.findViewById(R.id.snackbar_again);
+            Button commit = view.findViewById(R.id.snackbar_commit);
 
-        message.setText("共识别到" + rawResults.size() + "个二维码");
-        again.setOnClickListener(v -> {
-            SnackBarUtils.dismiss();
-            new CountDownTimer(1000, 1000) {
-
+            message.setText("共识别到" + rawResults.size() + "个二维码");
+            again.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onTick(long millisUntilFinished) {
+                public void onClick(View v) {
+                    SnackBarUtils.dismiss();
+                    new CountDownTimer(1000, 1000) {
 
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            if (handler != null) {
+                                handler.restartPreviewAndDecode(false);
+                            }
+                        }
+                    }.start();
                 }
-
+            });
+            commit.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onFinish() {
-                    if (handler != null) {
-                        handler.restartPreviewAndDecode(false);
+                public void onClick(View v) {
+                    SnackBarUtils.dismiss();
+                    if (ScanConfig.scanResultsListener != null) {
+                        ScanConfig.scanResultsListener.resultListener(rawResults, bundle);
+                        ScanConfig.scanResultsListener = null;
                     }
+                    finish();
                 }
-            }.start();
-        });
-        commit.setOnClickListener(v -> {
-            SnackBarUtils.dismiss();
+            });
+            snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
+            snackBarUtils.show();
+            SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        } else {
             if (ScanConfig.scanResultsListener != null) {
                 ScanConfig.scanResultsListener.resultListener(rawResults, bundle);
                 ScanConfig.scanResultsListener = null;
             }
             finish();
-        });
-        snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
-        snackBarUtils.show();
-        SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
     }
 
     public ViewfinderView getViewfinderView() {
