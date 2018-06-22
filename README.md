@@ -124,6 +124,10 @@ public static boolean KEY_AUTO_ORIENTATION = true;
 ``` java
 public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 ```
+### 通过底部弹出的SncakBar，手动确认扫描结果（默认手动确认）
+``` java
+public static boolean KEY_VERIFY_RESULT = true;
+```
 
 # 使用方式
 
