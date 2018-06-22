@@ -20,7 +20,6 @@ ext {
     // 依赖库管理
     dependencies = [
             api_appcompatV7: "com.android.support:appcompat-v7:$rootProject.api_supportLibraryVersion",
-            api_design     : "com.android.support:design:$rootProject.api_supportLibraryVersion",
 
             api_zxing      : "com.google.zxing:core:$rootProject.api_zxing",
     ]
