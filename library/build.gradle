@@ -92,6 +92,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     api rootProject.ext.dependencies.api_appcompatV7
+    api rootProject.ext.dependencies.api_design
 
     api rootProject.ext.dependencies.api_zxing
 }
