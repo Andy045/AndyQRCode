@@ -33,8 +33,6 @@ import java.util.concurrent.RejectedExecutionException;
  */
 public final class InactivityTimer {
 
-    private static final String TAG = InactivityTimer.class.getSimpleName();
-
     private static final long INACTIVITY_DELAY_MS = 5 * 60 * 1000L;
 
     private final Activity activity;
@@ -55,7 +53,7 @@ public final class InactivityTimer {
         try {
             inactivityTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } catch (RejectedExecutionException ree) {
-            LogUtils.w(TAG, "Couldn't schedule inactivity task; ignoring");
+            LogUtils.w("Couldn't schedule inactivity task; ignoring");
         }
     }
 
@@ -65,13 +63,13 @@ public final class InactivityTimer {
             activity.unregisterReceiver(powerStatusReceiver);
             registered = false;
         } else {
-            LogUtils.w(TAG, "PowerStatusReceiver was never registered?");
+            LogUtils.w("PowerStatusReceiver was never registered?");
         }
     }
 
     public synchronized void onResume() {
         if (registered) {
-            LogUtils.w(TAG, "PowerStatusReceiver was already registered?");
+            LogUtils.w("PowerStatusReceiver was already registered?");
         } else {
             activity.registerReceiver(powerStatusReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             registered = true;
@@ -111,7 +109,7 @@ public final class InactivityTimer {
         protected Object doInBackground(Object... objects) {
             try {
                 Thread.sleep(INACTIVITY_DELAY_MS);
-                LogUtils.i(TAG, "Finishing activity due to inactivity");
+                LogUtils.i("Finishing activity due to inactivity");
                 activity.finish();
             } catch (InterruptedException e) {
                 // continue without killing

@@ -39,8 +39,6 @@ import java.util.regex.Pattern;
 @SuppressWarnings("deprecation") // camera APIs
 public final class CameraConfigurationUtils {
 
-    private static final String TAG = "CameraConfiguration";
-
     private static final Pattern SEMICOLON = Pattern.compile(";");
 
     /**
@@ -73,7 +71,7 @@ public final class CameraConfigurationUtils {
         }
         if (focusMode != null) {
             if (focusMode.equals(parameters.getFocusMode())) {
-                LogUtils.i(TAG, "Focus mode already set to " + focusMode);
+                LogUtils.i("Focus mode already set to " + focusMode);
             } else {
                 parameters.setFocusMode(focusMode);
             }
@@ -90,9 +88,9 @@ public final class CameraConfigurationUtils {
         }
         if (flashMode != null) {
             if (flashMode.equals(parameters.getFlashMode())) {
-                LogUtils.i(TAG, "Flash mode already set to " + flashMode);
+                LogUtils.i("Flash mode already set to " + flashMode);
             } else {
-                LogUtils.i(TAG, "Setting flash mode to " + flashMode);
+                LogUtils.i("Setting flash mode to " + flashMode);
                 parameters.setFlashMode(flashMode);
             }
         }
@@ -110,13 +108,13 @@ public final class CameraConfigurationUtils {
             // Clamp value:
             compensationSteps = Math.max(Math.min(compensationSteps, maxExposure), minExposure);
             if (parameters.getExposureCompensation() == compensationSteps) {
-                LogUtils.i(TAG, "Exposure compensation already set to " + compensationSteps + " / " + actualCompensation);
+                LogUtils.i("Exposure compensation already set to " + compensationSteps + " / " + actualCompensation);
             } else {
-                LogUtils.i(TAG, "Setting exposure compensation to " + compensationSteps + " / " + actualCompensation);
+                LogUtils.i("Setting exposure compensation to " + compensationSteps + " / " + actualCompensation);
                 parameters.setExposureCompensation(compensationSteps);
             }
         } else {
-            LogUtils.i(TAG, "Camera does not support exposure compensation");
+            LogUtils.i("Camera does not support exposure compensation");
         }
     }
 
@@ -126,7 +124,7 @@ public final class CameraConfigurationUtils {
 
     public static void setBestPreviewFPS(Camera.Parameters parameters, int minFPS, int maxFPS) {
         List<int[]> supportedPreviewFpsRanges = parameters.getSupportedPreviewFpsRange();
-        LogUtils.i(TAG, "Supported FPS ranges: " + toString(supportedPreviewFpsRanges));
+        LogUtils.i("Supported FPS ranges: " + toString(supportedPreviewFpsRanges));
         if (supportedPreviewFpsRanges != null && !supportedPreviewFpsRanges.isEmpty()) {
             int[] suitableFPSRange = null;
             for (int[] fpsRange : supportedPreviewFpsRanges) {
@@ -138,14 +136,14 @@ public final class CameraConfigurationUtils {
                 }
             }
             if (suitableFPSRange == null) {
-                LogUtils.i(TAG, "No suitable FPS range?");
+                LogUtils.i("No suitable FPS range?");
             } else {
                 int[] currentFpsRange = new int[2];
                 parameters.getPreviewFpsRange(currentFpsRange);
                 if (Arrays.equals(currentFpsRange, suitableFPSRange)) {
-                    LogUtils.i(TAG, "FPS range already set to " + Arrays.toString(suitableFPSRange));
+                    LogUtils.i("FPS range already set to " + Arrays.toString(suitableFPSRange));
                 } else {
-                    LogUtils.i(TAG, "Setting FPS range to " + Arrays.toString(suitableFPSRange));
+                    LogUtils.i("Setting FPS range to " + Arrays.toString(suitableFPSRange));
                     parameters.setPreviewFpsRange(suitableFPSRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX], suitableFPSRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
                 }
             }
@@ -156,12 +154,12 @@ public final class CameraConfigurationUtils {
         if (parameters.getMaxNumFocusAreas() > 0) {
             String str = parameters.get("focus-areas").replace(" ", "");
             parameters.set("focus-areas", str);
-            LogUtils.i(TAG, "Old focus areas: " + toString(parameters.getFocusAreas()));
+            LogUtils.i("Old focus areas: " + toString(parameters.getFocusAreas()));
             List<Camera.Area> middleArea = buildMiddleArea(AREA_PER_1000);
-            LogUtils.i(TAG, "Setting focus area to : " + toString(middleArea));
+            LogUtils.i("Setting focus area to : " + toString(middleArea));
             parameters.setFocusAreas(middleArea);
         } else {
-            LogUtils.i(TAG, "Device does not support focus areas");
+            LogUtils.i("Device does not support focus areas");
         }
     }
 
@@ -169,12 +167,12 @@ public final class CameraConfigurationUtils {
         if (parameters.getMaxNumMeteringAreas() > 0) {
             String str = parameters.get("metering-areas").replace(" ", "");
             parameters.set("metering-areas", str);
-            LogUtils.i(TAG, "Old metering areas: " + parameters.getMeteringAreas());
+            LogUtils.i("Old metering areas: " + parameters.getMeteringAreas());
             List<Camera.Area> middleArea = buildMiddleArea(AREA_PER_1000);
-            LogUtils.i(TAG, "Setting metering area to : " + toString(middleArea));
+            LogUtils.i("Setting metering area to : " + toString(middleArea));
             parameters.setMeteringAreas(middleArea);
         } else {
-            LogUtils.i(TAG, "Device does not support metering areas");
+            LogUtils.i("Device does not support metering areas");
         }
     }
 
@@ -185,19 +183,19 @@ public final class CameraConfigurationUtils {
     public static void setVideoStabilization(Camera.Parameters parameters) {
         if (parameters.isVideoStabilizationSupported()) {
             if (parameters.getVideoStabilization()) {
-                LogUtils.i(TAG, "Video stabilization already enabled");
+                LogUtils.i("Video stabilization already enabled");
             } else {
-                LogUtils.i(TAG, "Enabling video stabilization...");
+                LogUtils.i("Enabling video stabilization...");
                 parameters.setVideoStabilization(true);
             }
         } else {
-            LogUtils.i(TAG, "This device does not support video stabilization");
+            LogUtils.i("This device does not support video stabilization");
         }
     }
 
     public static void setBarcodeSceneMode(Camera.Parameters parameters) {
         if (Camera.Parameters.SCENE_MODE_BARCODE.equals(parameters.getSceneMode())) {
-            LogUtils.i(TAG, "Barcode scene mode already set");
+            LogUtils.i("Barcode scene mode already set");
             return;
         }
         String sceneMode = findSettableValue("scene mode", parameters.getSupportedSceneModes(), Camera.Parameters.SCENE_MODE_BARCODE);
@@ -213,22 +211,22 @@ public final class CameraConfigurationUtils {
                 return;
             }
             if (parameters.getZoom() == zoom) {
-                LogUtils.i(TAG, "Zoom is already set to " + zoom);
+                LogUtils.i("Zoom is already set to " + zoom);
             } else {
-                LogUtils.i(TAG, "Setting zoom to " + zoom);
+                LogUtils.i("Setting zoom to " + zoom);
                 parameters.setZoom(zoom);
             }
         } else {
-            LogUtils.i(TAG, "Zoom is not supported");
+            LogUtils.i("Zoom is not supported");
         }
     }
 
     private static Integer indexOfClosestZoom(Camera.Parameters parameters, double targetZoomRatio) {
         List<Integer> ratios = parameters.getZoomRatios();
-        LogUtils.i(TAG, "Zoom ratios: " + ratios);
+        LogUtils.i("Zoom ratios: " + ratios);
         int maxZoom = parameters.getMaxZoom();
         if (ratios == null || ratios.isEmpty() || ratios.size() != maxZoom + 1) {
-            LogUtils.w(TAG, "Invalid zoom ratios!");
+            LogUtils.w("Invalid zoom ratios!");
             return null;
         }
         double target100 = 100.0 * targetZoomRatio;
@@ -241,13 +239,13 @@ public final class CameraConfigurationUtils {
                 closestIndex = i;
             }
         }
-        LogUtils.i(TAG, "Chose zoom ratio of " + (ratios.get(closestIndex) / 100.0));
+        LogUtils.i("Chose zoom ratio of " + (ratios.get(closestIndex) / 100.0));
         return closestIndex;
     }
 
     public static void setInvertColor(Camera.Parameters parameters) {
         if (Camera.Parameters.EFFECT_NEGATIVE.equals(parameters.getColorEffect())) {
-            LogUtils.i(TAG, "Negative effect already set");
+            LogUtils.i("Negative effect already set");
             return;
         }
         String colorMode = findSettableValue("color effect", parameters.getSupportedColorEffects(), Camera.Parameters.EFFECT_NEGATIVE);
@@ -260,7 +258,7 @@ public final class CameraConfigurationUtils {
 
         List<Camera.Size> rawSupportedSizes = parameters.getSupportedPreviewSizes();
         if (rawSupportedSizes == null) {
-            LogUtils.w(TAG, "Device returned no supported preview sizes; using default");
+            LogUtils.w("Device returned no supported preview sizes; using default");
             Camera.Size defaultSize = parameters.getPreviewSize();
             if (defaultSize == null) {
                 throw new IllegalStateException("Parameters contained no preview size!");
@@ -268,12 +266,12 @@ public final class CameraConfigurationUtils {
             return new Point(defaultSize.width, defaultSize.height);
         }
 
-        if (Log.isLoggable(TAG, Log.INFO)) {
+        if (Log.isLoggable(LogUtils.TAG, Log.INFO)) {
             StringBuilder previewSizesString = new StringBuilder();
             for (Camera.Size size : rawSupportedSizes) {
                 previewSizesString.append(size.width).append('x').append(size.height).append(' ');
             }
-            LogUtils.i(TAG, "Supported preview sizes: " + previewSizesString);
+            LogUtils.i("Supported preview sizes: " + previewSizesString);
         }
 
         double screenAspectRatio = screenResolution.x / (double) screenResolution.y;
@@ -300,7 +298,7 @@ public final class CameraConfigurationUtils {
 
             if (maybeFlippedWidth == screenResolution.x && maybeFlippedHeight == screenResolution.y) {
                 Point exactPoint = new Point(realWidth, realHeight);
-                LogUtils.i(TAG, "Found preview size exactly matching screen size: " + exactPoint);
+                LogUtils.i("Found preview size exactly matching screen size: " + exactPoint);
                 return exactPoint;
             }
 
@@ -316,7 +314,7 @@ public final class CameraConfigurationUtils {
         // the CPU is much more powerful.
         if (maxResPreviewSize != null) {
             Point largestSize = new Point(maxResPreviewSize.width, maxResPreviewSize.height);
-            LogUtils.i(TAG, "Using largest suitable preview size: " + largestSize);
+            LogUtils.i("Using largest suitable preview size: " + largestSize);
             return largestSize;
         }
 
@@ -326,22 +324,22 @@ public final class CameraConfigurationUtils {
             throw new IllegalStateException("Parameters contained no preview size!");
         }
         Point defaultSize = new Point(defaultPreview.width, defaultPreview.height);
-        LogUtils.i(TAG, "No suitable preview sizes, using default: " + defaultSize);
+        LogUtils.i("No suitable preview sizes, using default: " + defaultSize);
         return defaultSize;
     }
 
     private static String findSettableValue(String name, Collection<String> supportedValues, String... desiredValues) {
-        LogUtils.i(TAG, "Requesting " + name + " value from among: " + Arrays.toString(desiredValues));
-        LogUtils.i(TAG, "Supported " + name + " values: " + supportedValues);
+        LogUtils.i("Requesting " + name + " value from among: " + Arrays.toString(desiredValues));
+        LogUtils.i("Supported " + name + " values: " + supportedValues);
         if (supportedValues != null) {
             for (String desiredValue : desiredValues) {
                 if (supportedValues.contains(desiredValue)) {
-                    LogUtils.i(TAG, "Can set " + name + " to: " + desiredValue);
+                    LogUtils.i("Can set " + name + " to: " + desiredValue);
                     return desiredValue;
                 }
             }
         }
-        LogUtils.i(TAG, "No supported values match");
+        LogUtils.i("No supported values match");
         return null;
     }
 

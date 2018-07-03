@@ -41,8 +41,6 @@ import java.util.Map;
 
 final class DecodeHandler extends Handler {
 
-    private static final String TAG = DecodeHandler.class.getSimpleName();
-
     private final ScanMultipleActivity activity;
     private boolean running = true;
 
@@ -118,7 +116,7 @@ final class DecodeHandler extends Handler {
             // Don't log the barcode contents for security.
             if (handler != null) {
                 List<Result> results = new ArrayList<>(Arrays.asList(rawResults));
-                LogUtils.d(TAG, "results.size()=" + results.size());
+                LogUtils.d("results.size()=" + results.size());
                 Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, results);
                 Bundle bundle = new Bundle();
                 bundleThumbnail(source, bundle);

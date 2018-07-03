@@ -30,7 +30,6 @@ public final class OpenCameraInterface {
      * For {@link #open(int)}, means no preference for which camera to open.
      */
     public static final int NO_REQUESTED_CAMERA = -1;
-    private static final String TAG = OpenCameraInterface.class.getName();
 
     private OpenCameraInterface() {
     }
@@ -47,7 +46,7 @@ public final class OpenCameraInterface {
 
         int numCameras = Camera.getNumberOfCameras();
         if (numCameras == 0) {
-            LogUtils.w(TAG, "No cameras!");
+            LogUtils.w("No cameras!");
             return null;
         }
 
@@ -75,14 +74,14 @@ public final class OpenCameraInterface {
 
         Camera camera;
         if (index < numCameras) {
-            LogUtils.i(TAG, "Opening camera #" + index);
+            LogUtils.i("Opening camera #" + index);
             camera = Camera.open(index);
         } else {
             if (explicitRequest) {
-                LogUtils.w(TAG, "Requested camera does not exist: " + cameraId);
+                LogUtils.w("Requested camera does not exist: " + cameraId);
                 camera = null;
             } else {
-                LogUtils.i(TAG, "No camera facing " + CameraFacing.BACK + "; returning camera #0");
+                LogUtils.i("No camera facing " + CameraFacing.BACK + "; returning camera #0");
                 camera = Camera.open(0);
                 selectedCameraInfo = new Camera.CameraInfo();
                 Camera.getCameraInfo(0, selectedCameraInfo);

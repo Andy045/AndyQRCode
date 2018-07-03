@@ -44,8 +44,6 @@ import java.util.Map;
  */
 public final class ScanActivityHandler extends Handler {
 
-    private static final String TAG = ScanActivityHandler.class.getSimpleName();
-
     private final ScanSingleActivity activity;
     private final DecodeThread decodeThread;
     private final CameraManager cameraManager;
@@ -92,7 +90,7 @@ public final class ScanActivityHandler extends Handler {
             String browserPackageName = null;
             if (resolveInfo != null && resolveInfo.activityInfo != null) {
                 browserPackageName = resolveInfo.activityInfo.packageName;
-                LogUtils.d(TAG, "Using browser in package " + browserPackageName);
+                LogUtils.d("Using browser in package " + browserPackageName);
             }
 
             // Needed for default Android browser / Chrome only apparently
@@ -107,7 +105,7 @@ public final class ScanActivityHandler extends Handler {
             try {
                 activity.startActivity(intent);
             } catch (ActivityNotFoundException ignored) {
-                LogUtils.w(TAG, "Can't find anything to handle VIEW of URI " + url);
+                LogUtils.w("Can't find anything to handle VIEW of URI " + url);
             }
         }
     }

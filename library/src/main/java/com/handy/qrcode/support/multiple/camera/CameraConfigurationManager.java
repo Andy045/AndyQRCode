@@ -35,8 +35,6 @@ import com.handy.qrcode.utils.LogUtils;
 @SuppressWarnings("deprecation") // camera APIs
 final class CameraConfigurationManager {
 
-    private static final String TAG = "CameraConfiguration";
-
     private final Context context;
     private int cwNeededRotation;
     private int cwRotationFromDisplayToCamera;
@@ -80,35 +78,35 @@ final class CameraConfigurationManager {
                     throw new IllegalArgumentException("Bad rotation: " + displayRotation);
                 }
         }
-        LogUtils.i(TAG, "Display at: " + cwRotationFromNaturalToDisplay);
+        LogUtils.i("Display at: " + cwRotationFromNaturalToDisplay);
 
         int cwRotationFromNaturalToCamera = camera.getOrientation();
-        LogUtils.i(TAG, "Camera at: " + cwRotationFromNaturalToCamera);
+        LogUtils.i("Camera at: " + cwRotationFromNaturalToCamera);
 
         // Still not 100% sure about this. But acts like we need to flip this:
         if (camera.getFacing() == CameraFacing.FRONT) {
             cwRotationFromNaturalToCamera = (360 - cwRotationFromNaturalToCamera) % 360;
-            LogUtils.i(TAG, "Front camera overriden to: " + cwRotationFromNaturalToCamera);
+            LogUtils.i("Front camera overriden to: " + cwRotationFromNaturalToCamera);
         }
 
         cwRotationFromDisplayToCamera = (360 + cwRotationFromNaturalToCamera - cwRotationFromNaturalToDisplay) % 360;
-        LogUtils.i(TAG, "Final display orientation: " + cwRotationFromDisplayToCamera);
+        LogUtils.i("Final display orientation: " + cwRotationFromDisplayToCamera);
         if (camera.getFacing() == CameraFacing.FRONT) {
-            LogUtils.i(TAG, "Compensating rotation for front camera");
+            LogUtils.i("Compensating rotation for front camera");
             cwNeededRotation = (360 - cwRotationFromDisplayToCamera) % 360;
         } else {
             cwNeededRotation = cwRotationFromDisplayToCamera;
         }
-        LogUtils.i(TAG, "Clockwise rotation from display to camera: " + cwNeededRotation);
+        LogUtils.i("Clockwise rotation from display to camera: " + cwNeededRotation);
 
         Point theScreenResolution = new Point();
         display.getSize(theScreenResolution);
         screenResolution = theScreenResolution;
-        LogUtils.i(TAG, "Screen resolution in current orientation: " + screenResolution);
+        LogUtils.i("Screen resolution in current orientation: " + screenResolution);
         cameraResolution = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolution);
-        LogUtils.i(TAG, "Camera resolution: " + cameraResolution);
+        LogUtils.i("Camera resolution: " + cameraResolution);
         bestPreviewSize = CameraConfigurationUtils.findBestPreviewSizeValue(parameters, screenResolution);
-        LogUtils.i(TAG, "Best available preview size: " + bestPreviewSize);
+        LogUtils.i("Best available preview size: " + bestPreviewSize);
 
         boolean isScreenPortrait = screenResolution.x < screenResolution.y;
         boolean isPreviewSizePortrait = bestPreviewSize.x < bestPreviewSize.y;
@@ -118,7 +116,7 @@ final class CameraConfigurationManager {
         } else {
             previewSizeOnScreen = new Point(bestPreviewSize.y, bestPreviewSize.x);
         }
-        LogUtils.i(TAG, "Preview size on screen: " + previewSizeOnScreen);
+        LogUtils.i("Preview size on screen: " + previewSizeOnScreen);
     }
 
     void setDesiredCameraParameters(OpenCamera camera, boolean safeMode) {
@@ -127,14 +125,14 @@ final class CameraConfigurationManager {
         Camera.Parameters parameters = theCamera.getParameters();
 
         if (parameters == null) {
-            LogUtils.w(TAG, "Device error: no camera parameters are available. Proceeding without configuration.");
+            LogUtils.w("Device error: no camera parameters are available. Proceeding without configuration.");
             return;
         }
 
-        LogUtils.i(TAG, "Initial camera parameters: " + parameters.flatten());
+        LogUtils.i("Initial camera parameters: " + parameters.flatten());
 
         if (safeMode) {
-            LogUtils.w(TAG, "In camera config safe mode -- most settings will not be honored");
+            LogUtils.w("In camera config safe mode -- most settings will not be honored");
         }
 
         doSetTorch(parameters, ScanConfig.KEY_USE_LIGHT, safeMode);
@@ -171,7 +169,7 @@ final class CameraConfigurationManager {
         Camera.Parameters afterParameters = theCamera.getParameters();
         Camera.Size afterSize = afterParameters.getPreviewSize();
         if (afterSize != null && (bestPreviewSize.x != afterSize.width || bestPreviewSize.y != afterSize.height)) {
-            LogUtils.w(TAG, "Camera said it supported preview size " + bestPreviewSize.x + 'x' + bestPreviewSize.y + ", but after setting it, preview size is " + afterSize.width + 'x' + afterSize.height);
+            LogUtils.w("Camera said it supported preview size " + bestPreviewSize.x + 'x' + bestPreviewSize.y + ", but after setting it, preview size is " + afterSize.width + 'x' + afterSize.height);
             bestPreviewSize.x = afterSize.width;
             bestPreviewSize.y = afterSize.height;
         }

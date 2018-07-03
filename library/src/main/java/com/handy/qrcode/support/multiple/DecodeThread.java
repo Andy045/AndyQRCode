@@ -88,7 +88,7 @@ public final class DecodeThread extends Thread {
             hints.put(DecodeHintType.CHARACTER_SET, characterSet);
         }
         hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
-        LogUtils.i("DecodeThread", "Hints: " + hints);
+        LogUtils.i("Hints: " + hints);
     }
 
     Handler getHandler() {

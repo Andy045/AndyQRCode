@@ -33,8 +33,6 @@ import java.util.regex.Pattern;
  */
 final class DecodeHintManager {
 
-    private static final String TAG = DecodeHintManager.class.getSimpleName();
-
     // This pattern is used in decoding integer arrays.
     private static final Pattern COMMA = Pattern.compile(",");
 
@@ -178,7 +176,7 @@ final class DecodeHintManager {
                     try {
                         array[i] = Integer.parseInt(values[i]);
                     } catch (NumberFormatException ignored) {
-                        LogUtils.w(TAG, "Skipping array of integers hint " + hintType + " due to invalid numeric value: '" + values[i] + '\'');
+                        LogUtils.w("Skipping array of integers hint " + hintType + " due to invalid numeric value: '" + values[i] + '\'');
                         array = null;
                         break;
                     }
@@ -188,10 +186,10 @@ final class DecodeHintManager {
                 }
                 continue;
             }
-            LogUtils.w(TAG, "Unsupported hint type '" + hintType + "' of type " + hintType.getValueType());
+            LogUtils.w("Unsupported hint type '" + hintType + "' of type " + hintType.getValueType());
         }
 
-        LogUtils.i(TAG, "Hints from the URI: " + hints);
+        LogUtils.i("Hints from the URI: " + hints);
         return hints;
     }
 
@@ -218,13 +216,13 @@ final class DecodeHintManager {
                     if (hintType.getValueType().isInstance(hintData)) {
                         hints.put(hintType, hintData);
                     } else {
-                        LogUtils.w(TAG, "Ignoring hint " + hintType + " because it is not assignable from " + hintData);
+                        LogUtils.w("Ignoring hint " + hintType + " because it is not assignable from " + hintData);
                     }
                 }
             }
         }
 
-        LogUtils.i(TAG, "Hints from the Intent: " + hints);
+        LogUtils.i("Hints from the Intent: " + hints);
         return hints;
     }
 }

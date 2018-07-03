@@ -38,8 +38,6 @@ import java.util.Map;
 
 final class DecodeHandler extends Handler {
 
-    private static final String TAG = DecodeHandler.class.getSimpleName();
-
     private final ScanSingleActivity activity;
     private final MultiFormatReader multiFormatReader;
     private boolean running = true;
@@ -111,7 +109,7 @@ final class DecodeHandler extends Handler {
         if (rawResult != null) {
             // Don't log the barcode contents for security.
             long end = System.currentTimeMillis();
-            LogUtils.d(TAG, "Found barcode in " + (end - start) + " ms");
+            LogUtils.d("Found barcode in " + (end - start) + " ms");
             if (handler != null) {
                 Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, rawResult);
                 Bundle bundle = new Bundle();

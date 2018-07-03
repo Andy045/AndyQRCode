@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 
 import com.handy.qrcode.module.multiple.ScanMultipleActivity;
 import com.handy.qrcode.module.single.ScanSingleActivity;
+import com.handy.qrcode.utils.LogUtils;
+import com.handy.qrcode.utils.PermissionsUtils;
 
 /**
  * 扫描功能创建者
@@ -28,9 +30,12 @@ public class ScanLauncher {
      * @param scanResultListener 扫描结果回调接口
      */
     public void startSingle(@NonNull Activity activity, @NonNull ScanConfig.ScanResultListener scanResultListener) {
-        ScanConfig.scanResultListener = null;
-        ScanConfig.scanResultListener = scanResultListener;
-        activity.startActivity(new Intent(activity, ScanSingleActivity.class));
+        LogUtils.init(activity.getApplication());
+        if (!PermissionsUtils.checkDeniedPermissions(activity, true)) {
+            ScanConfig.scanResultListener = null;
+            ScanConfig.scanResultListener = scanResultListener;
+            activity.startActivity(new Intent(activity, ScanSingleActivity.class));
+        }
     }
 
     /**
@@ -39,8 +44,11 @@ public class ScanLauncher {
      * @param scanResultsListener 扫描结果回调接口
      */
     public void startMultiple(@NonNull Activity activity, @NonNull ScanConfig.ScanResultsListener scanResultsListener) {
-        ScanConfig.scanResultsListener = null;
-        ScanConfig.scanResultsListener = scanResultsListener;
-        activity.startActivity(new Intent(activity, ScanMultipleActivity.class));
+        LogUtils.init(activity.getApplication());
+        if (!PermissionsUtils.checkDeniedPermissions(activity, true)) {
+            ScanConfig.scanResultsListener = null;
+            ScanConfig.scanResultsListener = scanResultsListener;
+            activity.startActivity(new Intent(activity, ScanMultipleActivity.class));
+        }
     }
 }

@@ -26,8 +26,6 @@ import com.handy.qrcode.utils.LogUtils;
 @SuppressWarnings("deprecation") // camera APIs
 final class PreviewCallback implements Camera.PreviewCallback {
 
-    private static final String TAG = PreviewCallback.class.getSimpleName();
-
     private final CameraConfigurationManager configManager;
     private Handler previewHandler;
     private int previewMessage;
@@ -58,7 +56,7 @@ final class PreviewCallback implements Camera.PreviewCallback {
             message.sendToTarget();
             previewHandler = null;
         } else {
-            LogUtils.d(TAG, "Got preview callback, but no handler or resolution available");
+            LogUtils.d("Got preview callback, but no handler or resolution available");
         }
     }
 }
