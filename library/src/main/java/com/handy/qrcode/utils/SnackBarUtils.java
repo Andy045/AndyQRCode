@@ -19,12 +19,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
 
 /**
- * SnackBar工具类
- *
- * @author LiuJie https://www.Handy045.com
- * @description 创建底部SncakBar
- * @date Created in 2018/5/29 下午4:34
- * @modified By LiuJie
+ * <pre>
+ *     author: Blankj
+ *     blog  : http://blankj.com
+ *     time  : 2016/10/16
+ *     desc  : utils about snackbar
+ * </pre>
  */
 public final class SnackBarUtils {
 
