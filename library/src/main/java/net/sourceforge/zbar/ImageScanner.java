@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------
- *  SymbolSet
+ *  ImageScanner
  *
  *  Copyright 2007-2010 (c) Jeff Brown <spadix@users.sourceforge.net>
  *
@@ -23,18 +23,15 @@
  *  http://sourceforge.net/projects/zbar
  *------------------------------------------------------------------------*/
 
-package com.handy.qrcode.support.zbar;
-
-import android.support.annotation.NonNull;
+package net.sourceforge.zbar;
 
 /**
- * Immutable container for decoded result symbols associated with an image
- * or a composite symbol.
+ * Read barcodes from 2-D images.
  */
 @SuppressWarnings("JniMissingFunction")
-public class SymbolSet extends java.util.AbstractCollection<Symbol> {
+public class ImageScanner {
     /**
-     * C pointer to a zbar_symbol_set_t.
+     * C pointer to a zbar_image_scanner_t.
      */
     private long peer;
 
@@ -46,12 +43,14 @@ public class SymbolSet extends java.util.AbstractCollection<Symbol> {
 
     private static native void init();
 
-    /**
-     * SymbolSets are only created by other package methods.
-     */
-    SymbolSet(long peer) {
-        this.peer = peer;
+    public ImageScanner() {
+        peer = create();
     }
+
+    /**
+     * Create an associated peer instance.
+     */
+    private native long create();
 
     @Override
     protected void finalize() {
@@ -69,30 +68,46 @@ public class SymbolSet extends java.util.AbstractCollection<Symbol> {
     }
 
     /**
-     * Release the associated peer instance.
+     * Destroy the associated peer instance.
      */
     private native void destroy(long peer);
 
     /**
-     * Retrieve an iterator over the Symbol elements in this collection.
+     * Set config for indicated symbology (0 for all) to specified value.
      */
-    @NonNull
-    public java.util.Iterator<Symbol> iterator() {
-        long sym = firstSymbol(peer);
-        if (sym == 0) {
-            return (new SymbolIterator(null));
-        }
-        return (new SymbolIterator(new Symbol(sym)));
+    public native void setConfig(int symbology, int config, int value)
+            throws IllegalArgumentException;
+
+    /**
+     * Parse configuration string and apply to image scanner.
+     */
+    public native void parseConfig(String config);
+
+    /**
+     * Enable or disable the inter-image result cache (default disabled).
+     * Mostly useful for scanning video frames, the cache filters duplicate
+     * results from consecutive images, while adding some consistency
+     * checking and hysteresis to the results.  Invoking this method also
+     * clears the cache.
+     */
+    public native void enableCache(boolean enable);
+
+    /**
+     * Retrieve decode results for last scanned image.
+     *
+     * @returns the SymbolSet result container
+     */
+    public SymbolSet getResults() {
+        return (new SymbolSet(getResults(peer)));
     }
 
-    /**
-     * Retrieve the number of elements in the collection.
-     */
-    @Override
-    public native int size();
+    private native long getResults(long peer);
 
     /**
-     * Retrieve C pointer to first symbol in the set.
+     * Scan for symbols in provided Image.
+     * The image format must currently be "Y800" or "GRAY".
+     *
+     * @returns the number of symbols successfully decoded from the image.
      */
-    private native long firstSymbol(long peer);
+    public native int scanImage(Image image);
 }

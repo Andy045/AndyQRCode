@@ -23,7 +23,7 @@
  *  http://sourceforge.net/projects/zbar
  *------------------------------------------------------------------------*/
 
-package com.handy.qrcode.support.zbar;
+package net.sourceforge.zbar;
 
 /**
  * stores image data samples along with associated format and size

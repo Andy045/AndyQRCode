@@ -23,7 +23,7 @@
  *  http://sourceforge.net/projects/zbar
  *------------------------------------------------------------------------*/
 
-package com.handy.qrcode.support.zbar;
+package net.sourceforge.zbar;
 
 /**
  * Immutable container for decoded result symbols associated with an image
@@ -100,53 +100,6 @@ public class Symbol {
      * Code 128.
      */
     public static final int CODE128 = 128;
-
-    /**
-     * 裁剪的X轴
-     */
-    public static int cropX = 0;
-
-    /**
-     * 裁剪的Y轴
-     */
-    public static int cropY = 0;
-
-    /**
-     * 裁剪的宽
-     */
-    public static int cropWidth = 0;
-
-    /**
-     * 裁剪的高
-     */
-    public static int cropHeight = 0;
-
-    /**
-     * 屏幕的宽
-     */
-    public static int screenWidth = 0;
-
-    /**
-     * 屏幕的高
-     */
-    public static int screenHeight = 0;
-
-
-    /**
-     * 识别类型
-     */
-    public static int scanType = 0;//1二维码 2UPCA条形码 3全部类型 4用户指定类型
-
-    /**
-     * 识别码类
-     */
-    public static int scanFormat = 0;
-
-    /**
-     * 是否只识别框中内容
-     */
-    public static boolean is_only_scan_center = false;
-
 
     /**
      * C pointer to a zbar_symbol_t.
