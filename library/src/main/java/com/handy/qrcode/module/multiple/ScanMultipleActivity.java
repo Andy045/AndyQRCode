@@ -232,7 +232,7 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
      * @param bundle     result data
      */
     @SuppressLint("SetTextI18n")
-    public void handleDecode(final List<Result> rawResults, final Bundle bundle) {
+    public void handleDecode(final List<Result> rawResults) {
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 

@@ -228,7 +228,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
      * @param rawResult The contents of the barcode.
      * @param bundle    result data
      */
-    public void handleDecode(final Result rawResult, final Bundle bundle) {
+    public void handleDecode(final Result rawResult) {
         inactivityTimer.onActivity();
         beepManager.playBeepSoundAndVibrate();
 

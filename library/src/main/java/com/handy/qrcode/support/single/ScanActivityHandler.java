@@ -68,7 +68,7 @@ public final class ScanActivityHandler extends Handler {
 
         } else if (message.what == R.id.handy_qrcode_decode_succeeded) {
             state = State.SUCCESS;
-            activity.handleDecode((Result) message.obj, message.getData());
+            activity.handleDecode((Result) message.obj);
 
         } else if (message.what == R.id.handy_qrcode_decode_failed) {
             // We're decoding as fast as possible, so when one decode fails, start another.
