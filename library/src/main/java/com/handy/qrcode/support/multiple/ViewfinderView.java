@@ -28,7 +28,6 @@ import android.view.View;
 
 import com.google.zxing.ResultPoint;
 import com.handy.qrcode.R;
-import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.support.multiple.camera.CameraManager;
 
 import java.util.ArrayList;
@@ -125,10 +124,6 @@ public final class ViewfinderView extends View {
         canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
         canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
         canvas.drawRect(0, frame.bottom + 1, width, height, paint);
-        //绘制二维码识别点
-        if (ScanConfig.KEY_DRAW_RESULTPOINTS) {
-            drawResultPoints(canvas, frame, previewFrame);
-        }
         //绘制矩形框的四个角
         drawCorner(canvas, frame);
         //绘制聚焦框
@@ -168,48 +163,6 @@ public final class ViewfinderView extends View {
             if (size > MAX_RESULT_POINTS) {
                 // trim it
                 points.subList(0, size - MAX_RESULT_POINTS / 2).clear();
-            }
-        }
-    }
-
-    /**
-     * 绘制二维码识别点
-     *
-     * @param canvas
-     * @param frame
-     */
-    private void drawResultPoints(Canvas canvas, Rect frame, Rect previewFrame) {
-        if (resultBitmap != null) {
-            // Draw the opaque result bitmap over the scanning rectangle
-            paint.setAlpha(CURRENT_POINT_OPACITY);
-            canvas.drawBitmap(resultBitmap, null, frame, paint);
-        } else {
-            paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
-            scannerAlpha = (scannerAlpha + 1) % SCANNER_ALPHA.length;
-            int middle = frame.height() / 2 + frame.top;
-            canvas.drawRect(frame.left + 2, middle - 1, frame.right - 1, middle + 2, paint);
-
-            float scaleX = frame.width() / (float) previewFrame.width();
-            float scaleY = frame.height() / (float) previewFrame.height();
-
-            List<ResultPoint> currentPossible = possibleResultPoints;
-            int frameLeft = frame.left;
-            int frameTop = frame.top;
-            if (!currentPossible.isEmpty()) {
-                possibleResultPoints = new ArrayList<>(5);
-                paint.setAlpha(CURRENT_POINT_OPACITY);
-                paint.setColor(resultPointColor);
-                synchronized (currentPossible) {
-                    if (ScanConfig.KEY_SCAN_FULLSCREEN) {
-                        for (ResultPoint point : currentPossible) {
-                            canvas.drawCircle((int) (point.getX() * scaleX), (int) (point.getY() * scaleY), POINT_SIZE, paint);
-                        }
-                    } else {
-                        for (ResultPoint point : currentPossible) {
-                            canvas.drawCircle(frameLeft + (int) (point.getX() * scaleX), frameTop + (int) (point.getY() * scaleY), POINT_SIZE, paint);
-                        }
-                    }
-                }
             }
         }
     }

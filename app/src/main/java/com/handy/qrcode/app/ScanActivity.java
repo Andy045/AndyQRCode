@@ -53,7 +53,6 @@ public class ScanActivity extends Activity {
             ScanConfig.KEY_DECODE_1D_INDUSTRIAL = true;
             ScanConfig.KEY_DECODE_1D_PRODUCT = true;
             ScanConfig.KEY_DISABLE_BARCODE_SCENE_MODE = false;
-            ScanConfig.KEY_DRAW_RESULTPOINTS = true;
             ScanConfig.KEY_SCAN_TYPE = ScanConfig.ScanType.All;
 
             new ScanLauncher().startSingle(ScanActivity.this, (rawResult, bundle) -> {
