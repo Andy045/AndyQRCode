@@ -104,6 +104,11 @@ public final class ScanConfig {
      */
     public static boolean KEY_SCAN_FULLSCREEN = true;
     /**
+     * 扫描时高亮二维码识别点
+     */
+    public static boolean KEY_DRAW_RESULTPOINTS = false;
+
+    /**
      * 屏幕自动旋转
      */
     public static boolean KEY_AUTO_ORIENTATION = true;
