@@ -123,6 +123,7 @@ static const char * volatile charset_aliases;
 static const char *
 get_charset_aliases (void)
 {
+  int c;
   const char *cp;
 
   cp = charset_aliases;
@@ -192,7 +193,6 @@ get_charset_aliases (void)
 
                   for (;;)
                     {
-                      int c;
                       char buf1[50+1];
                       char buf2[50+1];
                       size_t l1, l2;

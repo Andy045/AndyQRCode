@@ -8,7 +8,7 @@ MY_LOCAL_PATH := $(call my-dir)
 
 # libiconv
 include $(CLEAR_VARS)
-LOCAL_PATH := $(ICONV_SRC)
+LOCAL_PATH := $(MY_LOCAL_PATH)
 
 LOCAL_MODULE := libiconv
 
@@ -21,14 +21,14 @@ LOCAL_CFLAGS := \
     -DIN_LIBRARY
 
 LOCAL_SRC_FILES := \
-	lib/iconv.c \
-	libcharset/lib/localcharset.c \
-	lib/relocatable.c
+	libiconv-1.15/lib/iconv.c \
+	libiconv-1.15/libcharset/lib/localcharset.c \
+	libiconv-1.15/lib/relocatable.c
 
 LOCAL_C_INCLUDES := \
-	$(ICONV_SRC)/include \
-	$(ICONV_SRC)/libcharset \
-	$(ICONV_SRC)/libcharset/include
+	$(LOCAL_PATH)/libiconv-1.15/include \
+	$(LOCAL_PATH)/libiconv-1.15/libcharset \
+	$(LOCAL_PATH)/libiconv-1.15/libcharset/include
 
 include $(BUILD_SHARED_LIBRARY)
 
@@ -38,7 +38,7 @@ LOCAL_LDLIBS := -llog -lcharset
 include $(CLEAR_VARS)
 
 LOCAL_PATH := $(MY_LOCAL_PATH)
-LOCAL_MODULE := zbarjni
+LOCAL_MODULE := zbar
 LOCAL_SRC_FILES := \
 		   zbarjni.c \
 		   zbar/img_scanner.c \
