@@ -346,7 +346,10 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
                 LogUtils.i("orientation:" + orientation);
                 ScanConfig.KEY_SCREEN_ORIENTATION = orientation;
-                Intent intent = getIntent();
+                Intent intent = new Intent(ScanSingleActivity.this, ScanSingleActivity.class);
+                if (getIntent() != null && getIntent().getExtras() != null) {
+                    intent.putExtras(getIntent().getExtras());
+                }
                 finish();
                 startActivity(intent);
                 LogUtils.i("SUCCESS");
