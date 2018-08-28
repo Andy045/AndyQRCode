@@ -107,7 +107,6 @@ public final class ScanConfig {
      * 扫描时高亮二维码识别点
      */
     public static boolean KEY_DRAW_RESULTPOINTS = false;
-
     /**
      * 屏幕自动旋转
      */
