@@ -2,7 +2,6 @@ package com.handy.qrcode.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.handy.qrcode.module.ScanConfig;
@@ -42,8 +41,9 @@ public class ScanActivity extends Activity {
 
         findViewById(R.id.zxing_single).setOnClickListener(v -> {
             ((TextView) findViewById(R.id.result)).setText("");
-            ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 
+            ScanConfig.KEY_DECODE_1D_INDUSTRIAL = true;
+            ScanConfig.KEY_DECODE_1D_PRODUCT = true;
             ScanConfig.KEY_SCAN_TYPE = ScanConfig.ScanType.All;
 
             new ScanLauncher().startSingle(ScanActivity.this, result -> {
@@ -52,13 +52,7 @@ public class ScanActivity extends Activity {
         });
 
         findViewById(R.id.zxing_multiple).setOnClickListener(v -> {
-
-            ScanConfig.KEY_DECODE_1D_INDUSTRIAL = false;
-            ScanConfig.KEY_DECODE_1D_PRODUCT = false;
-            ScanConfig.KEY_DISABLE_BARCODE_SCENE_MODE = true;
-
             ((TextView) findViewById(R.id.result)).setText("");
-            ((ImageView) findViewById(R.id.image)).setImageBitmap(null);
 
             new ScanLauncher().startMultiple(ScanActivity.this, results -> {
                 StringBuilder str = new StringBuilder();
