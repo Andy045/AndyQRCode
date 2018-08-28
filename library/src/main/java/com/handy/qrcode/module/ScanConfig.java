@@ -114,7 +114,7 @@ public final class ScanConfig {
     /**
      * 屏幕自动旋转
      */
-    public static boolean KEY_AUTO_ORIENTATION = true;
+    public static boolean KEY_AUTO_ORIENTATION = false;
     /**
      * 屏幕竖屏旋转方向 (默认竖屏)
      */
