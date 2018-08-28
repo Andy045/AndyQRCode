@@ -237,8 +237,8 @@ public final class CameraManager {
                 return null;
             }
 
-            int width = screenResolution.x / 10 * 7;
-            int height = (screenResolution.y) / 10 * 6;
+            int width = screenResolution.x / 10 * 6;
+            int height = (screenResolution.y) / 10 * 5;
 
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
