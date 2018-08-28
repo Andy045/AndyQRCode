@@ -21,6 +21,7 @@
         android:id="@+id/zxing_multiple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:text="同时扫描多个二维码" />
 
     <TextView
@@ -31,12 +32,4 @@
         android:text=""
         android:textColor="#000000"
         android:textSize="15sp" />
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_horizontal" />
 </LinearLayout>
