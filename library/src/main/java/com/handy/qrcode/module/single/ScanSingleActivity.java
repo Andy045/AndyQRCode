@@ -17,13 +17,17 @@
 package com.handy.qrcode.module.single;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,6 +39,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.zxing.Result;
@@ -229,7 +234,9 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         beepManager.playBeepSoundAndVibrate();
 
         if (ScanConfig.KEY_VERIFY_RESULT) {
-            SnackBarUtils snackBarUtils = SnackBarUtils.with(findViewById(R.id.parent_layout));
+            final Snackbar snackbar = SnackBarUtils.indefiniteSnackbar(ScanSingleActivity.this.findViewById(R.id.parent_layout), "", Snackbar.LENGTH_INDEFINITE, 5);
+            snackbar.getView().setBackgroundColor(Color.alpha(0x00000000));
+
             View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
             TextView message = view.findViewById(R.id.snackbar_message);
             Button again = view.findViewById(R.id.snackbar_again);
@@ -239,7 +246,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             again.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SnackBarUtils.dismiss();
+                    snackbar.dismiss();
                     new CountDownTimer(1000, 1000) {
 
                         @Override
@@ -259,7 +266,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             commit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SnackBarUtils.dismiss();
+                    snackbar.dismiss();
                     if (ScanConfig.scanResultListener != null) {
                         ScanConfig.scanResultListener.resultListener(rawResult.getText());
                         ScanConfig.scanResultListener = null;
@@ -267,9 +274,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                     finish();
                 }
             });
-            snackBarUtils.setDuration(SnackBarUtils.LENGTH_INDEFINITE);
-            snackBarUtils.show();
-            SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            SnackBarUtils.snackbarAddView(snackbar, view, new LinearLayout.LayoutParams(getScreenWidth(getApplication()), ViewGroup.LayoutParams.MATCH_PARENT));
+            snackbar.show();
         } else {
             if (ScanConfig.scanResultListener != null) {
                 ScanConfig.scanResultListener.resultListener(rawResult.getText());
@@ -355,5 +361,24 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 LogUtils.i("SUCCESS");
             }
         }
+    }
+
+    /**
+     * 获取屏幕的宽度（单位：px）
+     *
+     * @return 屏幕宽
+     */
+    private static int getScreenWidth(Application application) {
+        WindowManager wm = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) {
+            return application.getResources().getDisplayMetrics().widthPixels;
+        }
+        Point point = new Point();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.getDefaultDisplay().getRealSize(point);
+        } else {
+            wm.getDefaultDisplay().getSize(point);
+        }
+        return point.x;
     }
 }
