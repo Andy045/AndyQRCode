@@ -3,5 +3,5 @@
     <string name="handy_scan_error_title">启动失败</string>
     <string name="handy_scan_error_dialog_btn">确定</string>
     <string name="handy_scan_error_dialog_message">很遗憾，Android相机出现问题。请检查此应用权限中是否允许使用相机并重启应用。</string>
-    <string name="handy_scan_hint_content">请将条码置于取景框内扫描</string>
+    <string name="handy_scan_hint_content">请将条码/二维码置于取景框内扫描</string>
 </resources>
