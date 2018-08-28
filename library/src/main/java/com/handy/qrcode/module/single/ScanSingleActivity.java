@@ -261,7 +261,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 public void onClick(View v) {
                     SnackBarUtils.dismiss();
                     if (ScanConfig.scanResultListener != null) {
-                        ScanConfig.scanResultListener.resultListener(rawResult, bundle);
+                        ScanConfig.scanResultListener.resultListener(rawResult.getText());
                         ScanConfig.scanResultListener = null;
                     }
                     finish();
@@ -272,7 +272,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
             if (ScanConfig.scanResultListener != null) {
-                ScanConfig.scanResultListener.resultListener(rawResult, bundle);
+                ScanConfig.scanResultListener.resultListener(rawResult.getText());
                 ScanConfig.scanResultListener = null;
             }
             finish();

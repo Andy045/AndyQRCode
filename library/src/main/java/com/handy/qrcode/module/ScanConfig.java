@@ -17,9 +17,6 @@
 package com.handy.qrcode.module;
 
 import android.content.pm.ActivityInfo;
-import android.os.Bundle;
-
-import com.google.zxing.Result;
 
 import java.util.List;
 
@@ -47,27 +44,27 @@ public final class ScanConfig {
     }
 
     /**
-     * 一维码：商品
+     * 一维码：商品【解析方式为Zxing时生效】
      */
     public static boolean KEY_DECODE_1D_PRODUCT = false;
     /**
-     * 一维码：工业
+     * 一维码：工业【解析方式为Zxing时生效】
      */
     public static boolean KEY_DECODE_1D_INDUSTRIAL = false;
     /**
-     * 二维码
+     * 二维码【解析方式为Zxing时生效】
      */
     public static boolean KEY_DECODE_QR = true;
     /**
-     * Data Matrix
+     * Data Matrix【解析方式为Zxing时生效】
      */
     public static boolean KEY_DECODE_DATA_MATRIX = false;
     /**
-     * Aztec
+     * Aztec【解析方式为Zxing时生效】
      */
     public static boolean KEY_DECODE_AZTEC = false;
     /**
-     * PDF417 (测试)
+     * PDF417 (测试)【解析方式为Zxing时生效】
      */
     public static boolean KEY_DECODE_PDF417 = false;
     /**
@@ -136,7 +133,7 @@ public final class ScanConfig {
      * 扫描结果回调接口（单个条码或二维码扫描）
      */
     public interface ScanResultListener {
-        void resultListener(Result rawResult, Bundle bundle);
+        void resultListener(String result);
     }
 
     /**
@@ -148,6 +145,6 @@ public final class ScanConfig {
      * 扫描结果回调接口（多个二维码同时扫描）
      */
     public interface ScanResultsListener {
-        void resultListener(List<Result> rawResults, Bundle bundle);
+        void resultListener(List<String> results);
     }
 }

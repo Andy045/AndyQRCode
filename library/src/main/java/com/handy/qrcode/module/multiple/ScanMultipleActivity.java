@@ -51,6 +51,7 @@ import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -262,7 +263,11 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
                 public void onClick(View v) {
                     SnackBarUtils.dismiss();
                     if (ScanConfig.scanResultsListener != null) {
-                        ScanConfig.scanResultsListener.resultListener(rawResults, bundle);
+                        List<String> results = new ArrayList<>();
+                        for (Result result : rawResults) {
+                            results.add(result.getText());
+                        }
+                        ScanConfig.scanResultsListener.resultListener(results);
                         ScanConfig.scanResultsListener = null;
                     }
                     finish();
@@ -273,7 +278,11 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
             SnackBarUtils.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
             if (ScanConfig.scanResultsListener != null) {
-                ScanConfig.scanResultsListener.resultListener(rawResults, bundle);
+                List<String> results = new ArrayList<>();
+                for (Result result : rawResults) {
+                    results.add(result.getText());
+                }
+                ScanConfig.scanResultsListener.resultListener(results);
                 ScanConfig.scanResultsListener = null;
             }
             finish();
