@@ -226,7 +226,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
      * A valid barcode has been found, so give an indication of success and show the results.
      *
      * @param rawResult The contents of the barcode.
-     * @param bundle    result data
      */
     public void handleDecode(final Result rawResult) {
         inactivityTimer.onActivity();

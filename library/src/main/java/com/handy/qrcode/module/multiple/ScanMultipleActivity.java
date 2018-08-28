@@ -229,7 +229,6 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
      * A valid barcode has been found, so give an indication of success and show the results.
      *
      * @param rawResults The contents of the barcodes.
-     * @param bundle     result data
      */
     @SuppressLint("SetTextI18n")
     public void handleDecode(final List<Result> rawResults) {
