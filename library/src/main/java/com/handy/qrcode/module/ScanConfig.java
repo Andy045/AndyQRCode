@@ -90,7 +90,7 @@ public final class ScanConfig {
     /**
      * 不持续对焦 (使用标准对焦模式)
      */
-    public static boolean KEY_DISABLE_CONTINUOUS_FOCUS = false;
+    public static boolean KEY_DISABLE_CONTINUOUS_FOCUS = true;
     /**
      * 不曝光
      */
