@@ -46,11 +46,11 @@ public final class ScanConfig {
     /**
      * 一维码：商品【解析方式为Zxing时生效】
      */
-    public static boolean KEY_DECODE_1D_PRODUCT = false;
+    public static boolean KEY_DECODE_1D_PRODUCT = true;
     /**
      * 一维码：工业【解析方式为Zxing时生效】
      */
-    public static boolean KEY_DECODE_1D_INDUSTRIAL = false;
+    public static boolean KEY_DECODE_1D_INDUSTRIAL = true;
     /**
      * 二维码【解析方式为Zxing时生效】
      */
