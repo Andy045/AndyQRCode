@@ -181,15 +181,17 @@ public final class CameraConfigurationUtils {
     }
 
     public static void setVideoStabilization(Camera.Parameters parameters) {
-        if (parameters.isVideoStabilizationSupported()) {
-            if (parameters.getVideoStabilization()) {
-                LogUtils.i("Video stabilization already enabled");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+            if (parameters.isVideoStabilizationSupported()) {
+                if (parameters.getVideoStabilization()) {
+                    LogUtils.i("Video stabilization already enabled");
+                } else {
+                    LogUtils.i("Enabling video stabilization...");
+                    parameters.setVideoStabilization(true);
+                }
             } else {
-                LogUtils.i("Enabling video stabilization...");
-                parameters.setVideoStabilization(true);
+                LogUtils.i("This device does not support video stabilization");
             }
-        } else {
-            LogUtils.i("This device does not support video stabilization");
         }
     }
 
