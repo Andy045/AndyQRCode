@@ -126,7 +126,9 @@ public final class ViewfinderView extends View {
         canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
         canvas.drawRect(0, frame.bottom + 1, width, height, paint);
         //绘制二维码识别点
-        drawResultPoints(canvas, frame, previewFrame);
+        if (ScanConfig.KEY_DRAW_RESULTPOINTS) {
+            drawResultPoints(canvas, frame, previewFrame);
+        }
         //绘制矩形框的四个角
         drawCorner(canvas, frame);
         //绘制聚焦框
