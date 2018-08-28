@@ -52,7 +52,6 @@ import com.handy.qrcode.support.single.ScanActivityHandler;
 import com.handy.qrcode.support.single.ViewfinderView;
 import com.handy.qrcode.support.single.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
-import com.handy.qrcode.utils.SnackBarUtils;
 import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
@@ -234,7 +233,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         beepManager.playBeepSoundAndVibrate();
 
         if (ScanConfig.KEY_VERIFY_RESULT) {
-            final Snackbar snackbar = SnackBarUtils.indefiniteSnackbar(ScanSingleActivity.this.findViewById(R.id.parent_layout), "", Snackbar.LENGTH_INDEFINITE, 5);
+            final Snackbar snackbar = Snackbar.make(ScanSingleActivity.this.findViewById(R.id.parent_layout), "", Snackbar.LENGTH_INDEFINITE);
             snackbar.getView().setBackgroundColor(Color.alpha(0x00000000));
 
             View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
@@ -274,7 +273,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                     finish();
                 }
             });
-            SnackBarUtils.snackbarAddView(snackbar, view, new LinearLayout.LayoutParams(getScreenWidth(getApplication()), ViewGroup.LayoutParams.MATCH_PARENT));
+            LinearLayout.LayoutParams childLp = new LinearLayout.LayoutParams(getScreenWidth(getApplication()), ViewGroup.LayoutParams.MATCH_PARENT);
+            ((Snackbar.SnackbarLayout) snackbar.getView()).addView(view, 0, childLp);
             snackbar.show();
         } else {
             if (ScanConfig.scanResultListener != null) {
