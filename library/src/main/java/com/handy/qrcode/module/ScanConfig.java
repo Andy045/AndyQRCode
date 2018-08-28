@@ -102,7 +102,7 @@ public final class ScanConfig {
     /**
      * 不进行条形码场景匹配
      */
-    public static boolean KEY_DISABLE_BARCODE_SCENE_MODE = true;
+    public static boolean KEY_DISABLE_BARCODE_SCENE_MODE = false;
     /**
      * 使用全屏扫描 (默认识别扫描框内的图形)
      */
