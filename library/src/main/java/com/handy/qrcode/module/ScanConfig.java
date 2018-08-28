@@ -39,7 +39,11 @@ public final class ScanConfig {
         /**
          * Zbar解析
          */
-        Zbar
+        Zbar,
+        /**
+         * 优先使用Zbar，未识别成功再使用Zxing
+         */
+        All
     }
 
     /**
@@ -113,7 +117,7 @@ public final class ScanConfig {
     /**
      * 扫描解析方式（zxing或zbar解析）
      */
-    public static ScanType KEY_SCAN_TYPE = ScanType.Zxing;
+    public static ScanType KEY_SCAN_TYPE = ScanType.All;
     /**
      * 屏幕自动旋转
      */
