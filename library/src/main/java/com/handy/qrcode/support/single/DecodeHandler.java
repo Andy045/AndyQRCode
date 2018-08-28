@@ -94,50 +94,26 @@ final class DecodeHandler extends Handler {
             data = DecodeHandlerJni.dataHandler(data, data.length, height, width);
         }
 
-        Bundle bundle = null;
-        Result rawResult = null;
+        Result result = null;
+        Bundle bundle = new Bundle();
 
-        if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zxing) {
-            PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
-            if (source != null) {
-                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-                try {
-                    rawResult = multiFormatReader.decodeWithState(bitmap);
-                } catch (ReaderException re) {
-                    re.printStackTrace();
-                } finally {
-                    multiFormatReader.reset();
-                }
-                bundle = new Bundle();
-                bundleThumbnail(source, bundle);
+        if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.All) {
+            result = decodeByZbar(data, width, height);
+            if (result == null) {
+                result = decodeByZxing(data, width, height, bundle);
             }
+
+        } else if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zxing) {
+            result = decodeByZxing(data, width, height, bundle);
 
         } else if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zbar) {
-            Image barcode = new Image(width, height, "Y800");
-            barcode.setData(data);
-            if (!ScanConfig.KEY_SCAN_FULLSCREEN) {
-                // 如果非全屏扫描，则根据扫描框大小进行裁剪
-                Rect rect = activity.getCameraManager().getFramingRectInPreview();
-                if (rect != null) {
-                    barcode.setCrop(rect.left, rect.top, rect.width(), rect.height());
-                }
-            }
-            String resultQRcode = "";
-            ImageScanner mImageScanner = new ImageScanner();
-            if (mImageScanner.scanImage(barcode) != 0) {
-                for (Symbol symbol : mImageScanner.getResults()) {
-                    resultQRcode = symbol.getData();
-                }
-            }
-            if (!TextUtils.isEmpty(resultQRcode)) {
-                rawResult = new Result(resultQRcode, data, new ResultPoint[0], BarcodeFormat.QR_CODE);
-            }
+            result = decodeByZbar(data, width, height);
         }
 
         Handler handler = activity.getHandler();
-        if (rawResult != null) {
+        if (result != null) {
             if (handler != null) {
-                Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, rawResult);
+                Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, result);
                 message.setData(bundle);
                 message.sendToTarget();
             }
@@ -147,5 +123,46 @@ final class DecodeHandler extends Handler {
                 message.sendToTarget();
             }
         }
+    }
+
+    private Result decodeByZxing(byte[] data, int width, int height, Bundle bundle) {
+        Result result = null;
+        PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
+        if (source != null) {
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            try {
+                result = multiFormatReader.decodeWithState(bitmap);
+            } catch (ReaderException re) {
+                re.printStackTrace();
+            } finally {
+                multiFormatReader.reset();
+            }
+            bundleThumbnail(source, bundle);
+        }
+        return result;
+    }
+
+    private Result decodeByZbar(byte[] data, int width, int height) {
+        Result result = null;
+        Image barcode = new Image(width, height, "Y800");
+        barcode.setData(data);
+        if (!ScanConfig.KEY_SCAN_FULLSCREEN) {
+            // 如果非全屏扫描，则根据扫描框大小进行裁剪
+            Rect rect = activity.getCameraManager().getFramingRectInPreview();
+            if (rect != null) {
+                barcode.setCrop(rect.left, rect.top, rect.width(), rect.height());
+            }
+        }
+        String resultQRcode = "";
+        ImageScanner mImageScanner = new ImageScanner();
+        if (mImageScanner.scanImage(barcode) != 0) {
+            for (Symbol symbol : mImageScanner.getResults()) {
+                resultQRcode = symbol.getData();
+            }
+        }
+        if (!TextUtils.isEmpty(resultQRcode)) {
+            result = new Result(resultQRcode, data, new ResultPoint[0], BarcodeFormat.QR_CODE);
+        }
+        return result;
     }
 }
