@@ -17,21 +17,30 @@
 package com.handy.qrcode.support.single;
 
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
+import com.google.zxing.ResultPoint;
+import com.google.zxing.client.android.DecodeHandlerJni;
 import com.google.zxing.common.HybridBinarizer;
 import com.handy.qrcode.R;
+import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.module.single.ScanSingleActivity;
-import com.handy.qrcode.utils.LogUtils;
+
+import net.sourceforge.zbar.Image;
+import net.sourceforge.zbar.ImageScanner;
+import net.sourceforge.zbar.Symbol;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
@@ -81,39 +90,54 @@ final class DecodeHandler extends Handler {
      * @param height The height of the preview frame.
      */
     private void decode(byte[] data, int width, int height) {
-        long start = System.currentTimeMillis();
         if (width < height) {
-            // portrait
-            byte[] rotatedData = new byte[data.length];
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    rotatedData[y * width + width - x - 1] = data[y + x * height];
+            data = DecodeHandlerJni.dataHandler(data, data.length, height, width);
+        }
+
+        Bundle bundle = null;
+        Result rawResult = null;
+
+        if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zxing) {
+            PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
+            if (source != null) {
+                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                try {
+                    rawResult = multiFormatReader.decodeWithState(bitmap);
+                } catch (ReaderException re) {
+                    re.printStackTrace();
+                } finally {
+                    multiFormatReader.reset();
+                }
+                bundle = new Bundle();
+                bundleThumbnail(source, bundle);
+            }
+
+        } else if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zbar) {
+            Image barcode = new Image(width, height, "Y800");
+            barcode.setData(data);
+            if (!ScanConfig.KEY_SCAN_FULLSCREEN) {
+                // 如果非全屏扫描，则根据扫描框大小进行裁剪
+                Rect rect = activity.getCameraManager().getFramingRectInPreview();
+                if (rect != null) {
+                    barcode.setCrop(rect.left, rect.top, rect.width(), rect.height());
                 }
             }
-            data = rotatedData;
-        }
-        Result rawResult = null;
-        PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
-        if (source != null) {
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-            try {
-                rawResult = multiFormatReader.decodeWithState(bitmap);
-            } catch (ReaderException re) {
-                // continue
-            } finally {
-                multiFormatReader.reset();
+            String resultQRcode = "";
+            ImageScanner mImageScanner = new ImageScanner();
+            if (mImageScanner.scanImage(barcode) != 0) {
+                for (Symbol symbol : mImageScanner.getResults()) {
+                    resultQRcode = symbol.getData();
+                }
+            }
+            if (!TextUtils.isEmpty(resultQRcode)) {
+                rawResult = new Result(resultQRcode, data, new ResultPoint[0], BarcodeFormat.QR_CODE);
             }
         }
 
         Handler handler = activity.getHandler();
         if (rawResult != null) {
-            // Don't log the barcode contents for security.
-            long end = System.currentTimeMillis();
-            LogUtils.d("Found barcode in " + (end - start) + " ms");
             if (handler != null) {
                 Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, rawResult);
-                Bundle bundle = new Bundle();
-                bundleThumbnail(source, bundle);
                 message.setData(bundle);
                 message.sendToTarget();
             }
