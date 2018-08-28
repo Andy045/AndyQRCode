@@ -31,6 +31,17 @@ import java.util.List;
  */
 public final class ScanConfig {
 
+    public enum ScanType {
+        /**
+         * Zxing解析
+         */
+        Zxing,
+        /**
+         * Zbar解析
+         */
+        Zbar
+    }
+
     /**
      * 一维码：商品
      */
@@ -99,6 +110,10 @@ public final class ScanConfig {
      * 扫描时高亮二维码识别点
      */
     public static boolean KEY_DRAW_RESULTPOINTS = false;
+    /**
+     * 扫描解析方式（zxing或zbar解析）
+     */
+    public static ScanType KEY_SCAN_TYPE = ScanType.Zxing;
     /**
      * 屏幕自动旋转
      */
