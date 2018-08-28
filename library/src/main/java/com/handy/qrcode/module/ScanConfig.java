@@ -32,14 +32,6 @@ import java.util.List;
 public final class ScanConfig {
 
     /**
-     * 扫描成功回调自定义接口（单个条码或二维码扫描）
-     */
-    public static ScanResultListener scanResultListener = null;
-    /**
-     * 扫描成功回调自定义接口（多个二维码同时扫描）
-     */
-    public static ScanResultsListener scanResultsListener = null;
-    /**
      * 一维码：商品
      */
     public static boolean KEY_DECODE_1D_PRODUCT = false;
@@ -121,11 +113,21 @@ public final class ScanConfig {
     public static boolean KEY_VERIFY_RESULT = true;
 
     /**
+     * 扫描成功回调自定义接口（单个条码或二维码扫描）
+     */
+    public static ScanResultListener scanResultListener = null;
+
+    /**
      * 扫描结果回调接口（单个条码或二维码扫描）
      */
     public interface ScanResultListener {
         void resultListener(Result rawResult, Bundle bundle);
     }
+
+    /**
+     * 扫描成功回调自定义接口（多个二维码同时扫描）
+     */
+    public static ScanResultsListener scanResultsListener = null;
 
     /**
      * 扫描结果回调接口（多个二维码同时扫描）
