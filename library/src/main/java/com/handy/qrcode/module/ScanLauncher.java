@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
-import com.handy.qrcode.module.multiple.ScanMultipleActivity;
-import com.handy.qrcode.module.single.ScanSingleActivity;
 import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.utils.PermissionsUtils;
 
@@ -35,20 +33,6 @@ public class ScanLauncher {
             ScanConfig.scanResultListener = null;
             ScanConfig.scanResultListener = scanResultListener;
             activity.startActivity(new Intent(activity, ScanSingleActivity.class));
-        }
-    }
-
-    /**
-     * 启动扫描界面
-     *
-     * @param scanResultsListener 扫描结果回调接口
-     */
-    public void startMultiple(@NonNull Activity activity, @NonNull ScanConfig.ScanResultsListener scanResultsListener) {
-        LogUtils.init(activity.getApplication());
-        if (!PermissionsUtils.checkDeniedPermissions(activity, true)) {
-            ScanConfig.scanResultsListener = null;
-            ScanConfig.scanResultsListener = scanResultsListener;
-            activity.startActivity(new Intent(activity, ScanMultipleActivity.class));
         }
     }
 }
