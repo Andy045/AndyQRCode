@@ -22,5 +22,6 @@
         android:layout_alignParentTop="true"
         app:handy_bottomLineColor="#ffffff"
         app:handy_bottomLineHeight="1dp"
+        app:handy_mainTextColor="#ffffff"
         app:handy_titleBarBackground="#00000000" />
 </RelativeLayout>
