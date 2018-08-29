@@ -140,10 +140,6 @@ final class CameraConfigurationManager {
         CameraConfigurationUtils.setFocus(parameters, ScanConfig.KEY_AUTO_FOCUS, ScanConfig.KEY_DISABLE_CONTINUOUS_FOCUS, safeMode);
 
         if (!safeMode) {
-            if (ScanConfig.KEY_INVERT_SCAN) {
-                CameraConfigurationUtils.setInvertColor(parameters);
-            }
-
             if (!ScanConfig.KEY_DISABLE_BARCODE_SCENE_MODE) {
                 CameraConfigurationUtils.setBarcodeSceneMode(parameters);
             }
@@ -157,7 +153,6 @@ final class CameraConfigurationManager {
             //SetRecordingHint to true also a workaround for low framerate on Nexus 4
             //https://stackoverflow.com/questions/14131900/extreme-camera-lag-on-nexus-4
             parameters.setRecordingHint(true);
-
         }
 
         parameters.setPreviewSize(bestPreviewSize.x, bestPreviewSize.y);

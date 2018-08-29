@@ -128,7 +128,7 @@ public final class ScanActivityHandler extends Handler {
     }
 
     // TODO: 2018/5/28 重新扫描二维码
-    public void restartPreviewAndDecode() {
+    private void restartPreviewAndDecode() {
         if (state == State.SUCCESS) {
             state = State.PREVIEW;
             cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.handy_qrcode_decode);
