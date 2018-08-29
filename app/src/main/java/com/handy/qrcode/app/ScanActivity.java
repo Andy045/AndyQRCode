@@ -42,6 +42,7 @@ public class ScanActivity extends Activity {
 
             ScanConfig.KEY_DECODE_1D_INDUSTRIAL = true;
             ScanConfig.KEY_DECODE_1D_PRODUCT = true;
+            ScanConfig.KEY_AUTO_ORIENTATION = true;
 
             new ScanLauncher().startSingle(ScanActivity.this, result -> {
                 ((TextView) findViewById(R.id.result)).setText("扫描结果: \n" + result);
