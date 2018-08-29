@@ -20,7 +20,6 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 
 import com.handy.qrcode.module.ScanConfig;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +48,6 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
         this.camera = camera;
         String currentFocusMode = camera.getParameters().getFocusMode();
         useAutoFocus = ScanConfig.KEY_AUTO_FOCUS && FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
-        LogUtils.i("Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
         start();
     }
 
@@ -66,7 +64,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                 newTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 outstandingTask = newTask;
             } catch (RejectedExecutionException ree) {
-                LogUtils.w("Could not request auto focus", ree);
+                ree.printStackTrace();
             }
         }
     }
@@ -80,7 +78,6 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                     focusing = true;
                 } catch (RuntimeException re) {
                     // Have heard RuntimeException reported in Android 4.0.x+; continue?
-                    LogUtils.w("Unexpected exception while focusing", re);
                     // Try again later to keep cycle going
                     autoFocusAgainLater();
                 }
@@ -106,7 +103,7 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
                 camera.cancelAutoFocus();
             } catch (RuntimeException re) {
                 // Have heard RuntimeException reported in Android 4.0.x+; continue?
-                LogUtils.w("Unexpected exception while cancelling focusing", re);
+                re.printStackTrace();
             }
         }
     }

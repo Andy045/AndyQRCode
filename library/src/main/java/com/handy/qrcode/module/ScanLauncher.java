@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
-import com.handy.qrcode.utils.LogUtils;
-
 import java.util.ArrayList;
 
 /**
@@ -33,7 +31,6 @@ public class ScanLauncher {
      * @param scanResultListener 扫描结果回调接口
      */
     public void startSingle(@NonNull Activity activity, @NonNull ScanConfig.ScanResultListener scanResultListener) {
-        LogUtils.init(activity.getApplication());
         if (!checkDeniedPermissions(activity, true)) {
             ScanConfig.scanResultListener = null;
             ScanConfig.scanResultListener = scanResultListener;

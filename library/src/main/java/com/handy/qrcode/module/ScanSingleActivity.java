@@ -47,7 +47,6 @@ import com.handy.qrcode.support.InactivityTimer;
 import com.handy.qrcode.support.ScanActivityHandler;
 import com.handy.qrcode.support.ViewfinderView;
 import com.handy.qrcode.support.camera.CameraManager;
-import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.widget.TitleBar;
 
 import java.io.IOException;
@@ -198,7 +197,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             throw new IllegalStateException("No SurfaceHolder provided");
         }
         if (cameraManager.isOpen()) {
-            LogUtils.w("initCamera() while already open -- late SurfaceView callback?");
             return;
         }
         try {
@@ -208,12 +206,10 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 handler = new ScanActivityHandler(this, null, null, "utf-8", cameraManager);
             }
         } catch (IOException ioe) {
-            LogUtils.w(ioe);
             displayFrameworkBugMessageAndExit();
         } catch (RuntimeException e) {
             // Barcode Scanner has seen crashes in the wild of this variety:
             // java.?lang.?RuntimeException: Fail to connect to camera service
-            LogUtils.w("Unexpected error initializing camera", e);
             displayFrameworkBugMessageAndExit();
         }
     }
@@ -295,9 +291,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        if (holder == null) {
-            LogUtils.e("*** WARNING *** surfaceCreated() gave us a null surface!");
-        }
         if (!hasSurface) {
             hasSurface = true;
             initCamera(holder);
@@ -336,7 +329,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
         @Override
         public void onOrientationChanged(int orientation) {
-            LogUtils.d("orientation:" + orientation);
             if (orientation < 45 || orientation > 315) {
                 orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
             } else if (orientation > 225 && orientation < 315) {
@@ -346,7 +338,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
             }
 
             if ((orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) || (orientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE && ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)) {
-                LogUtils.i("orientation:" + orientation);
                 ScanConfig.KEY_SCREEN_ORIENTATION = orientation;
                 Intent intent = new Intent(ScanSingleActivity.this, ScanSingleActivity.class);
                 if (getIntent() != null && getIntent().getExtras() != null) {
@@ -354,7 +345,6 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 }
                 finish();
                 startActivity(intent);
-                LogUtils.i("SUCCESS");
             }
         }
     }
