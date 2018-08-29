@@ -27,12 +27,5 @@
             android:launchMode="standard"
             android:stateNotNeeded="true"
             android:theme="@style/Handy_QRCode_ScanActivityTheme" />
-        <activity
-            android:name=".module.multiple.ScanMultipleActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
-            android:launchMode="standard"
-            android:stateNotNeeded="true"
-            android:theme="@style/Handy_QRCode_ScanActivityTheme" />
     </application>
 </manifest>
