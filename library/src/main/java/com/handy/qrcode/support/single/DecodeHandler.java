@@ -100,11 +100,11 @@ final class DecodeHandler extends Handler {
         if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.All) {
             result = decodeByZbar(data, width, height);
             if (result == null) {
-                result = decodeByZxing(data, width, height, bundle);
+                result = decodeByZxing(data, width, height);
             }
 
         } else if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zxing) {
-            result = decodeByZxing(data, width, height, bundle);
+            result = decodeByZxing(data, width, height);
 
         } else if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.Zbar) {
             result = decodeByZbar(data, width, height);
@@ -125,7 +125,7 @@ final class DecodeHandler extends Handler {
         }
     }
 
-    private Result decodeByZxing(byte[] data, int width, int height, Bundle bundle) {
+    private Result decodeByZxing(byte[] data, int width, int height) {
         Result result = null;
         PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
         if (source != null) {
@@ -137,7 +137,6 @@ final class DecodeHandler extends Handler {
             } finally {
                 multiFormatReader.reset();
             }
-            bundleThumbnail(source, bundle);
         }
         return result;
     }
