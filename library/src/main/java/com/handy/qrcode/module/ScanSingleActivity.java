@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.handy.qrcode.module.single;
+package com.handy.qrcode.module;
 
 import android.app.Activity;
 import android.content.Context;
@@ -41,13 +41,12 @@ import android.widget.TextView;
 
 import com.google.zxing.Result;
 import com.handy.qrcode.R;
-import com.handy.qrcode.module.ScanConfig;
-import com.handy.qrcode.support.single.BeepManager;
-import com.handy.qrcode.support.single.FinishListener;
-import com.handy.qrcode.support.single.InactivityTimer;
-import com.handy.qrcode.support.single.ScanActivityHandler;
-import com.handy.qrcode.support.single.ViewfinderView;
-import com.handy.qrcode.support.single.camera.CameraManager;
+import com.handy.qrcode.support.BeepManager;
+import com.handy.qrcode.support.FinishListener;
+import com.handy.qrcode.support.InactivityTimer;
+import com.handy.qrcode.support.ScanActivityHandler;
+import com.handy.qrcode.support.ViewfinderView;
+import com.handy.qrcode.support.camera.CameraManager;
 import com.handy.qrcode.utils.LogUtils;
 import com.handy.qrcode.widget.TitleBar;
 
