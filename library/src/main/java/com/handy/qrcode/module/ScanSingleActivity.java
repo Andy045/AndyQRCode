@@ -76,6 +76,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         super.onCreate(icicle);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        setRequestedOrientation(ScanConfig.KEY_SCREEN_ORIENTATION);
+
         setContentView(R.layout.handy_activity_scan_single);
 
         surfaceView = findViewById(R.id.preview_view);
@@ -114,7 +116,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                     cameraManager.setTorch(ScanConfig.KEY_USE_LIGHT);
                     setImageSrc(ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n);
 
-                    titleBar.removeRightAction();
+                    titleBar.removeRightActions();
                     titleBar.addRightAction(this);
                 }
             });
