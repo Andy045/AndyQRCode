@@ -94,10 +94,9 @@ dependencies {
 
     implementation rootProject.ext.dependencies.api_appcompatV7
 
-    implementation 'com.github.Handy045:HandyTitleBar:1.2.3'
-    implementation 'com.github.Handy045:HandyQRCode:1.1.0'
+//    implementation rootProject.ext.dependencies.api_HandyQRCode
 
-//    implementation project(':library')
+    implementation project(':library')
 }
 
 // 获取当前系统时间

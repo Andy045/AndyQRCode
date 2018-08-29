@@ -15,13 +15,19 @@ ext {
             api_supportLibraryVersion = "27.1.1",
 
             api_zxing = "3.3.3",
+
+            api_HandyTitleBar = "1.2.3",
+            api_HandyQRCode = "1.1.0",
     ]
 
     // 依赖库管理
     dependencies = [
-            api_appcompatV7: "com.android.support:appcompat-v7:$rootProject.api_supportLibraryVersion",
-            api_design     : "com.android.support:design:$rootProject.api_supportLibraryVersion",
+            api_appcompatV7  : "com.android.support:appcompat-v7:$rootProject.api_supportLibraryVersion",
+            api_design       : "com.android.support:design:$rootProject.api_supportLibraryVersion",
 
-            api_zxing      : "com.google.zxing:core:$rootProject.api_zxing",
+            api_zxing        : "com.google.zxing:core:$rootProject.api_zxing",
+
+            api_HandyTitleBar: "com.github.Handy045:HandyTitleBar:$rootProject.api_HandyTitleBar",
+            api_HandyQRCode  : "com.github.Handy045:HandyQRCode:$rootProject.api_HandyQRCode",
     ]
 }
