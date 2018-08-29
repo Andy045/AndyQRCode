@@ -17,13 +17,10 @@
 package com.handy.qrcode.module.single;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -233,6 +230,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
 
         if (ScanConfig.KEY_VERIFY_RESULT) {
             final Snackbar snackbar = Snackbar.make(ScanSingleActivity.this.findViewById(R.id.parent_layout), "", Snackbar.LENGTH_INDEFINITE);
+            snackbar.getView().setPadding(0, 0, 0, 0);
             snackbar.getView().setBackgroundColor(Color.alpha(0x00000000));
 
             View view = LayoutInflater.from(ScanSingleActivity.this).inflate(R.layout.handy_view_scan_single_snackbar, null);
@@ -272,8 +270,8 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                     finish();
                 }
             });
-            LinearLayout.LayoutParams childLp = new LinearLayout.LayoutParams(getScreenWidth(getApplication()), ViewGroup.LayoutParams.MATCH_PARENT);
-            ((Snackbar.SnackbarLayout) snackbar.getView()).addView(view, 0, childLp);
+            ((Snackbar.SnackbarLayout) snackbar.getView()).addView(view, -1, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
             snackbar.show();
         } else {
             if (ScanConfig.scanResultListener != null) {
@@ -360,24 +358,5 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 LogUtils.i("SUCCESS");
             }
         }
-    }
-
-    /**
-     * 获取屏幕的宽度（单位：px）
-     *
-     * @return 屏幕宽
-     */
-    private static int getScreenWidth(Application application) {
-        WindowManager wm = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
-        if (wm == null) {
-            return application.getResources().getDisplayMetrics().widthPixels;
-        }
-        Point point = new Point();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            wm.getDefaultDisplay().getRealSize(point);
-        } else {
-            wm.getDefaultDisplay().getSize(point);
-        }
-        return point.x;
     }
 }
