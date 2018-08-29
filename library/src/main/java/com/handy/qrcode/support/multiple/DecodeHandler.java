@@ -32,7 +32,6 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.multi.qrcode.QRCodeMultiReader;
 import com.handy.qrcode.R;
 import com.handy.qrcode.module.multiple.ScanMultipleActivity;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -91,26 +90,13 @@ final class DecodeHandler extends Handler {
             data = DecodeHandlerJni.dataHandler(data, data.length, height, width);
         }
 
-        Result[] rawResults = null;
-        PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
-        if (source != null) {
-            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
-            try {
-                rawResults = qrCodeMultiReader.decodeMultiple(bitmap, hints);
-            } catch (ReaderException re) {
-                // continue
-                re.printStackTrace();
-            } finally {
-                qrCodeMultiReader.reset();
-            }
-        }
+        Result[] rawResults = decodeByZxing(data, width, height);
 
         Handler handler = activity.getHandler();
         if (rawResults != null && rawResults.length > 0) {
             // Don't log the barcode contents for security.
             if (handler != null) {
                 List<Result> results = new ArrayList<>(Arrays.asList(rawResults));
-                LogUtils.d("results.size()=" + results.size());
                 Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, results);
                 message.sendToTarget();
             }
@@ -120,5 +106,21 @@ final class DecodeHandler extends Handler {
                 message.sendToTarget();
             }
         }
+    }
+
+    private Result[] decodeByZxing(byte[] data, int width, int height) {
+        Result[] rawResults = null;
+        PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
+        if (source != null) {
+            BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+            try {
+                rawResults = qrCodeMultiReader.decodeMultiple(bitmap, hints);
+            } catch (ReaderException re) {
+                re.printStackTrace();
+            } finally {
+                qrCodeMultiReader.reset();
+            }
+        }
+        return rawResults;
     }
 }
