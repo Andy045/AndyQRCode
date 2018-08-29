@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.handy.qrcode.widget.TitleBar
+    <com.handy.titlebar.HandyTitleBar
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:handy_mainTextColor="#ffffff"
+        app:handy_titleBarBackground="#0091ea" />
 
     <Button
         android:id="@+id/zxing_scan"
@@ -18,9 +21,9 @@
     <Button
         android:id="@+id/zxing_img"
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        android:text="识别图片二维码" />
+        android:text="识别图片二维码"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/zxing_create"

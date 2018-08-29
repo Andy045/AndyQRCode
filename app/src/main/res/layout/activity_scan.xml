@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.handy.qrcode.widget.TitleBar
+    <com.handy.titlebar.HandyTitleBar
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:handy_mainTextColor="#ffffff"
+        app:handy_titleBarBackground="#0091ea" />
 
     <Button
         android:id="@+id/zxing_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="扫描单个条码或二维码" />
-
-    <Button
-        android:id="@+id/zxing_multiple"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="同时扫描多个二维码" />
 
     <TextView
         android:id="@+id/result"
