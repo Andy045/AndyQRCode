@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.handy.qrcode.utils.QRCodeUtils;
-import com.handy.qrcode.widget.TitleBar;
 
 /**
  * 类名

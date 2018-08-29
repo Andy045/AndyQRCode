@@ -21,7 +21,6 @@
         android:id="@+id/zxing_multiple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:text="同时扫描多个二维码" />
 
     <TextView

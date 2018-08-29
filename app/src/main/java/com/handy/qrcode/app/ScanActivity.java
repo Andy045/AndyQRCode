@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.module.ScanLauncher;
-import com.handy.qrcode.widget.TitleBar;
 
 /**
  * 类名
@@ -47,22 +46,6 @@ public class ScanActivity extends Activity {
 
             new ScanLauncher().startSingle(ScanActivity.this, result -> {
                 ((TextView) findViewById(R.id.result)).setText("扫描结果: \n" + result);
-            });
-        });
-
-        findViewById(R.id.zxing_multiple).setOnClickListener(v -> {
-            ((TextView) findViewById(R.id.result)).setText("");
-
-            new ScanLauncher().startMultiple(ScanActivity.this, results -> {
-                StringBuilder str = new StringBuilder();
-                for (int i = 0; i < results.size(); i++) {
-                    str.append("第").append(i + 1).append("个: ").append(results.get(i));
-                    if (i < results.size() - 1) {
-                        str.append("\n");
-                    }
-                }
-
-                ((TextView) findViewById(R.id.result)).setText("扫描结果：\n" + str.toString());
             });
         });
     }

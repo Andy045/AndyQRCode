@@ -14,6 +14,8 @@
  limitations under the License.
  -->
 <resources>
+    <!--扫描界面标题栏文字颜色-->
+    <color name="handy_titlebar_mainTextColor">#00000000</color>
     <!--扫描界面标题栏背景颜色-->
     <color name="handy_titlebar_background">#00000000</color>
     <!--扫描界面标题栏底部分割线背景颜色-->
