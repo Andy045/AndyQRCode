@@ -112,7 +112,7 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
                 public void onClick() {
                     ScanConfig.KEY_USE_LIGHT = !ScanConfig.KEY_USE_LIGHT;
                     cameraManager.setTorch(ScanConfig.KEY_USE_LIGHT);
-                    this.setImageSrc(ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n);
+                    setImageSrc(ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n);
 
                     titleBar.removeRightAction();
                     titleBar.addRightAction(this);
