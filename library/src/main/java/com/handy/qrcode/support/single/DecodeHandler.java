@@ -95,8 +95,6 @@ final class DecodeHandler extends Handler {
         }
 
         Result result = null;
-        Bundle bundle = new Bundle();
-
         if (ScanConfig.KEY_SCAN_TYPE == ScanConfig.ScanType.All) {
             result = decodeByZbar(data, width, height);
             if (result == null) {
@@ -114,7 +112,6 @@ final class DecodeHandler extends Handler {
         if (result != null) {
             if (handler != null) {
                 Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, result);
-                message.setData(bundle);
                 message.sendToTarget();
             }
         } else {
