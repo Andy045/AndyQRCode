@@ -11,6 +11,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 
 /**
@@ -36,9 +37,10 @@ public class QRCodeUtils {
                 qrcodeSize = context.getResources().getDisplayMetrics().widthPixels * 6 / 10;
             }
             //生成二维矩阵,编码时指定大小,不要生成了图片以后再进行缩放,这样会模糊导致识别失败
-            BitMatrix matrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, qrcodeSize, qrcodeSize);
-
+            BitMatrix matrix = new MultiFormatWriter().encode(new String(content.getBytes("UTF-8"), "ISO-8859-1"), BarcodeFormat.QR_CODE, qrcodeSize, qrcodeSize);
+            // 矩阵高度
             int width = matrix.getWidth();
+            // 矩阵宽度
             int height = matrix.getHeight();
             //二维矩阵转为一维像素数组,也就是一直横着排了
             int[] pixels = new int[width * height];
@@ -56,6 +58,8 @@ public class QRCodeUtils {
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
             return bitmap;
         } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return null;
@@ -89,7 +93,7 @@ public class QRCodeUtils {
             // 设置二维码容错率
             hst.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
             // 生成二维码矩阵信息
-            BitMatrix matrix = writer.encode(content, BarcodeFormat.QR_CODE, qrcodeSize, qrcodeSize, hst);
+            BitMatrix matrix = writer.encode(new String(content.getBytes("UTF-8"), "ISO-8859-1"), BarcodeFormat.QR_CODE, qrcodeSize, qrcodeSize, hst);
             // 矩阵高度
             int width = matrix.getWidth();
             // 矩阵宽度
@@ -123,6 +127,8 @@ public class QRCodeUtils {
             logo.recycle();
             return bitmap;
         } catch (WriterException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return null;
