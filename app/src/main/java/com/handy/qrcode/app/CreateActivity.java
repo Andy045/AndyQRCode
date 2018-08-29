@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.handy.qrcode.utils.QRCodeUtils;
+import com.handy.titlebar.HandyTitleBar;
 
 /**
  * 类名
@@ -29,19 +30,17 @@ public class CreateActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        TitleBar titleBar = findViewById(R.id.titlebar);
-        titleBar.setTitle("生成二维码");
-        titleBar.setTitleBarBackground(R.color.titlebar_background);
-        titleBar.setImmersive(CreateActivity.this, true);
-        titleBar.addLeftAction(new TitleBar.Action() {
-            @Override
-            public void onClick() {
-                finish();
+        HandyTitleBar titleBar = findViewById(R.id.titlebar);
+        titleBar.setMainText("生成二维码");
+        titleBar.showCustomStatusBar(CreateActivity.this);
+        titleBar.addLeftAction(new HandyTitleBar.BaseAction(titleBar) {
+            {
+                setImageSrc(com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back);
             }
 
             @Override
-            public int setDrawable() {
-                return com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back;
+            public void onClick() {
+                finish();
             }
         });
 

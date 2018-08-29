@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.module.ScanLauncher;
+import com.handy.titlebar.HandyTitleBar;
 
 /**
  * 类名
@@ -22,19 +23,17 @@ public class ScanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
 
-        TitleBar titleBar = findViewById(R.id.titlebar);
-        titleBar.setTitle("扫描条码和二维码");
-        titleBar.setTitleBarBackground(R.color.titlebar_background);
-        titleBar.setImmersive(ScanActivity.this, true);
-        titleBar.addLeftAction(new TitleBar.Action() {
-            @Override
-            public void onClick() {
-                finish();
+        HandyTitleBar titleBar = findViewById(R.id.titlebar);
+        titleBar.setMainText("扫描条码和二维码");
+        titleBar.showCustomStatusBar(ScanActivity.this);
+        titleBar.addLeftAction(new HandyTitleBar.BaseAction(titleBar) {
+            {
+                setImageSrc(com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back);
             }
 
             @Override
-            public int setDrawable() {
-                return com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back;
+            public void onClick() {
+                finish();
             }
         });
 

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.handy.titlebar.HandyTitleBar;
+
 public class MainActivity extends Activity {
 
     @Override
@@ -11,19 +13,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TitleBar titleBar = findViewById(R.id.titlebar);
-        titleBar.setTitle("扫描库");
-        titleBar.setTitleBarBackground(R.color.titlebar_background);
-        titleBar.setImmersive(MainActivity.this, true);
-        titleBar.addLeftAction(new TitleBar.Action() {
-            @Override
-            public void onClick() {
-                finish();
+        HandyTitleBar titleBar = findViewById(R.id.titlebar);
+        titleBar.setMainText("扫描库");
+        titleBar.showCustomStatusBar(MainActivity.this);
+        titleBar.addLeftAction(new HandyTitleBar.BaseAction(titleBar) {
+            {
+                setImageSrc(com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back);
             }
 
             @Override
-            public int setDrawable() {
-                return com.handy.qrcode.R.drawable.handy_qrcode_select_titlebar_back;
+            public void onClick() {
+                finish();
             }
         });
 
