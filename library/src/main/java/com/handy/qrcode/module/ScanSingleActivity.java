@@ -47,7 +47,7 @@ import com.handy.qrcode.support.InactivityTimer;
 import com.handy.qrcode.support.ScanActivityHandler;
 import com.handy.qrcode.support.ViewfinderView;
 import com.handy.qrcode.support.camera.CameraManager;
-import com.handy.qrcode.widget.TitleBar;
+import com.handy.titlebar.HandyTitleBar;
 
 import java.io.IOException;
 
@@ -61,7 +61,7 @@ import java.io.IOException;
  */
 public final class ScanSingleActivity extends Activity implements SurfaceHolder.Callback {
 
-    private TitleBar titleBar;
+    private HandyTitleBar titleBar;
     private SurfaceView surfaceView;
     private ViewfinderView viewfinderView;
     private boolean hasSurface;
@@ -83,41 +83,38 @@ public final class ScanSingleActivity extends Activity implements SurfaceHolder.
         titleBar = findViewById(R.id.common_titlebar);
         if (titleBar != null) {
             if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
-                titleBar.setTitle(getResources().getString(R.string.handy_scan_titlebar_connect));
+                titleBar.setMainText(getResources().getString(R.string.handy_scan_titlebar_connect));
                 titleBar.setTitleBarBackground(R.color.handy_titlebar_background);
                 titleBar.setBottomLineHeight(1);
             } else if (ScanConfig.KEY_SCREEN_ORIENTATION == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-                titleBar.setTitle("");
+                titleBar.setMainText("");
                 titleBar.setBackgroundColor(Color.TRANSPARENT);
                 titleBar.setBottomLineHeight(0);
             }
 
-            titleBar.setImmersive(ScanSingleActivity.this, true);
-            titleBar.setBottomLineBackground(R.color.handy_titlebar_bottomLine_background);
-            titleBar.addLeftAction(new TitleBar.Action() {
+            titleBar.showCustomStatusBar(ScanSingleActivity.this);
+            titleBar.addLeftAction(new HandyTitleBar.BaseAction(titleBar) {
+                {
+                    setImageSrc(R.drawable.handy_qrcode_select_titlebar_back);
+                }
+
                 @Override
                 public void onClick() {
                     finish();
                 }
-
-                @Override
-                public int setDrawable() {
-                    return R.drawable.handy_qrcode_select_titlebar_back;
-                }
             });
-            titleBar.addRightAction(new TitleBar.Action() {
+            titleBar.addRightAction(new HandyTitleBar.BaseAction(titleBar) {
+                {
+                    setImageSrc(ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n);
+                }
+
                 @Override
                 public void onClick() {
                     ScanConfig.KEY_USE_LIGHT = !ScanConfig.KEY_USE_LIGHT;
                     cameraManager.setTorch(ScanConfig.KEY_USE_LIGHT);
 
-                    titleBar.removeAllRightActions();
+                    titleBar.removeRightAction();
                     titleBar.addRightAction(this);
-                }
-
-                @Override
-                public int setDrawable() {
-                    return ScanConfig.KEY_USE_LIGHT ? R.drawable.handy_qrcode_icon_light_c : R.drawable.handy_qrcode_icon_light_n;
                 }
             });
         }
