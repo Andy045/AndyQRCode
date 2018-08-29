@@ -21,7 +21,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.zxing.DecodeHintType;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -176,7 +175,6 @@ final class DecodeHintManager {
                     try {
                         array[i] = Integer.parseInt(values[i]);
                     } catch (NumberFormatException ignored) {
-                        LogUtils.w("Skipping array of integers hint " + hintType + " due to invalid numeric value: '" + values[i] + '\'');
                         array = null;
                         break;
                     }
@@ -184,12 +182,9 @@ final class DecodeHintManager {
                 if (array != null) {
                     hints.put(hintType, array);
                 }
-                continue;
             }
-            LogUtils.w("Unsupported hint type '" + hintType + "' of type " + hintType.getValueType());
         }
 
-        LogUtils.i("Hints from the URI: " + hints);
         return hints;
     }
 
@@ -215,14 +210,11 @@ final class DecodeHintManager {
                     Object hintData = extras.get(hintName);
                     if (hintType.getValueType().isInstance(hintData)) {
                         hints.put(hintType, hintData);
-                    } else {
-                        LogUtils.w("Ignoring hint " + hintType + " because it is not assignable from " + hintData);
                     }
                 }
             }
         }
 
-        LogUtils.i("Hints from the Intent: " + hints);
         return hints;
     }
 }

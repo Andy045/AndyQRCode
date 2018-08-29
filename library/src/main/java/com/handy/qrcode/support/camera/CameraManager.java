@@ -27,7 +27,6 @@ import com.google.zxing.PlanarYUVLuminanceSource;
 import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.support.camera.open.OpenCamera;
 import com.handy.qrcode.support.camera.open.OpenCameraInterface;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.io.IOException;
 
@@ -119,8 +118,6 @@ public final class CameraManager {
             configManager.setDesiredCameraParameters(theCamera, false);
         } catch (RuntimeException re) {
             // Driver failed
-            LogUtils.w("Camera rejected parameters. Setting only minimal safe-mode parameters");
-            LogUtils.i("Resetting to saved camera params: " + parametersFlattened);
             // Reset:
             if (parametersFlattened != null) {
                 parameters = cameraObject.getParameters();
@@ -130,7 +127,7 @@ public final class CameraManager {
                     configManager.setDesiredCameraParameters(theCamera, true);
                 } catch (RuntimeException re2) {
                     // Well, darn. Give up
-                    LogUtils.w("Camera rejected even safe-mode parameters! No configuration");
+                    re2.printStackTrace();
                 }
             }
         }
@@ -243,7 +240,6 @@ public final class CameraManager {
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
-            LogUtils.d("Calculated framing rect: " + framingRect);
         }
         return framingRect;
     }
@@ -316,7 +312,6 @@ public final class CameraManager {
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
             framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
-            LogUtils.d("Calculated manual framing rect: " + framingRect);
             framingRectInPreview = null;
         } else {
             requestedFramingRectWidth = width;

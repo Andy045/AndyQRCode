@@ -28,7 +28,6 @@ import android.preference.PreferenceManager;
 import com.handy.qrcode.R;
 import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.module.ScanSingleActivity;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -99,7 +98,7 @@ public final class BeepManager implements MediaPlayer.OnErrorListener, Closeable
             mediaPlayer.prepare();
             return mediaPlayer;
         } catch (IOException ioe) {
-            LogUtils.w(TAG, ioe);
+            ioe.printStackTrace();
             mediaPlayer.release();
             return null;
         }

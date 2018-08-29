@@ -32,7 +32,6 @@ import com.google.zxing.Result;
 import com.handy.qrcode.R;
 import com.handy.qrcode.module.ScanSingleActivity;
 import com.handy.qrcode.support.camera.CameraManager;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -90,7 +89,6 @@ public final class ScanActivityHandler extends Handler {
             String browserPackageName = null;
             if (resolveInfo != null && resolveInfo.activityInfo != null) {
                 browserPackageName = resolveInfo.activityInfo.packageName;
-                LogUtils.d("Using browser in package " + browserPackageName);
             }
 
             // Needed for default Android browser / Chrome only apparently
@@ -105,7 +103,7 @@ public final class ScanActivityHandler extends Handler {
             try {
                 activity.startActivity(intent);
             } catch (ActivityNotFoundException ignored) {
-                LogUtils.w("Can't find anything to handle VIEW of URI " + url);
+                ignored.printStackTrace();
             }
         }
     }

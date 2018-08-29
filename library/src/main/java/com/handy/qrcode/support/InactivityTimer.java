@@ -24,8 +24,6 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
 
-import com.handy.qrcode.utils.LogUtils;
-
 import java.util.concurrent.RejectedExecutionException;
 
 /**
@@ -53,7 +51,7 @@ public final class InactivityTimer {
         try {
             inactivityTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } catch (RejectedExecutionException ree) {
-            LogUtils.w("Couldn't schedule inactivity task; ignoring");
+            ree.printStackTrace();
         }
     }
 
@@ -62,15 +60,11 @@ public final class InactivityTimer {
         if (registered) {
             activity.unregisterReceiver(powerStatusReceiver);
             registered = false;
-        } else {
-            LogUtils.w("PowerStatusReceiver was never registered?");
         }
     }
 
     public synchronized void onResume() {
-        if (registered) {
-            LogUtils.w("PowerStatusReceiver was already registered?");
-        } else {
+        if (!registered) {
             activity.registerReceiver(powerStatusReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             registered = true;
         }
@@ -109,7 +103,6 @@ public final class InactivityTimer {
         protected Object doInBackground(Object... objects) {
             try {
                 Thread.sleep(INACTIVITY_DELAY_MS);
-                LogUtils.i("Finishing activity due to inactivity");
                 activity.finish();
             } catch (InterruptedException e) {
                 // continue without killing

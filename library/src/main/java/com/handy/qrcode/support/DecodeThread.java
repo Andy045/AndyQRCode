@@ -26,7 +26,6 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
 import com.handy.qrcode.module.ScanConfig;
 import com.handy.qrcode.module.ScanSingleActivity;
-import com.handy.qrcode.utils.LogUtils;
 
 import java.util.Collection;
 import java.util.EnumMap;
@@ -88,7 +87,6 @@ public final class DecodeThread extends Thread {
             hints.put(DecodeHintType.CHARACTER_SET, characterSet);
         }
         hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
-        LogUtils.i("Hints: " + hints);
     }
 
     Handler getHandler() {
