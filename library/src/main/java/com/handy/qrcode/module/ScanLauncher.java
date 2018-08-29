@@ -19,7 +19,6 @@ public class ScanLauncher {
 
     public ScanLauncher() {
         ScanConfig.scanResultListener = null;
-        ScanConfig.scanResultsListener = null;
     }
 
     /**

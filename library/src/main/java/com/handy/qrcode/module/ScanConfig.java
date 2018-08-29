@@ -18,8 +18,6 @@ package com.handy.qrcode.module;
 
 import android.content.pm.ActivityInfo;
 
-import java.util.List;
-
 /**
  * The main settings activity.
  *
@@ -130,17 +128,5 @@ public final class ScanConfig {
      */
     public interface ScanResultListener {
         void resultListener(String result);
-    }
-
-    /**
-     * 扫描成功回调自定义接口（多个二维码同时扫描）
-     */
-    public static ScanResultsListener scanResultsListener = null;
-
-    /**
-     * 扫描结果回调接口（多个二维码同时扫描）
-     */
-    public interface ScanResultsListener {
-        void resultListener(List<String> results);
     }
 }
