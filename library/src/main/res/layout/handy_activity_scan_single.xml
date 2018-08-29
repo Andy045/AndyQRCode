@@ -23,5 +23,6 @@
         app:handy_bottomLineColor="@color/handy_titlebar_bottomLine_background"
         app:handy_bottomLineHeight="1dp"
         app:handy_mainTextColor="@color/handy_titlebar_mainTextColor"
+        app:handy_statusBarBackgroundColor="@color/handy_titlebar_background"
         app:handy_titleBarBackground="@color/handy_titlebar_background" />
 </RelativeLayout>
