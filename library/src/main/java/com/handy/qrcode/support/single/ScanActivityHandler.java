@@ -58,13 +58,13 @@ public final class ScanActivityHandler extends Handler {
         // Start ourselves capturing previews and decoding.
         this.cameraManager = cameraManager;
         cameraManager.startPreview();
-        restartPreviewAndDecode(true);
+        restartPreviewAndDecode();
     }
 
     @Override
     public void handleMessage(Message message) {
         if (message.what == R.id.handy_qrcode_restart_preview) {
-            restartPreviewAndDecode(true);
+            restartPreviewAndDecode();
 
         } else if (message.what == R.id.handy_qrcode_decode_succeeded) {
             state = State.SUCCESS;
@@ -128,13 +128,11 @@ public final class ScanActivityHandler extends Handler {
     }
 
     // TODO: 2018/5/28 重新扫描二维码
-    public void restartPreviewAndDecode(boolean isDrawViewfinder) {
+    public void restartPreviewAndDecode() {
         if (state == State.SUCCESS) {
             state = State.PREVIEW;
             cameraManager.requestPreviewFrame(decodeThread.getHandler(), R.id.handy_qrcode_decode);
-            if (isDrawViewfinder) {
-                activity.drawViewfinder();
-            }
+            activity.drawViewfinder();
         }
     }
 

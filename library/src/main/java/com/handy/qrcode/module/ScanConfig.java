@@ -84,10 +84,6 @@ public final class ScanConfig {
      */
     public static boolean KEY_AUTO_FOCUS = true;
     /**
-     * 反色
-     */
-    public static boolean KEY_INVERT_SCAN = false;
-    /**
      * 不持续对焦 (使用标准对焦模式)
      */
     public static boolean KEY_DISABLE_CONTINUOUS_FOCUS = true;

@@ -257,7 +257,7 @@ public final class ScanMultipleActivity extends Activity implements SurfaceHolde
                         @Override
                         public void onFinish() {
                             if (handler != null) {
-                                handler.restartPreviewAndDecode(false);
+                                handler.sendEmptyMessageDelayed(R.id.handy_qrcode_restart_preview, 100L);
                             }
                         }
                     }.start();
