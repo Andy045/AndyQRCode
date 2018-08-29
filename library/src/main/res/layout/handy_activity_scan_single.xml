@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,14 +10,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.handy.qrcode.support.single.ViewfinderView
+    <com.handy.qrcode.support.ViewfinderView
         android:id="@+id/viewfinder_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.handy.qrcode.widget.TitleBar
+    <com.handy.titlebar.HandyTitleBar
         android:id="@+id/common_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        app:handy_bottomLineColor="#ffffff"
+        app:handy_bottomLineHeight="1dp"
+        app:handy_titleBarBackground="#00000000" />
 </RelativeLayout>
