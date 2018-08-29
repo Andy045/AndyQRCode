@@ -27,6 +27,7 @@ import com.google.zxing.DecodeHintType;
 import com.google.zxing.PlanarYUVLuminanceSource;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
+import com.google.zxing.client.android.DecodeHandlerJni;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.multi.qrcode.QRCodeMultiReader;
 import com.handy.qrcode.R;
@@ -86,17 +87,10 @@ final class DecodeHandler extends Handler {
      * @param height The height of the preview frame.
      */
     private void decode(byte[] data, int width, int height) {
-        long start = System.currentTimeMillis();
         if (width < height) {
-            // portrait
-            byte[] rotatedData = new byte[data.length];
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    rotatedData[y * width + width - x - 1] = data[y + x * height];
-                }
-            }
-            data = rotatedData;
+            data = DecodeHandlerJni.dataHandler(data, data.length, height, width);
         }
+
         Result[] rawResults = null;
         PlanarYUVLuminanceSource source = activity.getCameraManager().buildLuminanceSource(data, width, height);
         if (source != null) {
@@ -118,9 +112,6 @@ final class DecodeHandler extends Handler {
                 List<Result> results = new ArrayList<>(Arrays.asList(rawResults));
                 LogUtils.d("results.size()=" + results.size());
                 Message message = Message.obtain(handler, R.id.handy_qrcode_decode_succeeded, results);
-                Bundle bundle = new Bundle();
-                bundleThumbnail(source, bundle);
-                message.setData(bundle);
                 message.sendToTarget();
             }
         } else {
