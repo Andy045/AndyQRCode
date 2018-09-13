@@ -48,7 +48,6 @@ public final class ViewfinderView extends View {
     private static final int POINT_SIZE = 6;
     private final Paint paint;
     private final int maskColor;
-    private final int resultPointColor;
     private final int mFocusLineColor;
     private CameraManager cameraManager;
     private Bitmap resultBitmap;
@@ -78,7 +77,6 @@ public final class ViewfinderView extends View {
 
         Resources resources = getResources();
         maskColor = resources.getColor(R.color.handy_viewfinder_mask_color);
-        resultPointColor = resources.getColor(R.color.handy_qrcode_points_color);
         mFocusLineColor = resources.getColor(R.color.handy_scan_focusLine_color);
 
         mCornerPaint.setAntiAlias(true);

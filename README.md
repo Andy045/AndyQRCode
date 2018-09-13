@@ -20,23 +20,25 @@
 
 |资源属性|属性描述|默认值
 |:---|:---|:---
-|handy_titlebar_background|扫描界面标题栏背景颜色|#00000000
-|handy_titlebar_bottomLine_background|扫描界面标题栏底部分割线背景颜色|#FFFFFFFF
-|handy_qrcode_points_color|二维码扫描时，识别点描点|#C0FFBD21
-|handy_result_points_color|二维码扫描成功后，二维码Bitmap图片识别点描点|#C099CC00
-|handy_viewfinder_mask_color|扫描界面，扫描框外的区域背景|#60000000
-|handy_scan_corner_color|扫描框四个角的背景色|#65E102
-|handy_scan_centerLine_color|扫描线颜色|#98C360
-|handy_scan_focusLine_color|扫描框四周边线颜色|#FFFFFF
-|handy_scan_hit_color|底部提示内容字体颜色|#FFFFFF
-|handy_scan_snackbar_background|扫描结果提示框背景颜色|#424242
-|handy_scan_snackbar_message_color|扫描结果提示框字体颜色|#FFFFFF
-|handy_scan_snackbar_action_color|扫描结果提示框按钮字体颜色|#7CB342
-|handy_scan_corner_width|扫描框四个边角长度|16dp
-|handy_scan_corner_thick|扫描框四个边角厚度|4dp
-|handy_scan_focusLine_thick|扫描框四周边线宽度|1dp
-|handy_scan_hit_marginTop|底部提示文字离扫描框距离值|22dp
-|handy_scan_hit_size|底部提示文字字体大小|13sp
+|handy_titlebar_mainTextColor|扫描界面标题栏文字颜色|#FFFFFFFF|
+|handy_status_background|扫描界面状态栏背景颜色|#00000000|
+|handy_titlebar_background|扫描界面标题栏背景颜色|#00000000|
+|handy_titlebar_bottomLine_background|扫描界面标题栏底部分割线背景颜色|#FFFFFFFF||||
+|||
+|handy_viewfinder_mask_color|扫描界面，扫描框外的区域背景|#60000000|
+|handy_scan_corner_color|扫描框四个角的背景色|#65E102|
+|handy_scan_centerLine_color|扫描线颜色|#98C360|
+|handy_scan_focusLine_color|扫描框四周边线颜色|#FFFFFF|
+|handy_scan_hit_color|底部提示内容字体颜色|#FFFFFF|
+|handy_scan_snackbar_background|扫描结果提示框背景颜色|#424242|
+|handy_scan_snackbar_message_color|扫描结果提示框字体颜色|#FFFFFF|
+|handy_scan_snackbar_action_color|扫描结果提示框按钮字体颜色|#7CB342|
+|||
+|handy_scan_corner_width|扫描框四个边角长度|16dp|
+|handy_scan_corner_thick|扫描框四个边角厚度|4dp|
+|handy_scan_focusLine_thick|扫描框四周边线宽度|1dp|
+|handy_scan_hit_marginTop|底部提示文字离扫描框距离值|22dp|
+|handy_scan_hit_size|底部提示文字字体大小|13sp|
 
 ### 修改界面文字内容
 
@@ -52,79 +54,97 @@
 
 相关配置属性是以静态变量的方式存放在ScanSingleConfig类中，可直接重写属性值自定义配置。
 
-### 一维码：商品
+### 一维码：商品【解析方式为Zxing时生效，Zbar默认支持条码和二维码】
 ``` java
-public static boolean KEY_DECODE_1D_PRODUCT = false;
+public static boolean KEY_DECODE_1D_PRODUCT = true;
 ```
-### 一维码：工业
+
+### 一维码：工业【解析方式为Zxing时生效，Zbar默认支持条码和二维码】
 ``` java
-public static boolean KEY_DECODE_1D_INDUSTRIAL = false;
+public static boolean KEY_DECODE_1D_INDUSTRIAL = true;
 ```
-### 二维码
+
+### 二维码【解析方式为Zxing时生效，Zbar默认支持条码和二维码】
 ``` java
 public static boolean KEY_DECODE_QR = true;
 ```
-### Data Matrix
+
+### Data Matrix【解析方式为Zxing时生效】
 ``` java
 public static boolean KEY_DECODE_DATA_MATRIX = false;
 ```
-### Aztec
+
+### Aztec【解析方式为Zxing时生效】
 ``` java
 public static boolean KEY_DECODE_AZTEC = false;
 ```
-### PDF417 (测试)
+
+### PDF417 (测试)【解析方式为Zxing时生效】
 ``` java
 public static boolean KEY_DECODE_PDF417 = false;
 ```
+
 ### 播放提示音
 ``` java
 public static boolean KEY_PLAY_BEEP = true;
 ```
+
 ### 振动
 ``` java
 public static boolean KEY_VIBRATE = true;
 ```
+
 ### 闪光灯 (设置闪光灯模式)
 ``` java
 public static boolean KEY_USE_LIGHT = false;
 ```
+
 ### 自动对焦
 ``` java
 public static boolean KEY_AUTO_FOCUS = true;
 ```
-### 反色
-``` java
-public static boolean KEY_INVERT_SCAN = false;
-```
+
 ### 不持续对焦 (使用标准对焦模式)
 ``` java
-public static boolean KEY_DISABLE_CONTINUOUS_FOCUS = false;
+public static boolean KEY_DISABLE_CONTINUOUS_FOCUS = true;
 ```
+
 ### 不曝光
 ``` java
 public static boolean KEY_DISABLE_EXPOSURE = true;
 ```
+
 ### 不使用距离测量
 ``` java
 public static boolean KEY_DISABLE_METERING = true;
 ```
+
 ### 不进行条形码场景匹配
 ``` java
-public static boolean KEY_DISABLE_BARCODE_SCENE_MODE = true;
+public static boolean KEY_DISABLE_BARCODE_SCENE_MODE = false;
 ```
+
 ### 使用全屏扫描 (默认识别扫描框内的图形)
 ``` java
 public static boolean KEY_SCAN_FULLSCREEN = true;
 ```
+
+### 扫描解析方式（zxing或zbar解析，优先使用效率最高的Zbar解码，无法解码时再使用兼容性更高的Zxing）
+``` java
+public static ScanType KEY_SCAN_TYPE = ScanType.All;
+```
+
 ### 屏幕自动旋转
 ``` java
-public static boolean KEY_AUTO_ORIENTATION = true;
+public static boolean KEY_AUTO_ORIENTATION = false;
 ```
+
 ### 屏幕竖屏旋转方向 (默认竖屏)
 ``` java
 public static int KEY_SCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 ```
-### 通过底部弹出的SncakBar，手动确认扫描结果（默认手动确认）
+
+### 通过底部弹出的SncakBar，手动确认扫描结果
 ``` java
 public static boolean KEY_VERIFY_RESULT = true;
 ```
@@ -160,52 +180,45 @@ https://github.com/Handy045/HandyQRCode
 
 [![](https://jitpack.io/v/Handy045/HandyQRCode.svg)](https://jitpack.io/#Handy045/HandyQRCode)
 
+## 更新记录
+
+[点击查看](https://github.com/Handy045/HandyQRCode/releases)
+
 ## 内置扫描界面使用
 
 ### 单个二维码或条码扫描
 
 ```` java
-new ScanLauncher().startSingle(MainActivity.this, new ScanConfig.ScanResultListener() {
-    @Override
-    public void resultListener(Result rawResult, Bundle bundle) {
-        Bitmap barcode = null;
-        float scaleFactor = 1.0f;
-        if (bundle != null) {
-            byte[] compressedBitmap = bundle.getByteArray(DecodeThread.BARCODE_BITMAP);
-            if (compressedBitmap != null) {
-                barcode = BitmapFactory.decodeByteArray(compressedBitmap, 0, compressedBitmap.length, null);
-                // Mutable copy:
-                barcode = barcode.copy(Bitmap.Config.ARGB_8888, true);
-            }
-            scaleFactor = bundle.getFloat(DecodeThread.BARCODE_SCALED_FACTOR);
+View.setOnClickListener(v -> {
+    // 全局配置设置
+    ScanConfig.KEY_DECODE_1D_INDUSTRIAL = false;
+    ScanConfig.KEY_DECODE_1D_PRODUCT = false;
+    // 调用二维码扫描功能模块
+    new ScanLauncher().startSingle(ScanActivity.this, new ScanConfig.ScanResultListener() {
+        @Override
+        public void resultListener(String result) {
+            // 二维码扫描结果返回
+            Toast.makeText(activity, "扫描结果: \n" + result, Toast.LENGTH_SHORT).show();
         }
-        if (barcode != null) {
-            Bitmap bitmap;
-            bitmap = BitmapUtils.drawResultPoints(MainActivity.this, barcode, scaleFactor, rawResult, true);
-            bitmap = BitmapUtils.compressByScale(bitmap, 360, 640, true);
-            bitmap = BitmapUtils.addTextWatermark(MainActivity.this, bitmap, "HandyQRCode\nhttps://www.handy045.com", 13, Color.BLUE, 4, 4, true);
-            ((ImageView) findViewById(R.id.image)).setImageBitmap(bitmap);
-        }
-        ((TextView) findViewById(R.id.result)).setText("扫描结果: \n" + rawResult.getText());
-    }
+    });
 });
 ````
 
-### 多个二维码同时扫描
+# 库中含有的工具类及自定义控件
 
-```` java
-new ScanLauncher().startMultiple(MainActivity.this, new ScanConfig.ScanResultsListener() {
-    @Override
-    public void resultListener(List<Result> rawResults, Bundle bundle) {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < rawResults.size(); i++) {
-            Result result = rawResults.get(i);
-            str.append("第").append(i + 1).append("个: ").append(result.getText());
-            if (i < rawResults.size() - 1) {
-                str.append("\n");
-            }
-        }
-        ((TextView) findViewById(R.id.result)).setText("扫描结果：\n" + str.toString());
-    }
-});
-````
+## 工具类功能描述
+
+|类名|功能描述|其他
+|:---|:---|:---|
+|QRCodeUtils|二维码生成工具类|生成普通二维码和带Image标识的二维码
+
+## 自定义控件描述
+
+|类名|功能描述|其他
+|:---|:---|---|
+|HandyTitleBar|自定义标题栏控件|[查看地址](https://github.com/Handy045/HandyTitleBar)
+
+# 相关技术分享
+
+[使用ZXing扫描多个二维码，条形码](https://github.com/sunlightAndroid/ZXingMoreResult)
+[Zxing二维码扫描(一)：初始项目搭建与精简](https://handy045.com/2018/05/22/Android/Zxing/zxing_1/)
