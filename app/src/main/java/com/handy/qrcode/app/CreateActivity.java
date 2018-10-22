@@ -65,7 +65,7 @@ public class CreateActivity extends Activity {
             } else {
                 Bitmap qrcode1 = QRCodeUtils.createCode(CreateActivity.this, str, qrcode_1.getHeight());
 
-                Bitmap img = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                Bitmap img = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
                 Bitmap qrcode2 = QRCodeUtils.createCode(CreateActivity.this, str, img, qrcode_1.getHeight());
 
                 qrcode_1.setImageBitmap(qrcode1);
