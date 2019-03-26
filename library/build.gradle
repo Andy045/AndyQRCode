@@ -25,7 +25,7 @@ android {
     defaultConfig {
         multiDexEnabled true
 
-        minSdkVersion 14
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName '1.0'
@@ -90,7 +90,7 @@ dependencies {
 
     implementation 'com.google.zxing:core:3.3.3'
 
-    implementation 'com.github.Handy045:HandyTitleBar:1.2.5'
+    implementation 'com.github.Handy045:HandyTitleBar:1.2.6'
 }
 
 // 获取当前系统时间
