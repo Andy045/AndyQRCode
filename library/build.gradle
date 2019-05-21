@@ -90,7 +90,7 @@ dependencies {
 
     implementation 'com.google.zxing:core:3.3.3'
 
-    implementation 'com.github.Handy045:HandyTitleBar:1.2.6'
+    implementation 'com.github.Handy045:HandyTitleBar:1.4.0'
 }
 
 // 获取当前系统时间

@@ -10,12 +10,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.handy.qrcode.support.ViewfinderView
+    <com.com.handy.function.qrcode.support.ViewfinderView
         android:id="@+id/viewfinder_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.handy.titlebar.HandyTitleBar
+    <com.handy.widget.titlebar.HandyTitleBar
         android:id="@+id/common_titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

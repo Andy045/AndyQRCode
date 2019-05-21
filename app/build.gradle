@@ -24,7 +24,7 @@ android {
     defaultConfig {
         multiDexEnabled true
 
-        applicationId "com.handy.qrcode.app"
+        applicationId "com.handy.function.qrcode.app"
 
         minSdkVersion 19
         targetSdkVersion 28
@@ -95,7 +95,7 @@ dependencies {
 
     implementation project(':library')
 
-    implementation 'com.github.Handy045:HandyTitleBar:1.2.6'
+    implementation 'com.github.Handy045:HandyTitleBar:1.4.0'
 }
 
 // 获取当前系统时间
