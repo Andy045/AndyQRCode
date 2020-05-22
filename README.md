@@ -8,7 +8,7 @@
 
 # 效果展示
 
-![](https://github.com/Andy045/HandyQRCode/blob/master/document/UiDemo.png?raw=true)
+![](https://github.com/Andy045/HandyQRCode/document/UiDemo.png)
 
 # 自定义扫描界面及配置
 
